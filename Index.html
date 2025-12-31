@@ -852,74 +852,74 @@
             }
         }
 
-        // --- Authentication Logic ---
+        // --- Authentication Logic (Simulated In-Memory) ---
+        // Pre-defined Admin User
         let users = [
             {
                 name: 'Admin',
                 email: 'ppshenoy2022@gamil.com',
                 role: 'admin',
-                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff'
+                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff',
+                apiKey: 'admin-secret-key'
             },
+            // Added Test User for Ban Verification
             {
                 name: 'TempUser',
                 email: 'temp@pmail.com',
                 role: 'user',
-                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange'
+                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange',
+                apiKey: 'temp-key'
             }
         ];
-        let currentUser = null; 
+        let currentUser = null; // Session state
 
         window.handleLogin = function(e) {
             e.preventDefault();
             
-            try {
-                const inputField = document.getElementById('login-identifier');
-                const input = inputField.value.trim();
-                const lowerInput = input.toLowerCase();
-                const normalizedKey = lowerInput.replace('.', '_'); // RTDB Safe key
-                
-                // 1. CHECK BAN LIST FIRST (from live sync)
-                if (localBans[normalizedKey]) {
-                    closeAuthModal();
-                    showBanModal(lowerInput);
+            const inputField = document.getElementById('login-identifier');
+            const input = inputField.value.trim();
+            const lowerInput = input.toLowerCase();
+            const normalizedKey = lowerInput.replace('.', '_'); // RTDB Safe key
+            
+            // 1. CHECK BAN LIST FIRST (from live sync)
+            if (localBans[normalizedKey]) {
+                closeAuthModal();
+                showBanModal(lowerInput);
+                return;
+            }
+
+            // Check if user exists in our list by Email OR Username
+            let user = users.find(u => 
+                (u.email && u.email.toLowerCase() === lowerInput) || 
+                u.name.toLowerCase() === lowerInput
+            );
+            
+            if (!user) {
+                // Auto-signup logic
+                if (input.includes('@')) {
+                     user = { 
+                        name: input.split('@')[0], 
+                        email: input, 
+                        role: 'user',
+                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`,
+                        apiKey: '' // Uses default
+                    };
+                    users.push(user);
+                } else {
+                    alert("User not found. Please create an account.");
                     return;
                 }
+            }
 
-                // Check if user exists in our list by Email OR Username
-                let user = users.find(u => 
-                    (u.email && u.email.toLowerCase() === lowerInput) || 
-                    u.name.toLowerCase() === lowerInput
-                );
-                
-                if (!user) {
-                    // Auto-signup logic
-                    if (input.includes('@')) {
-                         user = { 
-                            name: input.split('@')[0], 
-                            email: input, 
-                            role: 'user',
-                            avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`
-                        };
-                        users.push(user);
-                    } else {
-                        alert("User not found. Please create an account.");
-                        return;
-                    }
-                }
-
-                currentUser = user;
-                localStorage.setItem('lumina_current_user', JSON.stringify(currentUser));
-                updateAuthUI();
-                closeAuthModal();
-                
-                if (currentUser.role === 'admin') {
-                    alert(`Welcome back, Admin!`);
-                } else {
-                    alert(`Welcome, ${currentUser.name}!`);
-                }
-            } catch(e) {
-                console.error(e);
-                alert("Login Error: " + e.message);
+            currentUser = user;
+            localStorage.setItem('lumina_current_user', JSON.stringify(currentUser));
+            updateAuthUI();
+            closeAuthModal();
+            
+            if (currentUser.role === 'admin') {
+                alert(`Welcome back, Admin!`);
+            } else {
+                alert(`Welcome, ${currentUser.name}!`);
             }
         }
 
@@ -955,7 +955,8 @@
                 name: name,
                 email: email, 
                 role: 'user',
-                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`
+                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
+                apiKey: ''
             };
             
             users.push(newUser);
@@ -1240,6 +1241,8 @@
         window.openSettingsModal = function() {
             document.getElementById('settings-modal').classList.remove('hidden');
             document.getElementById('user-dropdown').classList.add('hidden'); 
+            const storedKey = localStorage.getItem('lumina_custom_api_key');
+            document.getElementById('custom-api-key').value = storedKey || '';
         }
 
         window.closeSettingsModal = function() {
@@ -1248,7 +1251,15 @@
 
         window.saveSettings = function(e) {
             e.preventDefault();
-            alert(`Settings are managed by site configuration.`);
+            const key = document.getElementById('custom-api-key').value.trim();
+            if (key) {
+                localStorage.setItem('lumina_custom_api_key', key);
+                if (currentUser) currentUser.apiKey = key; 
+                alert(`Settings saved! API Key set to: ${key}`);
+            } else {
+                localStorage.removeItem('lumina_custom_api_key');
+                alert("API Key cleared.");
+            }
             closeSettingsModal();
         }
 
@@ -1490,276 +1501,3 @@
         
         // ... (Rest of the logic remains the same)
         const postsContainer = document.getElementById('posts-container');
-        const searchInput = document.getElementById('search-input');
-        const categoryFilter = document.getElementById('category-filter');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        // Modal Elements
-        const modal = document.getElementById('article-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-        const modalImage = document.getElementById('modal-image');
-        const modalCategory = document.getElementById('modal-category');
-        const modalDate = document.getElementById('modal-date');
-        const modalViews = document.getElementById('modal-views');
-
-        let currentPostId = null;
-
-        window.openModal = function(postId) {
-            currentPostId = postId;
-            const post = posts.find(p => p.id === postId);
-            if(!post) return;
-
-            post.views++;
-            
-            modalTitle.textContent = post.title;
-            modalContent.innerHTML = post.content; 
-            modalImage.src = post.image;
-            modalCategory.textContent = post.category;
-            modalDate.textContent = post.date;
-            modalViews.textContent = post.views.toLocaleString() + " views";
-            
-            // LOAD COMMENTS
-            renderComments(postId);
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-
-            filterPosts();
-        }
-
-        window.closeModal = function() {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function createPostCard(post) {
-            return `
-                <article class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="w-full md:w-2/5 h-48 md:h-auto overflow-hidden relative cursor-pointer" onclick="openModal(${post.id})">
-                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-600 uppercase tracking-wide shadow-sm">
-                            ${post.category}
-                        </div>
-                    </div>
-                    <div class="p-6 md:p-8 md:w-3/5 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-2 text-xs text-gray-500">
-                                    <i class="ph-bold ph-calendar-blank text-brand-500"></i>
-                                    <span>${post.date}</span>
-                                </div>
-                                <div class="flex items-center gap-1.5 text-xs text-gray-400" title="Views">
-                                    <i class="ph-bold ph-eye"></i>
-                                    <span>${post.views.toLocaleString()}</span>
-                                </div>
-                            </div>
-                            <h2 onclick="openModal(${post.id})" class="text-xl md:text-2xl font-bold text-gray-900 mb-3 hover:text-brand-600 transition cursor-pointer font-serif leading-tight">
-                                ${post.title}
-                            </h2>
-                            <p class="text-gray-600 mb-4 line-clamp-2 text-sm md:text-base leading-relaxed">
-                                ${post.excerpt}
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between mt-4 border-t border-gray-50 pt-4">
-                            <div class="flex items-center gap-3">
-                                <img src="${post.authorImg}" alt="${post.author}" class="w-8 h-8 rounded-full ring-2 ring-gray-100">
-                                <div class="text-xs">
-                                    <p class="font-semibold text-gray-900">${post.author}</p>
-                                </div>
-                            </div>
-                            <button onclick="openModal(${post.id})" class="text-brand-600 text-sm font-bold hover:text-brand-800 transition flex items-center gap-1 group/btn">
-                                Read 
-                                <i class="ph-bold ph-arrow-right transform group-hover/btn:translate-x-1 transition"></i>
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderPosts(postsToRender) {
-            postsContainer.innerHTML = '';
-            if (postsToRender.length === 0) {
-                postsContainer.innerHTML = `
-                    <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
-                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="ph-bold ph-magnifying-glass text-2xl text-gray-400"></i>
-                        </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-1">No articles found</h3>
-                        <p class="text-gray-500 text-sm">Try adjusting your search or filters.</p>
-                    </div>
-                `;
-                return;
-            }
-            postsToRender.forEach(post => {
-                postsContainer.innerHTML += createPostCard(post);
-            });
-        }
-
-        function isPostVisibleInSearch(post) {
-            if (post.author === 'Admin') return true;
-            const oneDay = 24 * 60 * 60 * 1000; 
-            const postDate = new Date(post.date);
-            const now = new Date();
-            if (isNaN(postDate)) return true; 
-            const ageInDays = Math.round((now - postDate) / oneDay);
-            if (ageInDays < 64) return true;
-            if (post.views >= 100) return true;
-            return false;
-        }
-
-        const itemsPerPage = 5;
-        let currentPage = 1;
-        let currentFilteredPosts = [];
-
-        function filterPosts() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const selectedCategory = categoryFilter.value;
-
-            // Update the global filtered list
-            currentFilteredPosts = posts.filter(post => {
-                // 0. Check View (Home vs Yours)
-                if (currentView === 'yours') {
-                    if (!currentUser || post.author !== currentUser.name) return false;
-                }
-
-                // 1. Basic Filters (Category & Search Text)
-                const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-                const matchesSearch = post.title.toLowerCase().includes(searchTerm) || 
-                                      post.excerpt.toLowerCase().includes(searchTerm);
-
-                if (!matchesCategory || !matchesSearch) return false;
-
-                // 2. Balancing Rule Application
-                if (currentView !== 'yours' && searchTerm !== '') {
-                    const isVisible = isPostVisibleInSearch(post);
-                    if (!isVisible) return false;
-                }
-                
-                return true;
-            });
-
-            // If searching or filtering, reset to page 1
-            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage) || 1;
-            if (currentPage > totalPages) currentPage = 1;
-
-            updateDisplay();
-        }
-
-        function updateDisplay() {
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const pagePosts = currentFilteredPosts.slice(start, end);
-
-            renderPosts(pagePosts);
-            renderPagination();
-        }
-
-        function renderPagination() {
-            const container = document.getElementById('pagination-container');
-            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
-
-            if (totalPages <= 1) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-
-            // Previous Button
-            html += `
-                <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="p-2.5 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    <i class="ph-bold ph-caret-left"></i>
-                </button>
-            `;
-
-            // Page Numbers (Smart Range)
-            for (let i = 1; i <= totalPages; i++) {
-                // Show first, last, and pages around current
-                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                    const activeClass = 'bg-brand-600 text-white shadow-sm ring-2 ring-brand-600 ring-offset-2';
-                    const inactiveClass = 'border border-gray-300 text-gray-700 hover:bg-gray-50';
-                    
-                    html += `
-                        <button onclick="goToPage(${i})" class="w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-colors ${i === currentPage ? activeClass : inactiveClass}">
-                            ${i}
-                        </button>
-                    `;
-                } else if (i === currentPage - 2 || i === currentPage + 2) {
-                    html += `<span class="text-gray-400 px-1">...</span>`;
-                }
-            }
-
-            // Next Button
-            html += `
-                <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="p-2.5 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    <i class="ph-bold ph-caret-right"></i>
-                </button>
-            `;
-
-            container.innerHTML = html;
-        }
-
-        window.goToPage = function(page) {
-            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
-            if (page < 1 || page > totalPages) return;
-            
-            currentPage = page;
-            updateDisplay();
-            
-            // Smooth scroll to top of posts
-            document.getElementById('posts-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // Init Logic - LOAD SESSION
-        const savedUser = localStorage.getItem('lumina_current_user');
-        if (savedUser) {
-            try {
-                currentUser = JSON.parse(savedUser);
-                updateAuthUI();
-            } catch(e) {
-                console.error("Session load error", e);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            filterPosts(); // Initial render logic takes care of pagination
-            updateAuthUI(); 
-            // renderReviews(); // Handled by firebase init
-
-            searchInput.addEventListener('input', () => { currentPage = 1; filterPosts(); });
-            categoryFilter.addEventListener('change', () => { currentPage = 1; filterPosts(); });
-
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const icon = mobileMenuBtn.querySelector('i');
-                if(mobileMenu.classList.contains('hidden')) {
-                    icon.classList.remove('ph-x');
-                    icon.classList.add('ph-list');
-                } else {
-                    icon.classList.remove('ph-list');
-                    icon.classList.add('ph-x');
-                }
-            });
-            
-            document.addEventListener('click', (e) => {
-                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-                     mobileMenu.classList.add('hidden');
-                     const icon = mobileMenuBtn.querySelector('i');
-                     icon.classList.remove('ph-x');
-                     icon.classList.add('ph-list');
-                }
-                // Close Desktop User Dropdown if clicked outside
-                const dropdown = document.getElementById('user-dropdown');
-                const profileBtn = document.getElementById('user-profile-desktop');
-                if (!dropdown.classList.contains('hidden') && !profileBtn.contains(e.target)) {
-                    dropdown.classList.add('hidden');
-                }
-            });
-        });
-
-    </script>
-</body>
-</html>
