@@ -540,19 +540,29 @@
 
     <!-- JavaScript Logic -->
     <script type="module">
+        // Declare all state variables at the top to avoid ReferenceErrors
+        let currentUser = null;
+        let currentPostId = null;
+        let currentPage = 1;
+        let currentView = 'home';
+        let currentFilteredPosts = [];
+        let localBans = {};
+        let commentsUnsubscribe = null;
+        let reviews = [];
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, query as rtdbQuery, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
         // --- Firebase Config ---
         const firebaseConfig = {
-            apiKey: "AIzaSyDtBAtT8FyEhEgLsmurMWKHvWnkMBW_6x8",
-            authDomain: "my-blog-server-ed755.firebaseapp.com",
+            apiKey: "AIzaSyCZNXuHg15Ns3ydQ8yd6VOjm58sjfH2dUE",
+            authDomain: "prathamersblog.firebaseapp.com",
             databaseURL: "https://my-blog-server-ed755-default-rtdb.firebaseio.com/",
-            projectId: "my-blog-server-ed755",
-            storageBucket: "my-blog-server-ed755.firebasestorage.app",
-            messagingSenderId: "375653081104",
-            appId: "1:375653081104:web:7b97bd6301962f88da2a95",
-            measurementId: "G-7DHTZRSR52"
+            projectId: "prathamersblog",
+            storageBucket: "prathamersblog.firebasestorage.app",
+            messagingSenderId: "632179269904",
+            appId: "1:632179269904:web:64e4beb224ad1ed79e4595",
+            measurementId: "G-HSW8MLPQV8"
         };
         
         const app = initializeApp(firebaseConfig);
@@ -625,13 +635,15 @@
                 const reviewsRef = ref(db, 'reviews');
                 return onValue(reviewsRef, (snapshot) => {
                     const data = snapshot.val();
-                    const reviews = [];
+                    const rList = [];
                     if (data) {
                         for (const key in data) {
-                            reviews.push(data[key]);
+                            rList.push(data[key]);
                         }
                     }
-                    callback(reviews);
+                    // Reverse to show newest first if timestamp exists, else use default order
+                    rList.reverse();
+                    callback(rList);
                 }, (error) => {
                     console.error("Error fetching reviews:", error);
                 });
@@ -664,8 +676,6 @@
         }
 
         // --- View State Logic ---
-        let currentView = 'home'; // 'home' or 'yours'
-
         window.switchView = function(view) {
             currentView = view;
             currentPage = 1; // Reset page on view switch
@@ -717,15 +727,11 @@
         }
 
         // --- Strict Guidelines Logic ---
-        // Updated Blacklist
         const badWords = [
             'fuck', 'shit', 'bitch', 'asshole', 'ashole', 'cunt', 'dick', 'bastard', 
             'idiot', 'stupid', 'pennis', 'penis', 'whore', 'slut', 'cock', 'pussy', 
             'motherfucker', 'faggot', 'nigger', 'douche'
         ]; 
-        
-        // Cache bans locally for sync checking
-        let localBans = {}; 
 
         // Init Bans Listener - Global Sync
         FirebaseService.fetchBans((bans) => {
@@ -852,26 +858,21 @@
             }
         }
 
-        // --- Authentication Logic (Simulated In-Memory) ---
-        // Pre-defined Admin User
+        // --- Authentication Logic ---
         let users = [
             {
                 name: 'Admin',
                 email: 'ppshenoy2022@gamil.com',
                 role: 'admin',
-                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff',
-                apiKey: 'admin-secret-key'
+                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff'
             },
-            // Added Test User for Ban Verification
             {
                 name: 'TempUser',
                 email: 'temp@pmail.com',
                 role: 'user',
-                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange',
-                apiKey: 'temp-key'
+                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange'
             }
         ];
-        let currentUser = null; // Session state
 
         window.handleLogin = function(e) {
             e.preventDefault();
@@ -901,8 +902,7 @@
                         name: input.split('@')[0], 
                         email: input, 
                         role: 'user',
-                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`,
-                        apiKey: '' // Uses default
+                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`
                     };
                     users.push(user);
                 } else {
@@ -955,8 +955,7 @@
                 name: name,
                 email: email, 
                 role: 'user',
-                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
-                apiKey: ''
+                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`
             };
             
             users.push(newUser);
@@ -1032,8 +1031,6 @@
         }
 
         // --- Comments Logic ---
-        let commentsUnsubscribe = null;
-
         function renderComments(postId) {
             const commentsList = document.getElementById('comments-list');
             commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">Loading comments...</p>';
@@ -1251,15 +1248,7 @@
 
         window.saveSettings = function(e) {
             e.preventDefault();
-            const key = document.getElementById('custom-api-key').value.trim();
-            if (key) {
-                localStorage.setItem('lumina_custom_api_key', key);
-                if (currentUser) currentUser.apiKey = key; 
-                alert(`Settings saved! API Key set to: ${key}`);
-            } else {
-                localStorage.removeItem('lumina_custom_api_key');
-                alert("API Key cleared.");
-            }
+            alert(`Settings are managed by site configuration.`);
             closeSettingsModal();
         }
 
