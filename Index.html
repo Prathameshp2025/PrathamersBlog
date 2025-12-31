@@ -187,7 +187,6 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4 sm:gap-0">
                     <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Latest Articles</h2>
                     <div class="flex items-center gap-4 w-full sm:w-auto">
-                        <!-- Removed Legend Text Here -->
                         <div class="flex w-full sm:w-auto gap-2">
                             <select id="category-filter" class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5 shadow-sm cursor-pointer hover:border-brand-400 transition-colors">
                                 <option value="all">All Topics</option>
@@ -310,7 +309,6 @@
                 <p class="text-gray-400 text-sm text-center md:text-left">© 2026 My Blogs UI. All rights reserved.</p>
                 <div class="flex space-x-6 items-center">
                     <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i class="ph-bold ph-github-logo text-xl"></i></a>
-                    <button onclick="localStorage.clear(); location.reload();" class="ml-4 text-xs text-red-400 hover:text-red-600 underline" title="Clear all local data and reset">Developer Reset</button>
                 </div>
             </div>
         </div>
@@ -540,49 +538,127 @@
     </div>
 
     <!-- JavaScript Logic -->
-    <script>
-        // --- Custom API Logic (Simulated) ---
-        const SimulatedAPI = {
-            // Get the current API Key (defaults to 'default' if not set)
-            getApiKey: () => {
-                // Prioritize user's key if logged in, otherwise check local storage, else default
-                if (currentUser && currentUser.apiKey) return currentUser.apiKey;
-                return localStorage.getItem('lumina_custom_api_key') || 'default';
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, onSnapshot, orderBy, serverTimestamp, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // IMPORTANT: FOR NETLIFY, REPLACE THIS CONFIG WITH YOUR OWN FROM FIREBASE CONSOLE
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        // Uses global app ID if available (preview), otherwise falls back to a default for Netlify
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'lumina-blog-prod';
+
+        // --- Firebase Auth & Setup ---
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+        initAuth();
+
+        // --- Data Service (Firebase Backend) ---
+        const FirebaseService = {
+            getCollection: (name) => {
+                return collection(db, 'artifacts', appId, 'public', 'data', name);
             },
 
-            // Generate a namespaced storage key
-            getStorageKey: (collection, id = '', overrideApiKey = null) => {
-                const apiKey = overrideApiKey || SimulatedAPI.getApiKey();
-                return `lumina_api_${apiKey}_${collection}${id ? '_' + id : ''}`;
+            // --- BANS ---
+            fetchBans: (callback) => {
+                const q = FirebaseService.getCollection('bans');
+                return onSnapshot(q, (snapshot) => {
+                    const bans = {};
+                    snapshot.forEach(doc => {
+                        // Store ban by ID (username/email lowercase)
+                        bans[doc.id] = doc.data(); 
+                    });
+                    callback(bans);
+                }, (error) => {
+                    console.error("Error fetching bans:", error);
+                });
             },
 
-            // --- BANS ENDPOINTS ---
-            getBans: (overrideApiKey = null) => {
-                const key = SimulatedAPI.getStorageKey('bans', '', overrideApiKey);
-                return JSON.parse(localStorage.getItem(key)) || {};
-            },
-
-            saveBan: (identifier, type, overrideApiKey = null) => {
-                const bans = SimulatedAPI.getBans(overrideApiKey);
-                const key = identifier.toLowerCase(); // Normalize to lowercase for consistency
-                // Only overwrite if not already banned or updating type
-                if (!bans[key]) {
-                    bans[key] = { timestamp: Date.now(), type: type };
-                    localStorage.setItem(SimulatedAPI.getStorageKey('bans', '', overrideApiKey), JSON.stringify(bans));
+            saveBan: async (identifier, type) => {
+                const normalizedId = identifier.toLowerCase();
+                try {
+                    // Use setDoc with the identifier as the document ID for easy lookup
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'bans', normalizedId), {
+                        timestamp: Date.now(),
+                        type: type
+                    });
+                } catch (e) {
+                    console.error("Error saving ban:", e);
                 }
             },
 
-            // --- COMMENTS ENDPOINTS ---
-            getComments: (postId) => {
-                const key = SimulatedAPI.getStorageKey('comments', postId);
-                return JSON.parse(localStorage.getItem(key)) || [];
+            // --- COMMENTS ---
+            listenToComments: (postId, callback) => {
+                // Rule 2 compliant: Fetch all comments, filter in memory
+                const q = FirebaseService.getCollection('comments');
+                
+                return onSnapshot(q, (snapshot) => {
+                    const allComments = [];
+                    snapshot.forEach(doc => {
+                        allComments.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    // Client-side sort/filter for the specific post
+                    const postComments = allComments
+                        .filter(c => c.postId == postId)
+                        .sort((a, b) => b.timestamp - a.timestamp); // Newest first
+                    
+                    callback(postComments);
+                }, (error) => {
+                    console.error("Error fetching comments:", error);
+                });
             },
 
-            saveComment: (postId, comment) => {
-                const comments = SimulatedAPI.getComments(postId);
-                comments.unshift(comment); // Add new comment to the top
-                localStorage.setItem(SimulatedAPI.getStorageKey('comments', postId), JSON.stringify(comments));
-                return comments;
+            saveComment: async (commentData) => {
+                try {
+                    await addDoc(FirebaseService.getCollection('comments'), {
+                        ...commentData,
+                        timestamp: Date.now()
+                    });
+                } catch (e) {
+                    console.error("Error saving comment:", e);
+                }
+            },
+
+            // --- REVIEWS ---
+            listenToReviews: (callback) => {
+                const q = FirebaseService.getCollection('reviews');
+                return onSnapshot(q, (snapshot) => {
+                    const reviews = [];
+                    snapshot.forEach(doc => {
+                        reviews.push(doc.data());
+                    });
+                    callback(reviews);
+                }, (error) => {
+                    console.error("Error fetching reviews:", error);
+                });
+            },
+
+            saveReview: async (reviewData) => {
+                try {
+                    await addDoc(FirebaseService.getCollection('reviews'), {
+                        ...reviewData,
+                        timestamp: Date.now()
+                    });
+                } catch (e) {
+                    console.error("Error saving review:", e);
+                }
             }
         };
 
@@ -600,19 +676,17 @@
         }
 
         // --- View State Logic ---
-        let currentView = 'home'; // 'home' or 'yours'
-
-        function switchView(view) {
+        let currentView = 'home'; 
+        // Expose to window for HTML onclick handlers
+        window.switchView = function(view) {
             currentView = view;
-            currentPage = 1; // Reset page on view switch
+            currentPage = 1; 
             
-            // Update UI Active States
             const navHome = document.getElementById('nav-home');
             const navYours = document.getElementById('nav-yours');
             const mobileNavHome = document.getElementById('mobile-nav-home');
             const mobileNavYours = document.getElementById('mobile-nav-yours');
 
-            // Reset classes
             const activeClasses = ['text-brand-600', 'border-brand-600'];
             const inactiveClasses = ['text-gray-500', 'border-transparent', 'hover:text-gray-900', 'hover:border-gray-300'];
             
@@ -641,61 +715,72 @@
                 mobileNavHome.classList.add(...mobileInactiveClasses);
             }
             
-            // Re-run filter
             filterPosts();
             
-            // Close mobile menu if open
             document.getElementById('mobile-menu').classList.add('hidden');
             const icon = document.querySelector('#mobile-menu-btn i');
-            icon.classList.remove('ph-x');
-            icon.classList.add('ph-list');
+            if(icon) {
+                icon.classList.remove('ph-x');
+                icon.classList.add('ph-list');
+            }
         }
 
         // --- Strict Guidelines Logic ---
-        // Updated Blacklist
         const badWords = [
             'fuck', 'shit', 'bitch', 'asshole', 'ashole', 'cunt', 'dick', 'bastard', 
             'idiot', 'stupid', 'pennis', 'penis', 'whore', 'slut', 'cock', 'pussy', 
             'motherfucker', 'faggot', 'nigger', 'douche'
         ]; 
         
+        let localBans = {}; 
+
+        // Init Bans Listener - Global Sync
+        FirebaseService.fetchBans((bans) => {
+            localBans = bans;
+            // Check current user against new ban list
+            if (currentUser) {
+                const emailBan = currentUser.email && localBans[currentUser.email.toLowerCase()];
+                const nameBan = localBans[currentUser.name.toLowerCase()];
+                
+                if (emailBan || nameBan) {
+                    const id = emailBan ? currentUser.email : currentUser.name;
+                    logout();
+                    showBanModal(id);
+                }
+            }
+        });
+
         function checkProfanity(text) {
             const lowerText = text.toLowerCase();
             return badWords.some(word => lowerText.includes(word));
         }
 
-        function banUser(identifier, type = 'spam', overrideApiKey = null) {
+        function banUser(identifier, type = 'spam') {
             if (!identifier) return;
             
-            const normalizedId = identifier.toLowerCase();
+            // SAVE TO FIREBASE
+            FirebaseService.saveBan(identifier, type);
 
-            // SAVE TO API (using specific key if provided to ensure correct storage context)
-            SimulatedAPI.saveBan(normalizedId, type, overrideApiKey);
-
-            // If the current user is the one being banned, kick them out
+            // Local logout is handled by the listener update or immediate check
             if (currentUser) {
-                if ((currentUser.email && currentUser.email.toLowerCase() === normalizedId) || 
-                    currentUser.name.toLowerCase() === normalizedId) {
+                if ((currentUser.email && currentUser.email.toLowerCase() === identifier.toLowerCase()) || 
+                    currentUser.name.toLowerCase() === identifier.toLowerCase()) {
                     logout();
                 }
             }
             
-            // Close other modals if open
             closeAuthModal();
             closeSettingsModal();
             closeModal();
             if(!document.getElementById('review-modal').classList.contains('hidden')) closeReviewModal();
 
-            // Show Custom Ban Dialog
-            showBanModal(normalizedId, overrideApiKey);
+            showBanModal(identifier);
         }
 
-        function showBanModal(identifier, overrideApiKey = null) {
-            // Retrieve bans using the specific API key if provided, or default behavior
-            const bans = SimulatedAPI.getBans(overrideApiKey);
-            const banData = bans[identifier.toLowerCase()];
-            
-            if (!banData) return;
+        function showBanModal(identifier) {
+            const banData = localBans[identifier.toLowerCase()];
+            const type = banData ? banData.type : 'abuse'; 
+            const timestamp = banData ? banData.timestamp : Date.now();
 
             const modal = document.getElementById('ban-modal');
             const panel = document.getElementById('ban-modal-panel');
@@ -706,22 +791,18 @@
             const message = document.getElementById('ban-message');
 
             const now = Date.now();
-            const banTime = banData.timestamp;
-            // Calculate days passed
-            const daysPassed = (now - banTime) / (1000 * 60 * 60 * 24);
-            const appealPeriod = 28; // days
+            const daysPassed = (now - timestamp) / (1000 * 60 * 60 * 24);
+            const appealPeriod = 28; 
 
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
 
-            // Reset Styles
             panel.classList.remove('border-red-600', 'border-orange-500');
             iconBg.classList.remove('bg-red-100', 'bg-orange-100');
             icon.classList.remove('text-red-600', 'text-orange-600');
-            badge.className = ""; // Reset classes
+            badge.className = ""; 
 
-            if (banData.type === 'spam') {
-                // Immediate Permanent Ban (e.g., bad username)
+            if (type === 'spam') {
                 panel.classList.add('border-red-600');
                 iconBg.classList.add('bg-red-100');
                 icon.classList.add('text-red-600');
@@ -731,10 +812,8 @@
                 badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
                 message.textContent = "Your account activity (Username Violation) violates Prathamer's Strict Guidelines. This action is irreversible.";
             
-            } else if (banData.type === 'abuse') {
-                // Comment Abuse Logic
+            } else if (type === 'abuse') {
                 if (daysPassed > appealPeriod) {
-                    // PERMANENT (Time expired)
                     panel.classList.add('border-red-600');
                     iconBg.classList.add('bg-red-100');
                     icon.classList.add('text-red-600');
@@ -744,7 +823,6 @@
                     badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
                     message.innerHTML = "You failed to contact support within the 28-day window following your temporary suspension. Your account is now <strong>permanently banned</strong>.";
                 } else {
-                    // TEMPORARY (Still within 28 days)
                     panel.classList.add('border-orange-500');
                     iconBg.classList.add('bg-orange-100');
                     icon.classList.add('text-orange-600');
@@ -768,79 +846,60 @@
             }
         }
 
-        // --- Authentication Logic (Simulated In-Memory) ---
-        // Pre-defined Admin User
+        // --- Authentication Logic ---
         let users = [
             {
                 name: 'Admin',
                 email: 'ppshenoy2022@gamil.com',
                 role: 'admin',
-                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff',
-                apiKey: 'admin-secret-key'
+                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff'
             },
-            // Added Test User for Ban Verification
             {
                 name: 'TempUser',
                 email: 'temp@pmail.com',
                 role: 'user',
-                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange',
-                apiKey: 'temp-key'
+                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange'
             }
         ];
-        let currentUser = null; // Session state
+        let currentUser = null; 
 
-        function handleLogin(e) {
+        window.handleLogin = function(e) {
             e.preventDefault();
             
             const inputField = document.getElementById('login-identifier');
             const input = inputField.value.trim();
             const lowerInput = input.toLowerCase();
             
-            // Find potential user match first to identify correct API key context
-            let existingUser = users.find(u => 
-                (u.email && u.email.toLowerCase() === lowerInput) || 
-                u.name.toLowerCase() === lowerInput
-            );
-
-            // Determine which API key to check for bans.
-            let checkApiKey = localStorage.getItem('lumina_custom_api_key') || 'default';
-            if (existingUser && existingUser.apiKey) {
-                checkApiKey = existingUser.apiKey;
-            }
-
-            // 1. CHECK BAN LIST FROM API (Context Aware)
-            const bans = SimulatedAPI.getBans(checkApiKey);
-            if (bans[input] || bans[lowerInput]) {
-                const identifier = bans[input] ? input : lowerInput;
+            // 1. CHECK BAN LIST FIRST (from live sync)
+            if (localBans[lowerInput]) {
                 closeAuthModal();
-                showBanModal(identifier, checkApiKey);
+                showBanModal(lowerInput);
                 return;
             }
 
-            // Check if user exists in our list by Email OR Username (Actual Login)
-            if (!existingUser) {
-                // Legacy support: If it looks like an email, we can do the auto-signup demo feature
+            // Check if user exists in our list by Email OR Username
+            let user = users.find(u => 
+                (u.email && u.email.toLowerCase() === lowerInput) || 
+                u.name.toLowerCase() === lowerInput
+            );
+            
+            if (!user) {
+                // Auto-signup logic
                 if (input.includes('@')) {
-                     existingUser = { 
+                     user = { 
                         name: input.split('@')[0], 
                         email: input, 
                         role: 'user',
-                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`,
-                        apiKey: '' // Uses default
+                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`
                     };
-                    users.push(existingUser);
+                    users.push(user);
                 } else {
                     alert("User not found. Please create an account.");
                     return;
                 }
             }
 
-            currentUser = existingUser;
-            // Load user specific API key logic if needed
-            if (user.apiKey) {
-                // Note: In a real app, user preferences would load here. 
-                // For this demo, we use the session or localStorage global preference.
-            }
+            currentUser = user;
             updateAuthUI();
             closeAuthModal();
             
@@ -851,28 +910,26 @@
             }
         }
 
-        function handleSignup(e) {
+        window.handleSignup = function(e) {
             e.preventDefault();
             const name = document.getElementById('signup-name').value.trim();
             const emailInput = document.getElementById('signup-email').value.trim();
             const email = emailInput ? emailInput.toLowerCase() : "";
             
-            // 1. CHECK BAN LIST FROM API
-            const bans = SimulatedAPI.getBans();
-            if ((email && bans[email]) || bans[name.toLowerCase()]) {
+            // 1. CHECK BAN LIST
+            if ((email && localBans[email]) || localBans[name.toLowerCase()]) {
                 closeAuthModal();
-                showBanModal(email && bans[email] ? email : name.toLowerCase());
+                showBanModal(email && localBans[email] ? email : name.toLowerCase());
                 return;
             }
 
-            // 2. CHECK PROFANITY IN NAME (Immediate Permanent Ban)
+            // 2. CHECK PROFANITY
             if (checkProfanity(name)) {
-                banUser(name, 'spam'); // Type 'spam' for usernames
+                banUser(name, 'spam');
                 if (email) banUser(email, 'spam');
                 return; 
             }
             
-            // Prevent signing up as the admin email
             if (email === 'ppshenoy2022@gamil.com') {
                 alert("This email is reserved. Please log in instead.");
                 return;
@@ -882,8 +939,7 @@
                 name: name,
                 email: email, 
                 role: 'user',
-                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
-                apiKey: ''
+                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`
             };
             
             users.push(newUser);
@@ -892,7 +948,7 @@
             closeAuthModal();
         }
 
-        function logout() {
+        window.logout = function() {
             currentUser = null;
             updateAuthUI();
             document.getElementById('user-dropdown').classList.add('hidden');
@@ -903,12 +959,8 @@
             const desktopProfile = document.getElementById('user-profile-desktop');
             const mobileAuth = document.getElementById('auth-buttons-mobile');
             const mobileProfile = document.getElementById('user-profile-mobile');
-
-            // Navigation Elements for "Yours" Option
             const navYours = document.getElementById('nav-yours');
             const mobileNavYours = document.getElementById('mobile-nav-yours');
-
-            // Update Comment Section UI based on Auth State
             const commentForm = document.getElementById('comment-form-container');
             const loginToComment = document.getElementById('login-to-comment');
 
@@ -917,9 +969,7 @@
                 desktopAuth.classList.add('hidden');
                 desktopProfile.classList.remove('hidden');
                 
-                // Add Admin Badge if admin
                 const roleBadge = currentUser.role === 'admin' ? ' (Admin)' : '';
-                
                 document.getElementById('user-name-desktop').textContent = currentUser.name + roleBadge;
                 document.getElementById('user-avatar-desktop').src = currentUser.avatar;
 
@@ -929,15 +979,13 @@
                 document.getElementById('user-email-mobile').textContent = currentUser.email || "No Email Linked";
                 document.getElementById('user-avatar-mobile').src = currentUser.avatar;
 
-                // Load API Key setting
+                // Load API Key setting (using simple localstorage for preference in this context)
                 const storedKey = localStorage.getItem('lumina_custom_api_key');
                 document.getElementById('custom-api-key').value = storedKey || '';
 
-                // Show Comment Form
                 if(commentForm) commentForm.classList.remove('hidden');
                 if(loginToComment) loginToComment.classList.add('hidden');
 
-                // --- YOURS OPTION LOGIC ---
                 if (currentUser.email) {
                     navYours.classList.remove('hidden');
                     mobileNavYours.classList.remove('hidden');
@@ -951,15 +999,12 @@
                 // Logged Out
                 desktopAuth.classList.remove('hidden');
                 desktopProfile.classList.add('hidden');
-                
                 mobileAuth.classList.remove('hidden');
                 mobileProfile.classList.add('hidden');
 
-                // Hide Comment Form
                 if(commentForm) commentForm.classList.add('hidden');
                 if(loginToComment) loginToComment.classList.remove('hidden');
 
-                // Hide "Yours"
                 navYours.classList.add('hidden');
                 mobileNavYours.classList.add('hidden');
                 if (currentView === 'yours') switchView('home');
@@ -967,86 +1012,75 @@
         }
 
         // --- Comments Logic ---
+        let commentsUnsubscribe = null;
+
         function renderComments(postId) {
             const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = '';
+            commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">Loading comments...</p>';
             
-            // FETCH FROM API
-            const comments = SimulatedAPI.getComments(postId);
+            if (commentsUnsubscribe) commentsUnsubscribe();
 
-            if (comments.length === 0) {
-                commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">No comments yet. Be the first!</p>';
-                return;
-            }
-
-            comments.forEach(c => {
-                const html = `
-                    <div class="flex gap-3">
-                        <img src="${c.avatar}" class="w-8 h-8 rounded-full border border-gray-100">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="font-bold text-sm text-gray-900">${c.author}</span>
-                                <span class="text-xs text-gray-400">${c.date}</span>
+            commentsUnsubscribe = FirebaseService.listenToComments(postId, (comments) => {
+                if (comments.length === 0) {
+                    commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">No comments yet. Be the first!</p>';
+                    return;
+                }
+                commentsList.innerHTML = '';
+                comments.forEach(c => {
+                    const html = `
+                        <div class="flex gap-3">
+                            <img src="${c.avatar}" class="w-8 h-8 rounded-full border border-gray-100">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-sm text-gray-900">${c.author}</span>
+                                    <span class="text-xs text-gray-400">${c.date}</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mt-1">${c.text}</p>
                             </div>
-                            <p class="text-gray-600 text-sm mt-1">${c.text}</p>
                         </div>
-                    </div>
-                `;
-                commentsList.innerHTML += html;
+                    `;
+                    commentsList.innerHTML += html;
+                });
             });
         }
 
-        function handlePostComment() {
+        window.handlePostComment = function() {
             const input = document.getElementById('comment-input');
             const text = input.value.trim();
             
             if (!text || !currentPostId) return;
 
-            // Safety check for auth
             if (!currentUser) {
                 alert("Please log in to comment.");
                 return;
             }
 
-            // CHECK: EMAIL REQUIREMENT FOR CUSTOM POSTS
             if (!currentUser.email) {
                 alert("Verification Required: You must have an email address linked to your account to post comments. Please create a new account with an email.");
                 return;
             }
 
-            // STRICT GUIDELINE CHECK
             if (checkProfanity(text)) {
-                // Store user details before potential logout
-                const userEmail = currentUser.email;
-                const userName = currentUser.name;
-                const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
-
-                // Ban the user immediately (Temporary Ban for Abuse)
-                // Pass the apiKey explicitly so it saves to the correct storage even if logout happens
-                if (userEmail) banUser(userEmail, 'abuse', userApiKey);
-                banUser(userName, 'abuse', userApiKey);
-                
+                if (currentUser.email) banUser(currentUser.email, 'abuse');
+                banUser(currentUser.name, 'abuse');
                 input.value = ""; 
                 return;
             }
 
-            // Save to API
             const newComment = {
+                postId: currentPostId,
                 author: currentUser.name,
                 avatar: currentUser.avatar,
                 text: text,
-                date: "Just now" // simplified
+                date: "Just now"
             };
             
-            SimulatedAPI.saveComment(currentPostId, newComment);
-            
-            renderComments(currentPostId); // Refresh list
-            input.value = ""; // Clear input
-            showToast("Comment Saved!");
+            FirebaseService.saveComment(newComment);
+            input.value = ""; 
+            showToast("Comment Posted!");
         }
 
         // --- Reviews Logic ---
-        // Initial Mock Reviews (Defaults)
         const defaultReviews = [
             {
                 name: "Priya Sharma",
@@ -1071,20 +1105,15 @@
             }
         ];
 
-        // Load reviews from LocalStorage if available, otherwise use defaults
-        let reviews = [];
-        try {
-            reviews = JSON.parse(localStorage.getItem('lumina_blog_reviews'));
-        } catch(e) {}
-        if (!Array.isArray(reviews)) reviews = defaultReviews;
-
-        function renderReviews() {
+        // Init Review Listener
+        FirebaseService.listenToReviews((fetchedReviews) => {
             const container = document.getElementById('reviews-container');
             if (!container) return;
             container.innerHTML = '';
 
-            reviews.forEach(review => {
-                // Generate Star HTML
+            const displayReviews = fetchedReviews.length > 0 ? fetchedReviews : defaultReviews;
+
+            displayReviews.forEach(review => {
                 let starsHtml = '';
                 const fullStars = Math.floor(review.rating);
                 const hasHalf = review.rating % 1 !== 0;
@@ -1112,25 +1141,24 @@
                 `;
                 container.innerHTML += html;
             });
-        }
+        });
 
-        function openReviewModal() {
+        window.openReviewModal = function() {
             if (!currentUser) {
                 alert("Please log in to write a review.");
                 openAuthModal('login');
                 return;
             }
             document.getElementById('review-modal').classList.remove('hidden');
-            // Reset form
             setRating(5);
             document.getElementById('review-text').value = '';
         }
 
-        function closeReviewModal() {
+        window.closeReviewModal = function() {
             document.getElementById('review-modal').classList.add('hidden');
         }
 
-        function setRating(n) {
+        window.setRating = function(n) {
             document.getElementById('review-rating').value = n;
             const stars = document.querySelectorAll('.star-btn');
             stars.forEach((star, index) => {
@@ -1144,37 +1172,26 @@
             });
         }
 
-        function handleReviewSubmit(e) {
+        window.handleReviewSubmit = function(e) {
             e.preventDefault();
             const text = document.getElementById('review-text').value.trim();
             const rating = parseFloat(document.getElementById('review-rating').value);
 
-            // Safety check
             if (!currentUser) {
                 alert("Please log in.");
                 return;
             }
 
-            // Double check ban status
-            const bans = SimulatedAPI.getBans();
-            if ((currentUser.email && bans[currentUser.email.toLowerCase()]) || bans[currentUser.name.toLowerCase()]) {
+            // Check ban before submitting
+            if ((currentUser.email && localBans[currentUser.email.toLowerCase()]) || localBans[currentUser.name.toLowerCase()]) {
                 logout();
                 showBanModal(currentUser.email || currentUser.name);
                 return;
             }
 
-            // Strict Guideline Check
             if (checkProfanity(text)) {
-                // Store user details before potential logout
-                const userEmail = currentUser.email;
-                const userName = currentUser.name;
-                // FIX: Explicitly capture the API key context
-                const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
-
-                // Pass the API key to banUser to ensure it saves to the correct permanent storage
-                if (userEmail) banUser(userEmail, 'abuse', userApiKey);
-                banUser(userName, 'abuse', userApiKey);
-                
+                if (currentUser.email) banUser(currentUser.email, 'abuse');
+                banUser(currentUser.name, 'abuse');
                 closeReviewModal();
                 return;
             }
@@ -1187,103 +1204,41 @@
                 avatar: currentUser.avatar
             };
 
-            // Add to bottom (last)
-            reviews.push(newReview);
-            
-            // Save to LocalStorage
-            localStorage.setItem('lumina_blog_reviews', JSON.stringify(reviews));
-            
-            renderReviews();
+            FirebaseService.saveReview(newReview);
             closeReviewModal();
             showToast("Review Saved Successfully!");
         }
 
-        function toggleUserDropdown() {
+        window.toggleUserDropdown = function() {
             const dropdown = document.getElementById('user-dropdown');
             dropdown.classList.toggle('hidden');
         }
 
-        // --- API Key / Settings Logic ---
-        function openSettingsModal() {
+        // --- API Key / Settings Logic (Removed localstorage key logic for pure cloud) ---
+        window.openSettingsModal = function() {
             document.getElementById('settings-modal').classList.remove('hidden');
-            document.getElementById('user-dropdown').classList.add('hidden'); // Close dropdown
-            
-            // Load current global key
-            const storedKey = localStorage.getItem('lumina_custom_api_key');
-            document.getElementById('custom-api-key').value = storedKey || '';
+            document.getElementById('user-dropdown').classList.add('hidden'); 
         }
 
-        function closeSettingsModal() {
+        window.closeSettingsModal = function() {
             document.getElementById('settings-modal').classList.add('hidden');
         }
 
-        function saveSettings(e) {
+        window.saveSettings = function(e) {
             e.preventDefault();
             const key = document.getElementById('custom-api-key').value.trim();
             if (key) {
                 localStorage.setItem('lumina_custom_api_key', key);
-                if (currentUser) currentUser.apiKey = key; // Update session
-                alert(`Settings saved! API Key set to: ${key}. Data will now be stored under this namespace.`);
+                if (currentUser) currentUser.apiKey = key; 
+                alert(`Settings saved! API Key set to: ${key}`);
             } else {
                 localStorage.removeItem('lumina_custom_api_key');
-                alert("API Key cleared. Using default storage.");
+                alert("API Key cleared.");
             }
             closeSettingsModal();
         }
 
-        // --- Auth Modal UI Logic ---
-        let isLoginMode = true;
-
-        function openAuthModal(mode) {
-            const modal = document.getElementById('auth-modal');
-            const title = document.getElementById('auth-title');
-            const subtitle = document.getElementById('auth-subtitle');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const switchBtn = document.getElementById('auth-switch-btn');
-            const switchText = document.getElementById('auth-switch-text');
-
-            isLoginMode = (mode === 'login');
-            updateModalContent();
-            modal.classList.remove('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-
-        function toggleAuthMode() {
-            isLoginMode = !isLoginMode;
-            updateModalContent();
-        }
-
-        function updateModalContent() {
-            const title = document.getElementById('auth-title');
-            const subtitle = document.getElementById('auth-subtitle');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const switchBtn = document.getElementById('auth-switch-btn');
-            const switchText = document.getElementById('auth-switch-text');
-
-            if (isLoginMode) {
-                title.textContent = "Welcome Back";
-                subtitle.textContent = "Please enter your details to continue.";
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-                switchText.textContent = "Don't have an account?";
-                switchBtn.textContent = "Sign Up";
-            } else {
-                title.textContent = "Create Account";
-                subtitle.textContent = "Join our community of creators today.";
-                loginForm.classList.add('hidden');
-                signupForm.classList.remove('hidden');
-                switchText.textContent = "Already have an account?";
-                switchBtn.textContent = "Sign In";
-            }
-        }
-
-        // --- Existing Blog Logic ---
-        // Helper Data for generating 50 Indian-authored posts
+        // --- Existing Blog Logic & Pagination ---
         const indianNames = [
             "Aarav Patel", "Diya Sharma", "Vihaan Gupta", "Ananya Singh", "Aditya Kumar", 
             "Saanvi Reddy", "Arjun Verma", "Myra Joshi", "Reyansh Malhotra", "Pari Iyer", 
@@ -1365,7 +1320,6 @@
                 });
             }
             
-            // Save seed to keep posts consistent across refreshes
             localStorage.setItem('lumina_posts_seed', JSON.stringify(newPosts));
             return newPosts;
         }
@@ -1443,7 +1397,7 @@
 
         let currentPostId = null;
 
-        function openModal(postId) {
+        window.openModal = function(postId) {
             currentPostId = postId;
             const post = posts.find(p => p.id === postId);
             if(!post) return;
@@ -1466,7 +1420,7 @@
             filterPosts();
         }
 
-        function closeModal() {
+        window.closeModal = function() {
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
@@ -1639,14 +1593,12 @@
             container.innerHTML = html;
         }
 
-        function goToPage(page) {
+        window.goToPage = function(page) {
             const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
             if (page < 1 || page > totalPages) return;
             
             currentPage = page;
             updateDisplay();
-            
-            // Smooth scroll to top of posts
             document.getElementById('posts-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
