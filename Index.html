@@ -1309,48 +1309,89 @@
             "Saanvi Reddy", "Arjun Verma", "Myra Joshi", "Reyansh Malhotra", "Pari Iyer", 
             "Sai Karthik", "Shanaya Kapoor", "Muhammad Khan", "Naira Mehta", "Avyaan Nair", 
             "Ishaan Choudhury", "Kiara Saxena", "Dhruv Bhatia", "Riya Das", "Kabir Joshi",
-            "Rohan Mehra", "Sanya Malhotra", "Vikram Rathore", "Neha Kakkar", "Amitabh Bachan"
+            "Rohan Mehra", "Sanya Malhotra", "Vikram Rathore", "Neha Kakkar", "Amitabh Bachan",
+            "Kavya Krishnan", "Manish Malhotra", "Pooja Hegde", "Rahul Dravid", "Suresh Raina"
         ];
 
-        const topicTemplates = [
-            { title: "The Future of AI in Healthcare", category: "Tech", keyword: "tech", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" },
-            { title: "Hidden Gems of Kerala", category: "Travel", keyword: "nature", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" },
-            { title: "Mastering CSS Grid", category: "Tech", keyword: "code", image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&w=800&q=80" },
-            { title: "Healthy Eating on a Budget", category: "Life", keyword: "food", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80" },
-            { title: "Startup Lessons from Bangalore", category: "Tech", keyword: "startup", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" },
-            { title: "Yoga for Mental Peace", category: "Life", keyword: "yoga", image: "https://images.unsplash.com/photo-1544367563-12123d8975bd?auto=format&fit=crop&w=800&q=80" },
-            { title: "The Magic of Indian Spices", category: "Life", keyword: "spices", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80" },
-            { title: "Digital Nomad Life in Goa", category: "Travel", keyword: "beach", image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" },
-            { title: "Understanding Blockchain", category: "Tech", keyword: "crypto", image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=800&q=80" },
-            { title: "Minimalist Living Guide", category: "Life", keyword: "minimal", image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=800&q=80" },
-            { title: "Trekking in the Himalayas", category: "Travel", keyword: "mountain", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" },
-            { title: "Modern Web Design Trends", category: "Tech", keyword: "design", image: "https://images.unsplash.com/photo-1509395062549-328e47402634?auto=format&fit=crop&w=800&q=80" },
-            { title: "Street Food of Mumbai", category: "Life", keyword: "streetfood", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" }
+        // 50 Unique Topics with matching images
+        const uniqueTopicsList = [
+            { title: "The Future of AI in Healthcare", category: "Tech", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" },
+            { title: "Hidden Gems of Kerala", category: "Travel", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" },
+            { title: "Mastering CSS Grid", category: "Tech", image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&w=800&q=80" },
+            { title: "Healthy Eating on a Budget", category: "Life", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80" },
+            { title: "Startup Lessons from Bangalore", category: "Tech", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" },
+            { title: "Yoga for Mental Peace", category: "Life", image: "https://images.unsplash.com/photo-1544367563-12123d8975bd?auto=format&fit=crop&w=800&q=80" },
+            { title: "The Magic of Indian Spices", category: "Life", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80" },
+            { title: "Digital Nomad Life in Goa", category: "Travel", image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" },
+            { title: "Understanding Blockchain", category: "Tech", image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=800&q=80" },
+            { title: "Minimalist Living Guide", category: "Life", image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=800&q=80" },
+            { title: "Trekking in the Himalayas", category: "Travel", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" },
+            { title: "Modern Web Design Trends", category: "Tech", image: "https://images.unsplash.com/photo-1509395062549-328e47402634?auto=format&fit=crop&w=800&q=80" },
+            { title: "Street Food of Mumbai", category: "Life", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" },
+            { title: "Introduction to Rust", category: "Tech", image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80" },
+            { title: "Madhubani Art History", category: "Life", image: "https://images.unsplash.com/photo-1550106069-b50a300300f5?auto=format&fit=crop&w=800&q=80" },
+            { title: "Sustainable Fashion Tips", category: "Life", image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" },
+            { title: "Best Cafes in Pondicherry", category: "Travel", image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" },
+            { title: "Indian Classical Music", category: "Life", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" },
+            { title: "Python vs JavaScript", category: "Tech", image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=80" },
+            { title: "Mental Health for Devs", category: "Life", image: "https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=800&q=80" },
+            { title: "Exploring Rann of Kutch", category: "Travel", image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" },
+            { title: "Impact of 5G Technology", category: "Tech", image: "https://images.unsplash.com/photo-1614064641938-3e840110842d?auto=format&fit=crop&w=800&q=80" },
+            { title: "Traditional Weddings", category: "Life", image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80" },
+            { title: "Organic Gardening 101", category: "Life", image: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=800&q=80" },
+            { title: "Taj Mahal Architecture", category: "Travel", image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" },
+            { title: "AWS vs Azure Cloud", category: "Tech", image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" },
+            { title: "Mindfulness at Work", category: "Life", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80" },
+            { title: "Houseboats of Alleppey", category: "Travel", image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80" },
+            { title: "React Hooks Explained", category: "Tech", image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80" },
+            { title: "Indian Tea Culture", category: "Life", image: "https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=800&q=80" },
+            { title: "Cybersecurity Tips", category: "Tech", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" },
+            { title: "Solo Female Travel", category: "Travel", image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80" },
+            { title: "Time Blocking Guide", category: "Life", image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80" },
+            { title: "Architecture of Jaipur", category: "Travel", image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80" },
+            { title: "Introduction to DevOps", category: "Tech", image: "https://images.unsplash.com/photo-1607799275518-dcfdbe386d91?auto=format&fit=crop&w=800&q=80" },
+            { title: "Public Speaking Mastery", category: "Life", image: "https://images.unsplash.com/photo-1475721027760-44226c378f1c?auto=format&fit=crop&w=800&q=80" },
+            { title: "Safari in Ranthambore", category: "Travel", image: "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=800&q=80" },
+            { title: "Understanding NFTs", category: "Tech", image: "https://images.unsplash.com/photo-1620321023374-d1a68fddadb3?auto=format&fit=crop&w=800&q=80" },
+            { title: "Home Workout Plans", category: "Life", image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80" },
+            { title: "South India Temples", category: "Travel", image: "https://images.unsplash.com/photo-1582510003544-4d00b7f0bd44?auto=format&fit=crop&w=800&q=80" },
+            { title: "Building Scalable APIs", category: "Tech", image: "https://images.unsplash.com/photo-1558494949-ef253b795246?auto=format&fit=crop&w=800&q=80" },
+            { title: "The Joy of Pottery", category: "Life", image: "https://images.unsplash.com/photo-1565193566173-7a64b27876e9?auto=format&fit=crop&w=800&q=80" },
+            { title: "Varanasi: Spiritual Capital", category: "Travel", image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80" },
+            { title: "Agile Methodology", category: "Tech", image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80" },
+            { title: "Summer Detox Drinks", category: "Life", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" },
+            { title: "Scuba Diving in Andaman", category: "Travel", image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
+            { title: "Machine Learning Basics", category: "Tech", image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=800&q=80" },
+            { title: "Indian Train Journeys", category: "Travel", image: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=800&q=80" },
+            { title: "Financial Planning Tips", category: "Life", image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80" },
+            { title: "Zero Waste Lifestyle", category: "Life", image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80" }
         ];
 
-        function generateRandomPosts(count) {
-            // Check if seeded data exists
+        function generateRandomPosts() {
+            // Check if seeded data exists (simple check for consistency)
             const existingSeed = localStorage.getItem('lumina_posts_seed');
             let seededPosts = [];
             
             if (existingSeed) {
                 try {
                     const parsed = JSON.parse(existingSeed);
-                    if (parsed.length === count) seededPosts = parsed;
+                    // If we have valid seed data of roughly correct length, use it
+                    if (parsed.length === uniqueTopicsList.length) seededPosts = parsed;
                 } catch(e) {}
             }
 
             if (seededPosts.length > 0) return seededPosts;
 
             const newPosts = [];
-            for (let i = 0; i < count; i++) {
-                const randomName = indianNames[Math.floor(Math.random() * indianNames.length)];
-                const topic = topicTemplates[Math.floor(Math.random() * topicTemplates.length)];
-                const title = i % 2 === 0 ? topic.title : `${topic.title}: A Deep Dive`;
+            
+            // Loop through the UNIQUE list directly
+            for (let i = 0; i < uniqueTopicsList.length; i++) {
+                const topic = uniqueTopicsList[i];
+                const randomName = indianNames[i % indianNames.length]; // Cycle names
                 
                 newPosts.push({
                     id: 100 + i,
-                    title: title,
+                    title: topic.title,
                     excerpt: `Join ${randomName} as they explore ${topic.title}. Discover key insights, practical tips, and a fresh perspective on ${topic.category.toLowerCase()}.`,
                     views: Math.floor(Math.random() * 5000) + 150,
                     content: `
@@ -1364,11 +1405,11 @@
                             </p>
                             <div class="my-8">
                                 <img src="${topic.image}" class="w-full h-64 object-cover rounded-xl shadow-md" alt="${topic.title}">
-                                <p class="text-xs text-gray-500 mt-2 text-center">Visual representation of ${topic.keyword}</p>
+                                <p class="text-xs text-gray-500 mt-2 text-center">Visual representation of ${topic.title}</p>
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4 font-serif">Key Takeaways</h3>
                             <ul class="list-disc pl-6 space-y-2 bg-gray-50 p-6 rounded-xl border border-gray-100 my-4">
-                                <li><strong>Insight 1:</strong> Always stay updated with the latest trends in ${topic.keyword}.</li>
+                                <li><strong>Insight 1:</strong> Always stay updated with the latest trends in ${topic.category}.</li>
                                 <li><strong>Insight 2:</strong> Practice consistency. Success doesn't happen overnight.</li>
                                 <li><strong>Insight 3:</strong> Community feedback is invaluable. Listen to your peers.</li>
                             </ul>
@@ -1379,7 +1420,7 @@
                     `,
                     category: topic.category,
                     author: randomName,
-                    date: new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                    date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                     image: topic.image,
                     authorImg: `https://ui-avatars.com/api/?name=${randomName.replace(' ', '+')}&background=random`
                 });
@@ -1389,12 +1430,14 @@
             return newPosts;
         }
 
-        const generatedPosts = generateRandomPosts(50);
+        const generatedPosts = generateRandomPosts();
 
         const posts = [
+            // ... (Static posts remain the same)
             {
                 id: 1,
                 title: "Welcome to My Blog",
+                // ... rest of static post 1
                 excerpt: "Hi, welcome to Prathamer's blog! Use your own thinking and convert your dream ideas into reality. The good news is, it's completely free.",
                 views: 1240, 
                 content: `
@@ -1444,7 +1487,8 @@
             },
             ...generatedPosts
         ];
-
+        
+        // ... (Rest of the logic remains the same)
         const postsContainer = document.getElementById('posts-container');
         const searchInput = document.getElementById('search-input');
         const categoryFilter = document.getElementById('category-filter');
