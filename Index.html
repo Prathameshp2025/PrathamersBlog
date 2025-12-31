@@ -187,7 +187,6 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4 sm:gap-0">
                     <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Latest Articles</h2>
                     <div class="flex items-center gap-4 w-full sm:w-auto">
-                        <!-- Removed Legend Text Here -->
                         <div class="flex w-full sm:w-auto gap-2">
                             <select id="category-filter" class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5 shadow-sm cursor-pointer hover:border-brand-400 transition-colors">
                                 <option value="all">All Topics</option>
@@ -541,36 +540,31 @@
 
     <!-- JavaScript Logic -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, where, getDocs, onSnapshot, orderBy, serverTimestamp, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, query as rtdbQuery, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
+        // --- Firebase Config ---
         const firebaseConfig = {
-            apiKey: "AIzaSyCZNXuHg15Ns3ydQ8yd6VOjm58sjfH2dUE",
-            authDomain: "prathamersblog.firebaseapp.com",
-            projectId: "prathamersblog",
-            storageBucket: "prathamersblog.firebasestorage.app",
-            messagingSenderId: "632179269904",
-            appId: "1:632179269904:web:64e4beb224ad1ed79e4595",
-            measurementId: "G-HSW8MLPQV8"
+            apiKey: "AIzaSyDtBAtT8FyEhEgLsmurMWKHvWnkMBW_6x8",
+            authDomain: "my-blog-server-ed755.firebaseapp.com",
+            databaseURL: "https://my-blog-server-ed755-default-rtdb.firebaseio.com/",
+            projectId: "my-blog-server-ed755",
+            storageBucket: "my-blog-server-ed755.firebasestorage.app",
+            messagingSenderId: "375653081104",
+            appId: "1:375653081104:web:7b97bd6301962f88da2a95",
+            measurementId: "G-7DHTZRSR52"
         };
         
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getDatabase(app);
 
-        // --- Data Service (Firebase Backend) ---
+        // --- Data Service (Firebase Realtime Database) ---
         const FirebaseService = {
-            getCollection: (name) => {
-                return collection(db, name);
-            },
-
             // --- BANS ---
             fetchBans: (callback) => {
-                const q = FirebaseService.getCollection('bans');
-                return onSnapshot(q, (snapshot) => {
-                    const bans = {};
-                    snapshot.forEach(doc => {
-                        bans[doc.id] = doc.data(); 
-                    });
+                const bansRef = ref(db, 'bans');
+                return onValue(bansRef, (snapshot) => {
+                    const bans = snapshot.val() || {};
                     callback(bans);
                 }, (error) => {
                     console.error("Error fetching bans:", error);
@@ -578,9 +572,9 @@
             },
 
             saveBan: async (identifier, type) => {
-                const normalizedId = identifier.toLowerCase();
+                const normalizedId = identifier.toLowerCase().replace('.', '_'); // Firebase RTDB keys cannot contain '.'
                 try {
-                    await setDoc(doc(db, 'bans', normalizedId), {
+                    await set(ref(db, 'bans/' + normalizedId), {
                         timestamp: Date.now(),
                         type: type
                     });
@@ -591,16 +585,23 @@
 
             // --- COMMENTS ---
             listenToComments: (postId, callback) => {
-                const q = query(FirebaseService.getCollection('comments'), orderBy("timestamp", "desc"));
+                const commentsRef = ref(db, 'comments');
                 
-                return onSnapshot(q, (snapshot) => {
+                return onValue(commentsRef, (snapshot) => {
+                    const data = snapshot.val();
                     const allComments = [];
-                    snapshot.forEach(doc => {
-                        allComments.push({ id: doc.id, ...doc.data() });
-                    });
                     
-                    // Client-side sort/filter for the specific post
-                    const postComments = allComments.filter(c => c.postId == postId);
+                    if (data) {
+                        for (const key in data) {
+                            allComments.push({ id: key, ...data[key] });
+                        }
+                    }
+                    
+                    // Client-side filtering for specific post
+                    const postComments = allComments
+                        .filter(c => c.postId == postId)
+                        .sort((a, b) => b.timestamp - a.timestamp); // Newest first
+                    
                     callback(postComments);
                 }, (error) => {
                     console.error("Error fetching comments:", error);
@@ -609,7 +610,8 @@
 
             saveComment: async (commentData) => {
                 try {
-                    await addDoc(FirebaseService.getCollection('comments'), {
+                    const commentsRef = ref(db, 'comments');
+                    await push(commentsRef, {
                         ...commentData,
                         timestamp: Date.now()
                     });
@@ -620,12 +622,15 @@
 
             // --- REVIEWS ---
             listenToReviews: (callback) => {
-                const q = query(FirebaseService.getCollection('reviews'), orderBy("timestamp", "desc"));
-                return onSnapshot(q, (snapshot) => {
+                const reviewsRef = ref(db, 'reviews');
+                return onValue(reviewsRef, (snapshot) => {
+                    const data = snapshot.val();
                     const reviews = [];
-                    snapshot.forEach(doc => {
-                        reviews.push(doc.data());
-                    });
+                    if (data) {
+                        for (const key in data) {
+                            reviews.push(data[key]);
+                        }
+                    }
                     callback(reviews);
                 }, (error) => {
                     console.error("Error fetching reviews:", error);
@@ -634,7 +639,8 @@
 
             saveReview: async (reviewData) => {
                 try {
-                    await addDoc(FirebaseService.getCollection('reviews'), {
+                    const reviewsRef = ref(db, 'reviews');
+                    await push(reviewsRef, {
                         ...reviewData,
                         timestamp: Date.now()
                     });
@@ -658,16 +664,19 @@
         }
 
         // --- View State Logic ---
-        let currentView = 'home'; 
+        let currentView = 'home'; // 'home' or 'yours'
+
         window.switchView = function(view) {
             currentView = view;
-            currentPage = 1; 
+            currentPage = 1; // Reset page on view switch
             
+            // Update UI Active States
             const navHome = document.getElementById('nav-home');
             const navYours = document.getElementById('nav-yours');
             const mobileNavHome = document.getElementById('mobile-nav-home');
             const mobileNavYours = document.getElementById('mobile-nav-yours');
 
+            // Reset classes
             const activeClasses = ['text-brand-600', 'border-brand-600'];
             const inactiveClasses = ['text-gray-500', 'border-transparent', 'hover:text-gray-900', 'hover:border-gray-300'];
             
@@ -698,6 +707,7 @@
             
             filterPosts();
             
+            // Close mobile menu if open
             document.getElementById('mobile-menu').classList.add('hidden');
             const icon = document.querySelector('#mobile-menu-btn i');
             if(icon) {
@@ -707,12 +717,14 @@
         }
 
         // --- Strict Guidelines Logic ---
+        // Updated Blacklist
         const badWords = [
             'fuck', 'shit', 'bitch', 'asshole', 'ashole', 'cunt', 'dick', 'bastard', 
             'idiot', 'stupid', 'pennis', 'penis', 'whore', 'slut', 'cock', 'pussy', 
             'motherfucker', 'faggot', 'nigger', 'douche'
         ]; 
         
+        // Cache bans locally for sync checking
         let localBans = {}; 
 
         // Init Bans Listener - Global Sync
@@ -720,8 +732,12 @@
             localBans = bans;
             // Check current user against new ban list
             if (currentUser) {
-                const emailBan = currentUser.email && localBans[currentUser.email.toLowerCase()];
-                const nameBan = localBans[currentUser.name.toLowerCase()];
+                // Firebase Keys cannot contain '.', so replace
+                const lowerEmailKey = currentUser.email ? currentUser.email.toLowerCase().replace('.', '_') : '';
+                const lowerNameKey = currentUser.name.toLowerCase().replace('.', '_');
+                
+                const emailBan = localBans[lowerEmailKey];
+                const nameBan = localBans[lowerNameKey];
                 
                 if (emailBan || nameBan) {
                     const id = emailBan ? currentUser.email : currentUser.name;
@@ -742,6 +758,7 @@
             // SAVE TO FIREBASE
             FirebaseService.saveBan(identifier, type);
 
+            // Local logout is handled by the listener update or immediate check
             if (currentUser) {
                 if ((currentUser.email && currentUser.email.toLowerCase() === identifier.toLowerCase()) || 
                     currentUser.name.toLowerCase() === identifier.toLowerCase()) {
@@ -758,7 +775,10 @@
         }
 
         function showBanModal(identifier) {
-            const banData = localBans[identifier.toLowerCase()];
+            const normalizedId = identifier.toLowerCase().replace('.', '_');
+            const banData = localBans[normalizedId];
+            
+            // Fallback if data hasn't synced yet but we know we just banned them
             const type = banData ? banData.type : 'abuse'; 
             const timestamp = banData ? banData.timestamp : Date.now();
 
@@ -771,18 +791,21 @@
             const message = document.getElementById('ban-message');
 
             const now = Date.now();
+            // Calculate days passed
             const daysPassed = (now - timestamp) / (1000 * 60 * 60 * 24);
-            const appealPeriod = 28; 
+            const appealPeriod = 28; // days
 
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
 
+            // Reset Styles
             panel.classList.remove('border-red-600', 'border-orange-500');
             iconBg.classList.remove('bg-red-100', 'bg-orange-100');
             icon.classList.remove('text-red-600', 'text-orange-600');
-            badge.className = ""; 
+            badge.className = ""; // Reset classes
 
             if (type === 'spam') {
+                // Immediate Permanent Ban (e.g., bad username)
                 panel.classList.add('border-red-600');
                 iconBg.classList.add('bg-red-100');
                 icon.classList.add('text-red-600');
@@ -793,7 +816,9 @@
                 message.textContent = "Your account activity (Username Violation) violates Prathamer's Strict Guidelines. This action is irreversible.";
             
             } else if (type === 'abuse') {
+                // Comment Abuse Logic
                 if (daysPassed > appealPeriod) {
+                    // PERMANENT (Time expired)
                     panel.classList.add('border-red-600');
                     iconBg.classList.add('bg-red-100');
                     icon.classList.add('text-red-600');
@@ -803,6 +828,7 @@
                     badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
                     message.innerHTML = "You failed to contact support within the 28-day window following your temporary suspension. Your account is now <strong>permanently banned</strong>.";
                 } else {
+                    // TEMPORARY (Still within 28 days)
                     panel.classList.add('border-orange-500');
                     iconBg.classList.add('bg-orange-100');
                     icon.classList.add('text-orange-600');
@@ -846,49 +872,54 @@
         window.handleLogin = function(e) {
             e.preventDefault();
             
-            const inputField = document.getElementById('login-identifier');
-            const input = inputField.value.trim();
-            const lowerInput = input.toLowerCase();
-            
-            // 1. CHECK BAN LIST FIRST (from live sync)
-            if (localBans[lowerInput]) {
-                closeAuthModal();
-                showBanModal(lowerInput);
-                return;
-            }
-
-            // Check if user exists in our list by Email OR Username
-            let user = users.find(u => 
-                (u.email && u.email.toLowerCase() === lowerInput) || 
-                u.name.toLowerCase() === lowerInput
-            );
-            
-            if (!user) {
-                // Auto-signup logic
-                if (input.includes('@')) {
-                     user = { 
-                        name: input.split('@')[0], 
-                        email: input, 
-                        role: 'user',
-                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`
-                    };
-                    users.push(user);
-                } else {
-                    alert("User not found. Please create an account.");
+            try {
+                const inputField = document.getElementById('login-identifier');
+                const input = inputField.value.trim();
+                const lowerInput = input.toLowerCase();
+                const normalizedKey = lowerInput.replace('.', '_'); // RTDB Safe key
+                
+                // 1. CHECK BAN LIST FIRST (from live sync)
+                if (localBans[normalizedKey]) {
+                    closeAuthModal();
+                    showBanModal(lowerInput);
                     return;
                 }
-            }
 
-            currentUser = user;
-            // Save local session
-            localStorage.setItem('lumina_session_user', JSON.stringify(currentUser));
-            updateAuthUI();
-            closeAuthModal();
-            
-            if (currentUser.role === 'admin') {
-                alert(`Welcome back, Admin!`);
-            } else {
-                alert(`Welcome, ${currentUser.name}!`);
+                // Check if user exists in our list by Email OR Username
+                let user = users.find(u => 
+                    (u.email && u.email.toLowerCase() === lowerInput) || 
+                    u.name.toLowerCase() === lowerInput
+                );
+                
+                if (!user) {
+                    // Auto-signup logic
+                    if (input.includes('@')) {
+                         user = { 
+                            name: input.split('@')[0], 
+                            email: input, 
+                            role: 'user',
+                            avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`
+                        };
+                        users.push(user);
+                    } else {
+                        alert("User not found. Please create an account.");
+                        return;
+                    }
+                }
+
+                currentUser = user;
+                localStorage.setItem('lumina_current_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                closeAuthModal();
+                
+                if (currentUser.role === 'admin') {
+                    alert(`Welcome back, Admin!`);
+                } else {
+                    alert(`Welcome, ${currentUser.name}!`);
+                }
+            } catch(e) {
+                console.error(e);
+                alert("Login Error: " + e.message);
             }
         }
 
@@ -899,9 +930,12 @@
             const email = emailInput ? emailInput.toLowerCase() : "";
             
             // 1. CHECK BAN LIST
-            if ((email && localBans[email]) || localBans[name.toLowerCase()]) {
+            const nameKey = name.toLowerCase().replace('.', '_');
+            const emailKey = email ? email.replace('.', '_') : '';
+            
+            if ((email && localBans[emailKey]) || localBans[nameKey]) {
                 closeAuthModal();
-                showBanModal(email && localBans[email] ? email : name.toLowerCase());
+                showBanModal(email && localBans[emailKey] ? email : name);
                 return;
             }
 
@@ -926,14 +960,15 @@
             
             users.push(newUser);
             currentUser = newUser;
-            localStorage.setItem('lumina_session_user', JSON.stringify(currentUser));
+            localStorage.setItem('lumina_current_user', JSON.stringify(currentUser));
+            
             updateAuthUI();
             closeAuthModal();
         }
 
         window.logout = function() {
             currentUser = null;
-            localStorage.removeItem('lumina_session_user');
+            localStorage.removeItem('lumina_current_user'); 
             updateAuthUI();
             document.getElementById('user-dropdown').classList.add('hidden');
         }
@@ -963,9 +998,9 @@
                 document.getElementById('user-email-mobile').textContent = currentUser.email || "No Email Linked";
                 document.getElementById('user-avatar-mobile').src = currentUser.avatar;
 
-                // Load API Key setting (using simple localstorage for preference in this context)
-                const storedKey = localStorage.getItem('lumina_custom_api_key');
-                document.getElementById('custom-api-key').value = storedKey || '';
+                // Load API Key setting - Disable input since it's hardcoded
+                document.getElementById('custom-api-key').value = "Managed by Firebase Config";
+                document.getElementById('custom-api-key').disabled = true;
 
                 if(commentForm) commentForm.classList.remove('hidden');
                 if(loginToComment) loginToComment.classList.add('hidden');
@@ -1156,7 +1191,7 @@
             });
         }
 
-        window.handleReviewSubmit = function(e) {
+        window.handleReviewSubmit = async function(e) {
             e.preventDefault();
             const text = document.getElementById('review-text').value.trim();
             const rating = parseFloat(document.getElementById('review-rating').value);
@@ -1166,8 +1201,11 @@
                 return;
             }
 
-            // Check ban before submitting
-            if ((currentUser.email && localBans[currentUser.email.toLowerCase()]) || localBans[currentUser.name.toLowerCase()]) {
+            // Check ban before submitting (using normalized keys)
+            const lowerEmailKey = currentUser.email ? currentUser.email.toLowerCase().replace('.', '_') : '';
+            const lowerNameKey = currentUser.name.toLowerCase().replace('.', '_');
+
+            if ((currentUser.email && localBans[lowerEmailKey]) || localBans[lowerNameKey]) {
                 logout();
                 showBanModal(currentUser.email || currentUser.name);
                 return;
@@ -1198,7 +1236,7 @@
             dropdown.classList.toggle('hidden');
         }
 
-        // --- API Key / Settings Logic (Removed localstorage key logic for pure cloud) ---
+        // --- API Key / Settings Logic ---
         window.openSettingsModal = function() {
             document.getElementById('settings-modal').classList.remove('hidden');
             document.getElementById('user-dropdown').classList.add('hidden'); 
@@ -1210,16 +1248,59 @@
 
         window.saveSettings = function(e) {
             e.preventDefault();
-            const key = document.getElementById('custom-api-key').value.trim();
-            if (key) {
-                localStorage.setItem('lumina_custom_api_key', key);
-                if (currentUser) currentUser.apiKey = key; 
-                alert(`Settings saved! API Key set to: ${key}`);
-            } else {
-                localStorage.removeItem('lumina_custom_api_key');
-                alert("API Key cleared.");
-            }
+            alert(`Settings are managed by site configuration.`);
             closeSettingsModal();
+        }
+
+        // --- Auth Modal UI Logic ---
+        let isLoginMode = true;
+
+        window.openAuthModal = function(mode) {
+            const modal = document.getElementById('auth-modal');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const switchBtn = document.getElementById('auth-switch-btn');
+            const switchText = document.getElementById('auth-switch-text');
+
+            isLoginMode = (mode === 'login');
+            updateModalContent();
+            modal.classList.remove('hidden');
+        }
+
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        window.toggleAuthMode = function() {
+            isLoginMode = !isLoginMode;
+            updateModalContent();
+        }
+
+        function updateModalContent() {
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const switchBtn = document.getElementById('auth-switch-btn');
+            const switchText = document.getElementById('auth-switch-text');
+
+            if (isLoginMode) {
+                title.textContent = "Welcome Back";
+                subtitle.textContent = "Please enter your details to continue.";
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                switchText.textContent = "Don't have an account?";
+                switchBtn.textContent = "Sign Up";
+            } else {
+                title.textContent = "Create Account";
+                subtitle.textContent = "Join our community of creators today.";
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                switchText.textContent = "Already have an account?";
+                switchBtn.textContent = "Sign In";
+            }
         }
 
         // --- Existing Blog Logic & Pagination ---
