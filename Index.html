@@ -309,6 +309,7 @@
                 <p class="text-gray-400 text-sm text-center md:text-left">© 2026 My Blogs UI. All rights reserved.</p>
                 <div class="flex space-x-6 items-center">
                     <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i class="ph-bold ph-github-logo text-xl"></i></a>
+                    <button onclick="localStorage.clear(); location.reload();" class="ml-4 text-xs text-red-400 hover:text-red-600 underline" title="Clear all local data and reset">Developer Reset</button>
                 </div>
             </div>
         </div>
@@ -544,13 +545,14 @@
         import { getFirestore, collection, addDoc, query, where, getDocs, onSnapshot, orderBy, serverTimestamp, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // IMPORTANT: FOR NETLIFY, REPLACE THIS CONFIG WITH YOUR OWN FROM FIREBASE CONSOLE
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+        const firebaseConfig = {
+            apiKey: "AIzaSyDtBAtT8FyEhEgLsmurMWKHvWnkMBW_6x8",
+            authDomain: "my-blog-server-ed755.firebaseapp.com",
+            projectId: "my-blog-server-ed755",
+            storageBucket: "my-blog-server-ed755.firebasestorage.app",
+            messagingSenderId: "375653081104",
+            appId: "1:375653081104:web:7b97bd6301962f88da2a95",
+            measurementId: "G-7DHTZRSR52"
         };
         
         const app = initializeApp(firebaseConfig);
@@ -779,6 +781,8 @@
 
         function showBanModal(identifier) {
             const banData = localBans[identifier.toLowerCase()];
+            
+            // Fallback if data hasn't synced yet but we know we just banned them
             const type = banData ? banData.type : 'abuse'; 
             const timestamp = banData ? banData.timestamp : Date.now();
 
@@ -791,18 +795,21 @@
             const message = document.getElementById('ban-message');
 
             const now = Date.now();
+            // Calculate days passed
             const daysPassed = (now - timestamp) / (1000 * 60 * 60 * 24);
-            const appealPeriod = 28; 
+            const appealPeriod = 28; // days
 
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
 
+            // Reset Styles
             panel.classList.remove('border-red-600', 'border-orange-500');
             iconBg.classList.remove('bg-red-100', 'bg-orange-100');
             icon.classList.remove('text-red-600', 'text-orange-600');
-            badge.className = ""; 
+            badge.className = ""; // Reset classes
 
             if (type === 'spam') {
+                // Immediate Permanent Ban (e.g., bad username)
                 panel.classList.add('border-red-600');
                 iconBg.classList.add('bg-red-100');
                 icon.classList.add('text-red-600');
@@ -813,7 +820,9 @@
                 message.textContent = "Your account activity (Username Violation) violates Prathamer's Strict Guidelines. This action is irreversible.";
             
             } else if (type === 'abuse') {
+                // Comment Abuse Logic
                 if (daysPassed > appealPeriod) {
+                    // PERMANENT
                     panel.classList.add('border-red-600');
                     iconBg.classList.add('bg-red-100');
                     icon.classList.add('text-red-600');
@@ -823,6 +832,7 @@
                     badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
                     message.innerHTML = "You failed to contact support within the 28-day window following your temporary suspension. Your account is now <strong>permanently banned</strong>.";
                 } else {
+                    // TEMPORARY
                     panel.classList.add('border-orange-500');
                     iconBg.classList.add('bg-orange-100');
                     icon.classList.add('text-orange-600');
@@ -847,6 +857,7 @@
         }
 
         // --- Authentication Logic ---
+        // Keeps user state in memory, but checks bans against Firestore
         let users = [
             {
                 name: 'Admin',
