@@ -63,684 +63,699 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
-<!-- Navigation -->
-<header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-shadow duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <!-- Logo -->
-            <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer select-none" onclick="window.scrollTo(0,0)">
-                <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-                    <i class="ph-bold ph-newspaper text-xl"></i>
+    <!-- Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-shadow duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer select-none" onclick="window.scrollTo(0,0)">
+                    <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-sm">
+                        <i class="ph-bold ph-newspaper text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">My Blogs</span>
                 </div>
-                <span class="font-bold text-xl tracking-tight text-gray-900">My Blogs</span>
-            </div>
 
-            <!-- Desktop Menu -->
-            <nav class="hidden md:flex space-x-8">
-                <a href="#" onclick="switchView('home')" id="nav-home" class="text-brand-600 font-medium border-b-2 border-brand-600 px-1 pt-1 h-full flex items-center transition-colors">Home</a>
-                <a href="#" onclick="switchView('yours')" id="nav-yours" class="hidden text-gray-500 hover:text-gray-900 font-medium border-b-2 border-transparent hover:border-gray-300 px-1 pt-1 h-full flex items-center transition-colors">Yours</a>
-            </nav>
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" onclick="switchView('home')" id="nav-home" class="text-brand-600 font-medium border-b-2 border-brand-600 px-1 pt-1 h-full flex items-center transition-colors">Home</a>
+                    <a href="#" onclick="switchView('yours')" id="nav-yours" class="hidden text-gray-500 hover:text-gray-900 font-medium border-b-2 border-transparent hover:border-gray-300 px-1 pt-1 h-full flex items-center transition-colors">Yours</a>
+                </nav>
 
-            <!-- Actions (Desktop) -->
-            <div class="hidden md:flex items-center space-x-4" id="desktop-auth-container">
-                <!-- Search -->
-                <div class="relative group mr-2">
-                    <input type="text" id="search-input" placeholder="Search..." class="bg-gray-100 border-none rounded-full py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-brand-500 w-40 transition-all focus:w-64">
-                    <button class="absolute right-3 top-2 text-gray-400 group-hover:text-brand-600 transition-colors">
-                        <i class="ph-bold ph-magnifying-glass"></i>
+                <!-- Actions (Desktop) -->
+                <div class="hidden md:flex items-center space-x-4" id="desktop-auth-container">
+                    <!-- Search -->
+                    <div class="relative group mr-2">
+                        <input type="text" id="search-input" placeholder="Search..." class="bg-gray-100 border-none rounded-full py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-brand-500 w-40 transition-all focus:w-64">
+                        <button class="absolute right-3 top-2 text-gray-400 group-hover:text-brand-600 transition-colors">
+                            <i class="ph-bold ph-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Auth Buttons (Injected via JS) -->
+                    <div id="auth-buttons-desktop" class="flex items-center space-x-3">
+                        <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-gray-900 font-medium text-sm">Sign In</button>
+                        <button onclick="openAuthModal('signup')" class="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition shadow-sm hover:shadow-md active:scale-95 transform duration-150">
+                            Get Started
+                        </button>
+                    </div>
+
+                    <!-- User Profile (Hidden by default) -->
+                    <div id="user-profile-desktop" class="hidden relative">
+                        <button onclick="toggleUserDropdown()" class="flex items-center gap-2 focus:outline-none">
+                            <img id="user-avatar-desktop" src="" class="w-8 h-8 rounded-full border border-gray-200">
+                            <span id="user-name-desktop" class="text-sm font-medium text-gray-700"></span>
+                            <i class="ph-bold ph-caret-down text-gray-400"></i>
+                        </button>
+                        
+                        <!-- Dropdown -->
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 transform origin-top-right transition-all">
+                            <a href="#" onclick="openSettingsModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <i class="ph-bold ph-gear"></i> Settings
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
+                                <i class="ph-bold ph-sign-out"></i> Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-900 p-2 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <i class="ph-bold ph-list text-2xl"></i>
                     </button>
                 </div>
+            </div>
+        </div>
 
-                <!-- Auth Buttons (Injected via JS) -->
-                <div id="auth-buttons-desktop" class="flex items-center space-x-3">
-                    <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-gray-900 font-medium text-sm">Sign In</button>
-                    <button onclick="openAuthModal('signup')" class="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition shadow-sm hover:shadow-md active:scale-95 transform duration-150">
+        <!-- Mobile Menu Panel (Overlay) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#" onclick="switchView('home')" id="mobile-nav-home" class="block px-4 py-3 rounded-xl text-base font-medium text-brand-700 bg-brand-50 border border-brand-100">Home</a>
+                <a href="#" onclick="switchView('yours')" id="mobile-nav-yours" class="hidden block px-4 py-3 rounded-xl text-base font-medium text-gray-600 hover:bg-gray-50 border border-transparent">Yours</a>
+            </div>
+            <div class="p-4 border-t border-gray-100 bg-gray-50">
+                <div class="relative mb-4">
+                    <input type="text" placeholder="Search articles..." class="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-brand-500 outline-none shadow-sm">
+                    <i class="ph-bold ph-magnifying-glass absolute right-3 top-3 text-gray-400"></i>
+                </div>
+                
+                <div id="auth-buttons-mobile" class="space-y-3">
+                    <button onclick="openAuthModal('login')" class="w-full bg-white border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-sm font-bold hover:bg-gray-50 transition-colors">
+                        Sign In
+                    </button>
+                    <button onclick="openAuthModal('signup')" class="w-full bg-brand-600 text-white px-4 py-3 rounded-lg text-sm font-bold hover:bg-brand-700 shadow-md active:bg-brand-800 transition-colors">
                         Get Started
                     </button>
                 </div>
 
-                <!-- User Profile (Hidden by default) -->
-                <div id="user-profile-desktop" class="hidden relative">
-                    <button onclick="toggleUserDropdown()" class="flex items-center gap-2 focus:outline-none">
-                        <img id="user-avatar-desktop" src="" class="w-8 h-8 rounded-full border border-gray-200">
-                        <span id="user-name-desktop" class="text-sm font-medium text-gray-700"></span>
-                        <i class="ph-bold ph-caret-down text-gray-400"></i>
+                <div id="user-profile-mobile" class="hidden">
+                    <div class="flex items-center gap-3 mb-4 px-2">
+                        <img id="user-avatar-mobile" src="" class="w-10 h-10 rounded-full border border-gray-200">
+                        <div>
+                            <p id="user-name-mobile" class="font-bold text-gray-900"></p>
+                            <p id="user-email-mobile" class="text-xs text-gray-500"></p>
+                        </div>
+                    </div>
+                    <button onclick="openSettingsModal()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center gap-2">
+                        <i class="ph-bold ph-gear"></i> Settings (API Key)
                     </button>
-
-                    <!-- Dropdown -->
-                    <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 transform origin-top-right transition-all">
-                        <a href="#" onclick="openSettingsModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                            <i class="ph-bold ph-gear"></i> Settings
-                        </a>
-                        <div class="border-t border-gray-100 my-1"></div>
-                        <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
-                            <i class="ph-bold ph-sign-out"></i> Sign Out
-                        </a>
-                    </div>
+                    <button onclick="logout()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-2">
+                        <i class="ph-bold ph-sign-out"></i> Sign Out
+                    </button>
                 </div>
             </div>
-
-            <!-- Mobile menu button -->
-            <div class="flex items-center md:hidden">
-                <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-900 p-2 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
-                    <i class="ph-bold ph-list text-2xl"></i>
-                </button>
-            </div>
         </div>
+    </header>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[300]">
+        <i class="ph-bold ph-check-circle text-green-400 text-xl"></i>
+        <span id="toast-message" class="font-medium text-sm">Action Successful</span>
     </div>
 
-    <!-- Mobile Menu Panel (Overlay) -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50">
-        <div class="px-4 pt-2 pb-4 space-y-2">
-            <a href="#" onclick="switchView('home')" id="mobile-nav-home" class="block px-4 py-3 rounded-xl text-base font-medium text-brand-700 bg-brand-50 border border-brand-100">Home</a>
-            <a href="#" onclick="switchView('yours')" id="mobile-nav-yours" class="hidden block px-4 py-3 rounded-xl text-base font-medium text-gray-600 hover:bg-gray-50 border border-transparent">Yours</a>
-        </div>
-        <div class="p-4 border-t border-gray-100 bg-gray-50">
-            <div class="relative mb-4">
-                <input type="text" placeholder="Search articles..." class="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-brand-500 outline-none shadow-sm">
-                <i class="ph-bold ph-magnifying-glass absolute right-3 top-3 text-gray-400"></i>
-            </div>
-
-            <div id="auth-buttons-mobile" class="space-y-3">
-                <button onclick="openAuthModal('login')" class="w-full bg-white border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-sm font-bold hover:bg-gray-50 transition-colors">
-                    Sign In
-                </button>
-                <button onclick="openAuthModal('signup')" class="w-full bg-brand-600 text-white px-4 py-3 rounded-lg text-sm font-bold hover:bg-brand-700 shadow-md active:bg-brand-800 transition-colors">
-                    Get Started
-                </button>
-            </div>
-
-            <div id="user-profile-mobile" class="hidden">
-                <div class="flex items-center gap-3 mb-4 px-2">
-                    <img id="user-avatar-mobile" src="" class="w-10 h-10 rounded-full border border-gray-200">
-                    <div>
-                        <p id="user-name-mobile" class="font-bold text-gray-900"></p>
-                        <p id="user-email-mobile" class="text-xs text-gray-500"></p>
+    <!-- Main Content Area -->
+    <div class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+            
+            <!-- Left Column: Blog Posts -->
+            <main class="lg:col-span-8 space-y-8">
+                
+                <!-- Filters -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4 sm:gap-0">
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Latest Articles</h2>
+                    <div class="flex items-center gap-4 w-full sm:w-auto">
+                        <!-- Removed Legend Text Here -->
+                        <div class="flex w-full sm:w-auto gap-2">
+                            <select id="category-filter" class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5 shadow-sm cursor-pointer hover:border-brand-400 transition-colors">
+                                <option value="all">All Topics</option>
+                                <option value="Personal">Personal</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <button onclick="openSettingsModal()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center gap-2">
-                    <i class="ph-bold ph-gear"></i> Settings (API Key)
-                </button>
-                <button onclick="logout()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-2">
-                    <i class="ph-bold ph-sign-out"></i> Sign Out
-                </button>
-            </div>
-        </div>
-    </div>
-</header>
 
-<!-- Main Content Area -->
-<div class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
-
-        <!-- Left Column: Blog Posts -->
-        <main class="lg:col-span-8 space-y-8">
-
-            <!-- Filters -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4 sm:gap-0">
-                <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Latest Articles</h2>
-                <div class="flex items-center gap-4 w-full sm:w-auto">
-                    <!-- Removed Legend Text Here -->
-                    <div class="flex w-full sm:w-auto gap-2">
-                        <select id="category-filter" class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5 shadow-sm cursor-pointer hover:border-brand-400 transition-colors">
-                            <option value="all">All Topics</option>
-                            <option value="Personal">Personal</option>
-                        </select>
-                    </div>
+                <!-- Posts Grid Container -->
+                <div id="posts-container" class="grid gap-6 sm:gap-8">
+                    <!-- Posts will be injected here via JS -->
                 </div>
-            </div>
 
-            <!-- Posts Grid Container -->
-            <div id="posts-container" class="grid gap-6 sm:gap-8">
-                <!-- Posts will be injected here via JS -->
-            </div>
-
-            <!-- Pagination -->
-            <div class="flex justify-center mt-12">
-                <nav id="pagination-container" class="flex items-center gap-2">
-                    <!-- Pagination buttons will be injected here via JS -->
-                </nav>
-            </div>
-        </main>
-
-        <!-- Right Column: Sidebar -->
-        <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 h-fit">
-
-            <!-- About Widget -->
-            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
-                <h3 class="font-bold text-lg mb-4 text-gray-900">About My Blogs</h3>
-                <p class="text-gray-600 text-sm leading-relaxed mb-4">
-                    We are a community of thinkers, creators, and developers sharing insights on the latest trends in technology and design.
-                </p>
-                <a href="#" class="text-brand-600 text-sm font-semibold hover:text-brand-700 inline-flex items-center group">
-                    Read more
-                    <i class="ph-bold ph-arrow-right ml-1 transform group-hover:translate-x-1 transition"></i>
-                </a>
-            </div>
-
-            <!-- Categories Widget -->
-            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
-                <h3 class="font-bold text-lg mb-4 text-gray-900">Topics</h3>
-                <div class="flex flex-wrap gap-2">
-                    <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Personal</a>
-                    <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Updates</a>
-                    <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Tech</a>
-                    <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Life</a>
+                <!-- Pagination -->
+                <div class="flex justify-center mt-12">
+                    <nav id="pagination-container" class="flex items-center gap-2">
+                        <!-- Pagination buttons will be injected here via JS -->
+                    </nav>
                 </div>
-            </div>
+            </main>
 
-            <!-- Newsletter Widget -->
-            <div class="bg-brand-900 p-6 sm:p-8 rounded-2xl text-center text-white shadow-lg relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full bg-white opacity-5"></div>
-
-                <i class="ph-bold ph-envelope-simple text-4xl mb-3 text-brand-400 mx-auto relative z-10"></i>
-                <h3 class="font-bold text-lg mb-2 relative z-10">Weekly Newsletter</h3>
-                <p class="text-brand-100 text-xs mb-5 relative z-10">Get the latest posts delivered right to your inbox. No spam, ever.</p>
-                <form onsubmit="event.preventDefault(); alert('Thanks for subscribing!');" class="relative z-10">
-                    <input type="email" placeholder="Your email address" class="w-full px-4 py-2.5 rounded-lg text-gray-900 text-sm mb-3 focus:ring-2 focus:ring-brand-400 border-none outline-none shadow-inner">
-                    <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-white font-bold py-2.5 rounded-lg text-sm transition shadow-lg transform active:scale-95">Subscribe</button>
-                </form>
-            </div>
-
-        </aside>
-    </div>
-
-    <!-- Testimonials Section -->
-    <section class="mt-20 border-t border-gray-200 pt-16">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4 font-serif">What Our Readers Say</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto mb-6">Join thousands of developers and creators who start their day with My Blogs.</p>
-            <button onclick="openReviewModal()" class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-50 hover:border-gray-400 transition shadow-sm group">
-                <i class="ph-bold ph-pencil-simple text-brand-600 group-hover:scale-110 transition-transform"></i> Write a Review
-            </button>
-        </div>
-
-        <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Reviews will be injected here via JS -->
-        </div>
-    </section>
-</div>
-
-<!-- Footer -->
-<footer class="bg-white border-t border-gray-200 pt-16 pb-8 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
-            <div class="col-span-1 sm:col-span-2 md:col-span-1">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-6 h-6 bg-brand-600 rounded flex items-center justify-center text-white text-xs">
-                        <i class="ph-bold ph-newspaper"></i>
-                    </div>
-                    <span class="font-bold text-lg text-gray-900">My Blogs</span>
-                </div>
-                <p class="text-gray-500 text-sm leading-relaxed">Crafting digital experiences that matter and sharing stories from around the web.</p>
-            </div>
-            <div>
-                <h4 class="font-bold text-gray-900 mb-4">Product</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-brand-600 transition">Features</a></li>
-                    <li><a href="#" class="hover:text-brand-600 transition">Integrations</a></li>
-                    <li><a href="#" class="hover:text-brand-600 transition">Pricing</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-gray-900 mb-4">Resources</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-brand-600 transition">Documentation</a></li>
-                    <li><a href="#" class="hover:text-brand-600 transition">API Reference</a></li>
-                    <li><a href="#" class="hover:text-brand-600 transition">Community</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-gray-900 mb-4">Company</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-brand-600 transition">About</a></li>
-                    <li><a href="#" class="hover:text-brand-600 transition">Blog</a></li>
-                    <li><a href="#" class="hover:text-brand-600 transition">Careers</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-gray-400 text-sm text-center md:text-left">© 2026 My Blogs UI. All rights reserved.</p>
-            <div class="flex space-x-6">
-                <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i class="ph-bold ph-github-logo text-xl"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- Article Modal -->
-<div id="article-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal()"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
-                <button onclick="closeModal()" class="absolute right-4 top-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-500 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                    <i class="ph-bold ph-x"></i>
-                </button>
-                <div class="h-64 w-full overflow-hidden">
-                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
-                </div>
-                <div class="p-6 sm:p-10">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <span id="modal-category" class="bg-brand-50 text-brand-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"></span>
-                            <span id="modal-date" class="text-gray-500 text-sm"></span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-gray-400 text-sm" title="Total Views">
-                            <i class="ph-bold ph-eye text-brand-500"></i>
-                            <span id="modal-views" class="font-medium text-gray-600"></span>
-                        </div>
-                    </div>
-                    <h3 id="modal-title" class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 font-serif"></h3>
-                    <div class="prose prose-lg text-gray-600 leading-relaxed" id="modal-content"></div>
-
-                    <!-- Comments Section (New) -->
-                    <div class="mt-10 border-t border-gray-100 pt-8">
-                        <h4 class="text-xl font-bold text-gray-900 mb-4 font-serif">Discussion</h4>
-
-                        <!-- Comment Form -->
-                        <div id="comment-form-container" class="mb-8">
-                            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                                <textarea id="comment-input" rows="3" placeholder="Share your thoughts..." class="w-full bg-transparent border-none focus:ring-0 text-gray-700 text-sm resize-none outline-none"></textarea>
-                                <div class="flex justify-between items-center mt-2 border-t border-gray-200 pt-2">
-                                    <p class="text-xs text-gray-400 italic">Please follow Prathamer's Guidelines. Zero tolerance for abuse.</p>
-                                    <button onclick="handlePostComment()" class="bg-brand-600 text-white px-4 py-1.5 rounded-lg text-sm font-bold hover:bg-brand-700 transition">Post Comment</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="login-to-comment" class="hidden mb-8 text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                            <p class="text-gray-500 text-sm">Please <button onclick="closeModal(); openAuthModal('login')" class="text-brand-600 font-bold hover:underline">sign in</button> to leave a comment.</p>
-                        </div>
-
-                        <!-- Comment List (Mock) -->
-                        <div id="comments-list" class="space-y-6">
-                            <!-- Comments injected here -->
-                        </div>
-                    </div>
-
-                    <div class="mt-8 border-t border-gray-100 pt-6">
-                        <button onclick="closeModal()" class="w-full sm:w-auto bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition">Close Article</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Auth Modal -->
-<div id="auth-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="auth-modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeAuthModal()"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
-
-                <button onclick="closeAuthModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                    <i class="ph-bold ph-x text-lg"></i>
-                </button>
-
-                <!-- Auth Content -->
-                <div class="p-8">
-                    <div class="text-center mb-8">
-                        <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 mx-auto mb-4">
-                            <i class="ph-bold ph-user text-2xl"></i>
-                        </div>
-                        <h3 id="auth-title" class="text-2xl font-bold text-gray-900 mb-1">Welcome Back</h3>
-                        <p id="auth-subtitle" class="text-sm text-gray-500">Please enter your details to continue.</p>
-                    </div>
-
-                    <!-- Login Form -->
-                    <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Username or Email</label>
-                            <input type="text" id="login-identifier" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                            <input type="password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                        </div>
-                        <button type="submit" class="w-full bg-brand-600 text-white py-2.5 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg">Sign In</button>
-                    </form>
-
-                    <!-- Signup Form (Hidden by default) -->
-                    <form id="signup-form" class="space-y-4 hidden" onsubmit="handleSignup(event)">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                            <input type="text" id="signup-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
-                            <input type="email" id="signup-email" placeholder="Required for verification/posts" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                            <input type="password" id="signup-password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                        </div>
-                        <button type="submit" class="w-full bg-brand-600 text-white py-2.5 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg">Create Account</button>
-                    </form>
-
-                    <!-- Toggle -->
-                    <div class="mt-6 text-center text-sm text-gray-600">
-                        <span id="auth-switch-text">Don't have an account?</span>
-                        <button onclick="toggleAuthMode()" id="auth-switch-btn" class="font-bold text-brand-600 hover:text-brand-800 ml-1">Sign Up</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Settings/API Key Modal -->
-<div id="settings-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="settings-modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeSettingsModal()"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
-
-                <button onclick="closeSettingsModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                    <i class="ph-bold ph-x text-lg"></i>
-                </button>
-
-                <div class="p-8">
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-1">Account Settings</h3>
-                        <p class="text-sm text-gray-500">Manage your preferences and keys.</p>
-                    </div>
-
-                    <form onsubmit="saveSettings(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Custom API Key</label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="ph-bold ph-key text-gray-400"></i>
-                                </div>
-                                <input type="text" id="custom-api-key" placeholder="Enter your API Key" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none font-mono text-sm">
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">This key will be stored securely in your session.</p>
-                        </div>
-                        <button type="submit" class="w-full bg-gray-900 text-white py-2.5 rounded-lg font-bold hover:bg-gray-800 transition">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Review Modal -->
-<div id="review-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="review-modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeReviewModal()"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <button onclick="closeReviewModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                    <i class="ph-bold ph-x text-lg"></i>
-                </button>
-                <div class="p-8">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2 text-center">Write a Review</h3>
-                    <p class="text-center text-gray-500 mb-6 text-sm">Share your experience with the community.</p>
-
-                    <form onsubmit="handleReviewSubmit(event)">
-                        <div class="mb-5 text-center">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
-                            <div class="flex gap-2 justify-center" id="star-rating-input">
-                                <button type="button" onclick="setRating(1)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="1"><i class="ph-fill ph-star"></i></button>
-                                <button type="button" onclick="setRating(2)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="2"><i class="ph-fill ph-star"></i></button>
-                                <button type="button" onclick="setRating(3)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="3"><i class="ph-fill ph-star"></i></button>
-                                <button type="button" onclick="setRating(4)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="4"><i class="ph-fill ph-star"></i></button>
-                                <button type="button" onclick="setRating(5)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="5"><i class="ph-fill ph-star"></i></button>
-                            </div>
-                            <input type="hidden" id="review-rating" value="5">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Your Feedback</label>
-                            <textarea id="review-text" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none resize-none text-sm" placeholder="What did you like about the blog?"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-brand-600 text-white py-3 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg">Submit Review</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Ban Modal (Custom Dialog) -->
-<div id="ban-modal" class="fixed inset-0 z-[200] hidden" aria-labelledby="ban-modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-red-900/90 backdrop-blur-md transition-opacity"></div>
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-center shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md border-t-8 border-red-600" id="ban-modal-panel">
-                <div class="p-8">
-                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" id="ban-icon-bg">
-                        <i class="ph-bold ph-warning-octagon text-3xl text-red-600" id="ban-icon"></i>
-                    </div>
-                    <h3 class="text-2xl font-black text-gray-900 mb-2 uppercase leading-tight" id="ban-title">You are permanently banned</h3>
-
-                    <div id="ban-badge" class="inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest">
-                        RANK: SPAM
-                    </div>
-
-                    <p class="text-sm text-gray-500 mb-8 leading-relaxed" id="ban-message">
-                        Your account activity violates Prathamer's Strict Guidelines. This action is irreversible.
+            <!-- Right Column: Sidebar -->
+            <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 h-fit">
+                
+                <!-- About Widget -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-gray-900">About My Blogs</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        We are a community of thinkers, creators, and developers sharing insights on the latest trends in technology and design.
                     </p>
+                    <a href="#" class="text-brand-600 text-sm font-semibold hover:text-brand-700 inline-flex items-center group">
+                        Read more 
+                        <i class="ph-bold ph-arrow-right ml-1 transform group-hover:translate-x-1 transition"></i>
+                    </a>
+                </div>
 
-                    <button onclick="location.reload()" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-black transition shadow-lg uppercase tracking-wide text-sm">
-                        Close
+                <!-- Categories Widget -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-lg mb-4 text-gray-900">Topics</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Personal</a>
+                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Updates</a>
+                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Tech</a>
+                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Life</a>
+                    </div>
+                </div>
+
+                <!-- Newsletter Widget -->
+                <div class="bg-brand-900 p-6 sm:p-8 rounded-2xl text-center text-white shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full bg-white opacity-5"></div>
+                    
+                    <i class="ph-bold ph-envelope-simple text-4xl mb-3 text-brand-400 mx-auto relative z-10"></i>
+                    <h3 class="font-bold text-lg mb-2 relative z-10">Weekly Newsletter</h3>
+                    <p class="text-brand-100 text-xs mb-5 relative z-10">Get the latest posts delivered right to your inbox. No spam, ever.</p>
+                    <form onsubmit="event.preventDefault(); alert('Thanks for subscribing!');" class="relative z-10">
+                        <input type="email" placeholder="Your email address" class="w-full px-4 py-2.5 rounded-lg text-gray-900 text-sm mb-3 focus:ring-2 focus:ring-brand-400 border-none outline-none shadow-inner">
+                        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-white font-bold py-2.5 rounded-lg text-sm transition shadow-lg transform active:scale-95">Subscribe</button>
+                    </form>
+                </div>
+
+            </aside>
+        </div>
+
+        <!-- Testimonials Section -->
+        <section class="mt-20 border-t border-gray-200 pt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 font-serif">What Our Readers Say</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mb-6">Join thousands of developers and creators who start their day with My Blogs.</p>
+                <button onclick="openReviewModal()" class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-50 hover:border-gray-400 transition shadow-sm group">
+                    <i class="ph-bold ph-pencil-simple text-brand-600 group-hover:scale-110 transition-transform"></i> Write a Review
+                </button>
+            </div>
+            
+            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Reviews will be injected here via JS -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+                <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 bg-brand-600 rounded flex items-center justify-center text-white text-xs">
+                            <i class="ph-bold ph-newspaper"></i>
+                        </div>
+                        <span class="font-bold text-lg text-gray-900">My Blogs</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed">Crafting digital experiences that matter and sharing stories from around the web.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Product</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-brand-600 transition">Features</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Integrations</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-brand-600 transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">API Reference</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-brand-600 transition">About</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-brand-600 transition">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm text-center md:text-left">© 2026 My Blogs UI. All rights reserved.</p>
+                <div class="flex space-x-6 items-center">
+                    <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i class="ph-bold ph-github-logo text-xl"></i></a>
+                    <button onclick="localStorage.clear(); location.reload();" class="ml-4 text-xs text-red-400 hover:text-red-600 underline" title="Clear all local data and reset">Developer Reset</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Article Modal -->
+    <div id="article-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+                    <button onclick="closeModal()" class="absolute right-4 top-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-500 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <i class="ph-bold ph-x"></i>
                     </button>
+                    <div class="h-64 w-full overflow-hidden">
+                        <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 sm:p-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span id="modal-category" class="bg-brand-50 text-brand-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"></span>
+                                <span id="modal-date" class="text-gray-500 text-sm"></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-gray-400 text-sm" title="Total Views">
+                                <i class="ph-bold ph-eye text-brand-500"></i>
+                                <span id="modal-views" class="font-medium text-gray-600"></span>
+                            </div>
+                        </div>
+                        <h3 id="modal-title" class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 font-serif"></h3>
+                        <div class="prose prose-lg text-gray-600 leading-relaxed" id="modal-content"></div>
+                        
+                        <!-- Comments Section (New) -->
+                        <div class="mt-10 border-t border-gray-100 pt-8">
+                            <h4 class="text-xl font-bold text-gray-900 mb-4 font-serif">Discussion</h4>
+                            
+                            <!-- Comment Form -->
+                            <div id="comment-form-container" class="mb-8">
+                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                                    <textarea id="comment-input" rows="3" placeholder="Share your thoughts..." class="w-full bg-transparent border-none focus:ring-0 text-gray-700 text-sm resize-none outline-none"></textarea>
+                                    <div class="flex justify-between items-center mt-2 border-t border-gray-200 pt-2">
+                                        <p class="text-xs text-gray-400 italic">Please follow Prathamer's Guidelines. Zero tolerance for abuse.</p>
+                                        <button onclick="handlePostComment()" class="bg-brand-600 text-white px-4 py-1.5 rounded-lg text-sm font-bold hover:bg-brand-700 transition">Post Comment</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="login-to-comment" class="hidden mb-8 text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                                <p class="text-gray-500 text-sm">Please <button onclick="closeModal(); openAuthModal('login')" class="text-brand-600 font-bold hover:underline">sign in</button> to leave a comment.</p>
+                            </div>
+
+                            <!-- Comment List (Mock) -->
+                            <div id="comments-list" class="space-y-6">
+                                <!-- Comments injected here -->
+                            </div>
+                        </div>
+
+                        <div class="mt-8 border-t border-gray-100 pt-6">
+                            <button onclick="closeModal()" class="w-full sm:w-auto bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition">Close Article</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- JavaScript Logic -->
-<script>
-    // --- Custom API Logic (Simulated) ---
-    const SimulatedAPI = {
-        // Get the current API Key (defaults to 'default' if not set)
-        getApiKey: () => {
-            // Prioritize user's key if logged in, otherwise check local storage, else default
-            if (currentUser && currentUser.apiKey) return currentUser.apiKey;
-            return localStorage.getItem('lumina_custom_api_key') || 'default';
-        },
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="auth-modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeAuthModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                    
+                    <button onclick="closeAuthModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
 
-        // Generate a namespaced storage key
-        getStorageKey: (collection, id = '', overrideApiKey = null) => {
-            const apiKey = overrideApiKey || SimulatedAPI.getApiKey();
-            return `lumina_api_${apiKey}_${collection}${id ? '_' + id : ''}`;
-        },
+                    <!-- Auth Content -->
+                    <div class="p-8">
+                        <div class="text-center mb-8">
+                            <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 mx-auto mb-4">
+                                <i class="ph-bold ph-user text-2xl"></i>
+                            </div>
+                            <h3 id="auth-title" class="text-2xl font-bold text-gray-900 mb-1">Welcome Back</h3>
+                            <p id="auth-subtitle" class="text-sm text-gray-500">Please enter your details to continue.</p>
+                        </div>
 
-        // --- BANS ENDPOINTS ---
-        getBans: (overrideApiKey = null) => {
-            const key = SimulatedAPI.getStorageKey('bans', '', overrideApiKey);
-            return JSON.parse(localStorage.getItem(key)) || {};
-        },
+                        <!-- Login Form -->
+                        <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Username or Email</label>
+                                <input type="text" id="login-identifier" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-brand-600 text-white py-2.5 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg">Sign In</button>
+                        </form>
 
-        saveBan: (identifier, type, overrideApiKey = null) => {
+                        <!-- Signup Form (Hidden by default) -->
+                        <form id="signup-form" class="space-y-4 hidden" onsubmit="handleSignup(event)">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                                <input type="text" id="signup-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
+                                <input type="email" id="signup-email" placeholder="Required for verification/posts" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" id="signup-password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-brand-600 text-white py-2.5 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg">Create Account</button>
+                        </form>
+
+                        <!-- Toggle -->
+                        <div class="mt-6 text-center text-sm text-gray-600">
+                            <span id="auth-switch-text">Don't have an account?</span>
+                            <button onclick="toggleAuthMode()" id="auth-switch-btn" class="font-bold text-brand-600 hover:text-brand-800 ml-1">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings/API Key Modal -->
+    <div id="settings-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="settings-modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeSettingsModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                    
+                    <button onclick="closeSettingsModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+
+                    <div class="p-8">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-1">Account Settings</h3>
+                            <p class="text-sm text-gray-500">Manage your preferences and keys.</p>
+                        </div>
+
+                        <form onsubmit="saveSettings(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Custom API Key</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="ph-bold ph-key text-gray-400"></i>
+                                    </div>
+                                    <input type="text" id="custom-api-key" placeholder="Enter your API Key" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none font-mono text-sm">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">This key will be stored securely in your session.</p>
+                            </div>
+                            <button type="submit" class="w-full bg-gray-900 text-white py-2.5 rounded-lg font-bold hover:bg-gray-800 transition">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="review-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="review-modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeReviewModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <button onclick="closeReviewModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2 text-center">Write a Review</h3>
+                        <p class="text-center text-gray-500 mb-6 text-sm">Share your experience with the community.</p>
+                        
+                        <form onsubmit="handleReviewSubmit(event)">
+                            <div class="mb-5 text-center">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                                <div class="flex gap-2 justify-center" id="star-rating-input">
+                                    <button type="button" onclick="setRating(1)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="1"><i class="ph-fill ph-star"></i></button>
+                                    <button type="button" onclick="setRating(2)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="2"><i class="ph-fill ph-star"></i></button>
+                                    <button type="button" onclick="setRating(3)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="3"><i class="ph-fill ph-star"></i></button>
+                                    <button type="button" onclick="setRating(4)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="4"><i class="ph-fill ph-star"></i></button>
+                                    <button type="button" onclick="setRating(5)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="5"><i class="ph-fill ph-star"></i></button>
+                                </div>
+                                <input type="hidden" id="review-rating" value="5">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Your Feedback</label>
+                                <textarea id="review-text" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none resize-none text-sm" placeholder="What did you like about the blog?"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-brand-600 text-white py-3 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ban Modal (Custom Dialog) -->
+    <div id="ban-modal" class="fixed inset-0 z-[200] hidden" aria-labelledby="ban-modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-red-900/90 backdrop-blur-md transition-opacity"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-center shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md border-t-8 border-red-600" id="ban-modal-panel">
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" id="ban-icon-bg">
+                            <i class="ph-bold ph-warning-octagon text-3xl text-red-600" id="ban-icon"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-gray-900 mb-2 uppercase leading-tight" id="ban-title">You are permanently banned</h3>
+                        
+                        <div id="ban-badge" class="inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest">
+                            RANK: SPAM
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 mb-8 leading-relaxed" id="ban-message">
+                            Your account activity violates Prathamer's Strict Guidelines. This action is irreversible.
+                        </p>
+                        
+                        <button onclick="location.reload()" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-black transition shadow-lg uppercase tracking-wide text-sm">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Custom API Logic (Simulated) ---
+        const SimulatedAPI = {
+            // Get the current API Key (defaults to 'default' if not set)
+            getApiKey: () => {
+                // Prioritize user's key if logged in, otherwise check local storage, else default
+                if (currentUser && currentUser.apiKey) return currentUser.apiKey;
+                return localStorage.getItem('lumina_custom_api_key') || 'default';
+            },
+
+            // Generate a namespaced storage key
+            getStorageKey: (collection, id = '', overrideApiKey = null) => {
+                const apiKey = overrideApiKey || SimulatedAPI.getApiKey();
+                return `lumina_api_${apiKey}_${collection}${id ? '_' + id : ''}`;
+            },
+
+            // --- BANS ENDPOINTS ---
+            getBans: (overrideApiKey = null) => {
+                const key = SimulatedAPI.getStorageKey('bans', '', overrideApiKey);
+                return JSON.parse(localStorage.getItem(key)) || {};
+            },
+
+            saveBan: (identifier, type, overrideApiKey = null) => {
+                const bans = SimulatedAPI.getBans(overrideApiKey);
+                const key = identifier.toLowerCase(); // Normalize to lowercase for consistency
+                // Only overwrite if not already banned or updating type
+                if (!bans[key]) {
+                    bans[key] = { timestamp: Date.now(), type: type };
+                    localStorage.setItem(SimulatedAPI.getStorageKey('bans', '', overrideApiKey), JSON.stringify(bans));
+                }
+            },
+
+            // --- COMMENTS ENDPOINTS ---
+            getComments: (postId) => {
+                const key = SimulatedAPI.getStorageKey('comments', postId);
+                return JSON.parse(localStorage.getItem(key)) || [];
+            },
+
+            saveComment: (postId, comment) => {
+                const comments = SimulatedAPI.getComments(postId);
+                comments.unshift(comment); // Add new comment to the top
+                localStorage.setItem(SimulatedAPI.getStorageKey('comments', postId), JSON.stringify(comments));
+                return comments;
+            }
+        };
+
+        // --- Toast Logic ---
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const messageEl = document.getElementById('toast-message');
+            
+            messageEl.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- View State Logic ---
+        let currentView = 'home'; // 'home' or 'yours'
+
+        function switchView(view) {
+            currentView = view;
+            currentPage = 1; // Reset page on view switch
+            
+            // Update UI Active States
+            const navHome = document.getElementById('nav-home');
+            const navYours = document.getElementById('nav-yours');
+            const mobileNavHome = document.getElementById('mobile-nav-home');
+            const mobileNavYours = document.getElementById('mobile-nav-yours');
+
+            // Reset classes
+            const activeClasses = ['text-brand-600', 'border-brand-600'];
+            const inactiveClasses = ['text-gray-500', 'border-transparent', 'hover:text-gray-900', 'hover:border-gray-300'];
+            
+            const mobileActiveClasses = ['text-brand-700', 'bg-brand-50', 'border-brand-100'];
+            const mobileInactiveClasses = ['text-gray-600', 'hover:bg-gray-50', 'border-transparent'];
+
+            if (view === 'home') {
+                navHome.classList.add(...activeClasses);
+                navHome.classList.remove(...inactiveClasses);
+                navYours.classList.remove(...activeClasses);
+                navYours.classList.add(...inactiveClasses);
+
+                mobileNavHome.classList.add(...mobileActiveClasses);
+                mobileNavHome.classList.remove(...mobileInactiveClasses);
+                mobileNavYours.classList.remove(...mobileActiveClasses);
+                mobileNavYours.classList.add(...mobileInactiveClasses);
+            } else {
+                navYours.classList.add(...activeClasses);
+                navYours.classList.remove(...inactiveClasses);
+                navHome.classList.remove(...activeClasses);
+                navHome.classList.add(...inactiveClasses);
+
+                mobileNavYours.classList.add(...mobileActiveClasses);
+                mobileNavYours.classList.remove(...mobileInactiveClasses);
+                mobileNavHome.classList.remove(...mobileActiveClasses);
+                mobileNavHome.classList.add(...mobileInactiveClasses);
+            }
+            
+            // Re-run filter
+            filterPosts();
+            
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            const icon = document.querySelector('#mobile-menu-btn i');
+            icon.classList.remove('ph-x');
+            icon.classList.add('ph-list');
+        }
+
+        // --- Strict Guidelines Logic ---
+        // Updated Blacklist
+        const badWords = [
+            'fuck', 'shit', 'bitch', 'asshole', 'ashole', 'cunt', 'dick', 'bastard', 
+            'idiot', 'stupid', 'pennis', 'penis', 'whore', 'slut', 'cock', 'pussy', 
+            'motherfucker', 'faggot', 'nigger', 'douche'
+        ]; 
+        
+        function checkProfanity(text) {
+            const lowerText = text.toLowerCase();
+            return badWords.some(word => lowerText.includes(word));
+        }
+
+        function banUser(identifier, type = 'spam', overrideApiKey = null) {
+            if (!identifier) return;
+            
+            const normalizedId = identifier.toLowerCase();
+
+            // SAVE TO API (using specific key if provided to ensure correct storage context)
+            SimulatedAPI.saveBan(normalizedId, type, overrideApiKey);
+
+            // If the current user is the one being banned, kick them out
+            if (currentUser) {
+                if ((currentUser.email && currentUser.email.toLowerCase() === normalizedId) || 
+                    currentUser.name.toLowerCase() === normalizedId) {
+                    logout();
+                }
+            }
+            
+            // Close other modals if open
+            closeAuthModal();
+            closeSettingsModal();
+            closeModal();
+            if(!document.getElementById('review-modal').classList.contains('hidden')) closeReviewModal();
+
+            // Show Custom Ban Dialog
+            showBanModal(normalizedId, overrideApiKey);
+        }
+
+        function showBanModal(identifier, overrideApiKey = null) {
+            // Retrieve bans using the specific API key if provided, or default behavior
             const bans = SimulatedAPI.getBans(overrideApiKey);
-            const key = identifier.toLowerCase(); // Normalize to lowercase for consistency
-            // Only overwrite if not already banned or updating type
-            if (!bans[key]) {
-                bans[key] = { timestamp: Date.now(), type: type };
-                localStorage.setItem(SimulatedAPI.getStorageKey('bans', '', overrideApiKey), JSON.stringify(bans));
-            }
-        },
+            const banData = bans[identifier.toLowerCase()];
+            
+            if (!banData) return;
 
-        // --- COMMENTS ENDPOINTS ---
-        getComments: (postId) => {
-            const key = SimulatedAPI.getStorageKey('comments', postId);
-            return JSON.parse(localStorage.getItem(key)) || [];
-        },
+            const modal = document.getElementById('ban-modal');
+            const panel = document.getElementById('ban-modal-panel');
+            const iconBg = document.getElementById('ban-icon-bg');
+            const icon = document.getElementById('ban-icon');
+            const title = document.getElementById('ban-title');
+            const badge = document.getElementById('ban-badge');
+            const message = document.getElementById('ban-message');
 
-        saveComment: (postId, comment) => {
-            const comments = SimulatedAPI.getComments(postId);
-            comments.unshift(comment); // Add new comment to the top
-            localStorage.setItem(SimulatedAPI.getStorageKey('comments', postId), JSON.stringify(comments));
-            return comments;
-        }
-    };
+            const now = Date.now();
+            const banTime = banData.timestamp;
+            // Calculate days passed
+            const daysPassed = (now - banTime) / (1000 * 60 * 60 * 24);
+            const appealPeriod = 28; // days
 
-    // --- Pagination State ---
-    const itemsPerPage = 5;
-    let currentPage = 1;
-    let currentFilteredPosts = [];
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
 
-    // --- View State Logic ---
-    let currentView = 'home'; // 'home' or 'yours'
+            // Reset Styles
+            panel.classList.remove('border-red-600', 'border-orange-500');
+            iconBg.classList.remove('bg-red-100', 'bg-orange-100');
+            icon.classList.remove('text-red-600', 'text-orange-600');
+            badge.className = ""; // Reset classes
 
-    function switchView(view) {
-        currentView = view;
-        currentPage = 1; // Reset to page 1 when switching views
-
-        // Update UI Active States
-        const navHome = document.getElementById('nav-home');
-        const navYours = document.getElementById('nav-yours');
-        const mobileNavHome = document.getElementById('mobile-nav-home');
-        const mobileNavYours = document.getElementById('mobile-nav-yours');
-
-        // Reset classes
-        const activeClasses = ['text-brand-600', 'border-brand-600'];
-        const inactiveClasses = ['text-gray-500', 'border-transparent', 'hover:text-gray-900', 'hover:border-gray-300'];
-
-        const mobileActiveClasses = ['text-brand-700', 'bg-brand-50', 'border-brand-100'];
-        const mobileInactiveClasses = ['text-gray-600', 'hover:bg-gray-50', 'border-transparent'];
-
-        if (view === 'home') {
-            navHome.classList.add(...activeClasses);
-            navHome.classList.remove(...inactiveClasses);
-            navYours.classList.remove(...activeClasses);
-            navYours.classList.add(...inactiveClasses);
-
-            mobileNavHome.classList.add(...mobileActiveClasses);
-            mobileNavHome.classList.remove(...mobileInactiveClasses);
-            mobileNavYours.classList.remove(...mobileActiveClasses);
-            mobileNavYours.classList.add(...mobileInactiveClasses);
-        } else {
-            navYours.classList.add(...activeClasses);
-            navYours.classList.remove(...inactiveClasses);
-            navHome.classList.remove(...activeClasses);
-            navHome.classList.add(...inactiveClasses);
-
-            mobileNavYours.classList.add(...mobileActiveClasses);
-            mobileNavYours.classList.remove(...mobileInactiveClasses);
-            mobileNavHome.classList.remove(...mobileActiveClasses);
-            mobileNavHome.classList.add(...mobileInactiveClasses);
-        }
-
-        // Re-run filter
-        filterPosts();
-
-        // Close mobile menu if open
-        document.getElementById('mobile-menu').classList.add('hidden');
-        const icon = document.querySelector('#mobile-menu-btn i');
-        icon.classList.remove('ph-x');
-        icon.classList.add('ph-list');
-    }
-
-    // --- Strict Guidelines Logic ---
-    // Updated Blacklist
-    const badWords = [
-        'fuck', 'shit', 'bitch', 'asshole', 'ashole', 'cunt', 'dick', 'bastard',
-        'idiot', 'stupid', 'pennis', 'penis', 'whore', 'slut', 'cock', 'pussy',
-        'motherfucker', 'faggot', 'nigger', 'douche'
-    ];
-
-    function checkProfanity(text) {
-        const lowerText = text.toLowerCase();
-        return badWords.some(word => lowerText.includes(word));
-    }
-
-    function banUser(identifier, type = 'spam', overrideApiKey = null) {
-        if (!identifier) return;
-
-        const normalizedId = identifier.toLowerCase();
-
-        // SAVE TO API (using specific key if provided to ensure correct storage context)
-        SimulatedAPI.saveBan(normalizedId, type, overrideApiKey);
-
-        // If the current user is the one being banned, kick them out
-        if (currentUser) {
-            if ((currentUser.email && currentUser.email.toLowerCase() === normalizedId) ||
-                currentUser.name.toLowerCase() === normalizedId) {
-                logout();
-            }
-        }
-
-        // Close other modals if open
-        closeAuthModal();
-        closeSettingsModal();
-        closeModal();
-        if(!document.getElementById('review-modal').classList.contains('hidden')) closeReviewModal();
-
-        // Show Custom Ban Dialog
-        showBanModal(normalizedId, overrideApiKey);
-    }
-
-    function showBanModal(identifier, overrideApiKey = null) {
-        // Retrieve bans using the specific API key if provided, or default behavior
-        const bans = SimulatedAPI.getBans(overrideApiKey);
-        const banData = bans[identifier.toLowerCase()];
-
-        if (!banData) return;
-
-        const modal = document.getElementById('ban-modal');
-        const panel = document.getElementById('ban-modal-panel');
-        const iconBg = document.getElementById('ban-icon-bg');
-        const icon = document.getElementById('ban-icon');
-        const title = document.getElementById('ban-title');
-        const badge = document.getElementById('ban-badge');
-        const message = document.getElementById('ban-message');
-
-        const now = Date.now();
-        const banTime = banData.timestamp;
-        // Calculate days passed
-        const daysPassed = (now - banTime) / (1000 * 60 * 60 * 24);
-        const appealPeriod = 28; // days
-
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-
-        // Reset Styles
-        panel.classList.remove('border-red-600', 'border-orange-500');
-        iconBg.classList.remove('bg-red-100', 'bg-orange-100');
-        icon.classList.remove('text-red-600', 'text-orange-600');
-        badge.className = ""; // Reset classes
-
-        if (banData.type === 'spam') {
-            // Immediate Permanent Ban (e.g., bad username)
-            panel.classList.add('border-red-600');
-            iconBg.classList.add('bg-red-100');
-            icon.classList.add('text-red-600');
-
-            title.textContent = "You are permanently banned";
-            badge.textContent = "RANK: SPAM";
-            badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
-            message.textContent = "Your account activity (Username Violation) violates Prathamer's Strict Guidelines. This action is irreversible.";
-
-        } else if (banData.type === 'abuse') {
-            // Comment Abuse Logic
-            if (daysPassed > appealPeriod) {
-                // PERMANENT (Time expired)
+            if (banData.type === 'spam') {
+                // Immediate Permanent Ban (e.g., bad username)
                 panel.classList.add('border-red-600');
                 iconBg.classList.add('bg-red-100');
                 icon.classList.add('text-red-600');
-
-                title.textContent = "Permanent Ban Enforced";
-                badge.textContent = "APPEAL EXPIRED";
+                
+                title.textContent = "You are permanently banned";
+                badge.textContent = "RANK: SPAM";
                 badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
-                message.innerHTML = "You failed to contact support within the 28-day window following your temporary suspension. Your account is now <strong>permanently banned</strong>.";
-            } else {
-                // TEMPORARY (Still within 28 days)
-                panel.classList.add('border-orange-500');
-                iconBg.classList.add('bg-orange-100');
-                icon.classList.add('text-orange-600');
+                message.textContent = "Your account activity (Username Violation) violates Prathamer's Strict Guidelines. This action is irreversible.";
+            
+            } else if (banData.type === 'abuse') {
+                // Comment Abuse Logic
+                if (daysPassed > appealPeriod) {
+                    // PERMANENT (Time expired)
+                    panel.classList.add('border-red-600');
+                    iconBg.classList.add('bg-red-100');
+                    icon.classList.add('text-red-600');
 
-                title.textContent = "Account Suspended";
-                badge.textContent = "TEMPORARY BAN";
-                badge.className = "inline-block bg-orange-100 text-orange-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-orange-200 tracking-widest";
+                    title.textContent = "Permanent Ban Enforced";
+                    badge.textContent = "APPEAL EXPIRED";
+                    badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
+                    message.innerHTML = "You failed to contact support within the 28-day window following your temporary suspension. Your account is now <strong>permanently banned</strong>.";
+                } else {
+                    // TEMPORARY (Still within 28 days)
+                    panel.classList.add('border-orange-500');
+                    iconBg.classList.add('bg-orange-100');
+                    icon.classList.add('text-orange-600');
 
-                const daysLeft = Math.ceil(appealPeriod - daysPassed);
-
-                message.innerHTML = `
+                    title.textContent = "Account Suspended";
+                    badge.textContent = "TEMPORARY BAN";
+                    badge.className = "inline-block bg-orange-100 text-orange-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-orange-200 tracking-widest";
+                    
+                    const daysLeft = Math.ceil(appealPeriod - daysPassed);
+                    
+                    message.innerHTML = `
                         You have been temporarily banned for using abusive language in a discussion.
                         <br><br>
                         To restore your access, you <strong>MUST</strong> contact Prathamer's support at:
@@ -749,218 +764,223 @@
                         <br><br>
                         You have <strong>${daysLeft} days</strong> remaining to appeal. If you do not contact support, this will become a <strong>Permanent Ban</strong>.
                     `;
+                }
             }
         }
-    }
 
-    // --- Authentication Logic (Simulated In-Memory) ---
-    // Pre-defined Admin User
-    let users = [
-        {
-            name: 'Admin',
-            email: 'ppshenoy2022@gamil.com',
-            role: 'admin',
-            avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff',
-            apiKey: 'admin-secret-key'
-        },
-        // Added Test User for Ban Verification
-        {
-            name: 'TempUser',
-            email: 'temp@pmail.com',
-            role: 'user',
-            avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange',
-            apiKey: 'temp-key'
-        }
-    ];
-    let currentUser = null; // Session state
+        // --- Authentication Logic (Simulated In-Memory) ---
+        // Pre-defined Admin User
+        let users = [
+            {
+                name: 'Admin',
+                email: 'ppshenoy2022@gamil.com',
+                role: 'admin',
+                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff',
+                apiKey: 'admin-secret-key'
+            },
+            // Added Test User for Ban Verification
+            {
+                name: 'TempUser',
+                email: 'temp@pmail.com',
+                role: 'user',
+                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange',
+                apiKey: 'temp-key'
+            }
+        ];
+        let currentUser = null; // Session state
 
-    function handleLogin(e) {
-        e.preventDefault();
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const inputField = document.getElementById('login-identifier');
+            const input = inputField.value.trim();
+            const lowerInput = input.toLowerCase();
+            
+            // Find potential user match first to identify correct API key context
+            let existingUser = users.find(u => 
+                (u.email && u.email.toLowerCase() === lowerInput) || 
+                u.name.toLowerCase() === lowerInput
+            );
 
-        const inputField = document.getElementById('login-identifier');
-        const input = inputField.value.trim();
-        const lowerInput = input.toLowerCase();
+            // Determine which API key to check for bans.
+            let checkApiKey = localStorage.getItem('lumina_custom_api_key') || 'default';
+            if (existingUser && existingUser.apiKey) {
+                checkApiKey = existingUser.apiKey;
+            }
 
-        // Find potential user match first to identify correct API key context
-        let existingUser = users.find(u =>
-            (u.email && u.email.toLowerCase() === lowerInput) ||
-            u.name.toLowerCase() === lowerInput
-        );
-
-        // Determine which API key to check for bans.
-        let checkApiKey = localStorage.getItem('lumina_custom_api_key') || 'default';
-        if (existingUser && existingUser.apiKey) {
-            checkApiKey = existingUser.apiKey;
-        }
-
-        // 1. CHECK BAN LIST FROM API (Context Aware)
-        const bans = SimulatedAPI.getBans(checkApiKey);
-        if (bans[input] || bans[lowerInput]) {
-            const identifier = bans[input] ? input : lowerInput;
-            closeAuthModal();
-            showBanModal(identifier, checkApiKey);
-            return;
-        }
-
-        // Check if user exists in our list by Email OR Username (Actual Login)
-        if (!existingUser) {
-            // Legacy support: If it looks like an email, we can do the auto-signup demo feature
-            if (input.includes('@')) {
-                existingUser = {
-                    name: input.split('@')[0],
-                    email: input,
-                    role: 'user',
-                    avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`,
-                    apiKey: '' // Uses default
-                };
-                users.push(existingUser);
-            } else {
-                alert("User not found. Please create an account.");
+            // 1. CHECK BAN LIST FROM API (Context Aware)
+            const bans = SimulatedAPI.getBans(checkApiKey);
+            if (bans[input] || bans[lowerInput]) {
+                const identifier = bans[input] ? input : lowerInput;
+                closeAuthModal();
+                showBanModal(identifier, checkApiKey);
                 return;
             }
-        }
 
-        currentUser = existingUser;
-        updateAuthUI();
-        closeAuthModal();
+            // Check if user exists in our list by Email OR Username (Actual Login)
+            if (!existingUser) {
+                // Legacy support: If it looks like an email, we can do the auto-signup demo feature
+                if (input.includes('@')) {
+                     existingUser = { 
+                        name: input.split('@')[0], 
+                        email: input, 
+                        role: 'user',
+                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`,
+                        apiKey: '' // Uses default
+                    };
+                    users.push(existingUser);
+                } else {
+                    alert("User not found. Please create an account.");
+                    return;
+                }
+            }
 
-        if (currentUser.role === 'admin') {
-            alert(`Welcome back, Admin!`);
-        } else {
-            alert(`Welcome, ${currentUser.name}!`);
-        }
-    }
-
-    function handleSignup(e) {
-        e.preventDefault();
-        const name = document.getElementById('signup-name').value.trim();
-        const emailInput = document.getElementById('signup-email').value.trim();
-        const email = emailInput ? emailInput.toLowerCase() : "";
-
-        // 1. CHECK BAN LIST FROM API
-        const bans = SimulatedAPI.getBans();
-        if ((email && bans[email]) || bans[name.toLowerCase()]) {
+            currentUser = existingUser;
+            // Load user specific API key logic if needed
+            if (user.apiKey) {
+                // Note: In a real app, user preferences would load here. 
+                // For this demo, we use the session or localStorage global preference.
+            }
+            updateAuthUI();
             closeAuthModal();
-            showBanModal(email && bans[email] ? email : name.toLowerCase());
-            return;
-        }
-
-        // 2. CHECK PROFANITY IN NAME (Immediate Permanent Ban)
-        if (checkProfanity(name)) {
-            banUser(name, 'spam'); // Type 'spam' for usernames
-            if (email) banUser(email, 'spam');
-            return;
-        }
-
-        // Prevent signing up as the admin email
-        if (email === 'ppshenoy2022@gamil.com') {
-            alert("This email is reserved. Please log in instead.");
-            return;
-        }
-
-        const newUser = {
-            name: name,
-            email: email,
-            role: 'user',
-            avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
-            apiKey: ''
-        };
-
-        users.push(newUser);
-        currentUser = newUser;
-        updateAuthUI();
-        closeAuthModal();
-    }
-
-    function logout() {
-        currentUser = null;
-        updateAuthUI();
-        document.getElementById('user-dropdown').classList.add('hidden');
-    }
-
-    function updateAuthUI() {
-        const desktopAuth = document.getElementById('auth-buttons-desktop');
-        const desktopProfile = document.getElementById('user-profile-desktop');
-        const mobileAuth = document.getElementById('auth-buttons-mobile');
-        const mobileProfile = document.getElementById('user-profile-mobile');
-
-        // Navigation Elements for "Yours" Option
-        const navYours = document.getElementById('nav-yours');
-        const mobileNavYours = document.getElementById('mobile-nav-yours');
-
-        // Update Comment Section UI based on Auth State
-        const commentForm = document.getElementById('comment-form-container');
-        const loginToComment = document.getElementById('login-to-comment');
-
-        if (currentUser) {
-            // Logged In
-            desktopAuth.classList.add('hidden');
-            desktopProfile.classList.remove('hidden');
-
-            // Add Admin Badge if admin
-            const roleBadge = currentUser.role === 'admin' ? ' (Admin)' : '';
-
-            document.getElementById('user-name-desktop').textContent = currentUser.name + roleBadge;
-            document.getElementById('user-avatar-desktop').src = currentUser.avatar;
-
-            mobileAuth.classList.add('hidden');
-            mobileProfile.classList.remove('hidden');
-            document.getElementById('user-name-mobile').textContent = currentUser.name + roleBadge;
-            document.getElementById('user-email-mobile').textContent = currentUser.email || "No Email Linked";
-            document.getElementById('user-avatar-mobile').src = currentUser.avatar;
-
-            // Load API Key setting
-            const storedKey = localStorage.getItem('lumina_custom_api_key');
-            document.getElementById('custom-api-key').value = storedKey || '';
-
-            // Show Comment Form
-            if(commentForm) commentForm.classList.remove('hidden');
-            if(loginToComment) loginToComment.classList.add('hidden');
-
-            // --- YOURS OPTION LOGIC ---
-            if (currentUser.email) {
-                navYours.classList.remove('hidden');
-                mobileNavYours.classList.remove('hidden');
+            
+            if (currentUser.role === 'admin') {
+                alert(`Welcome back, Admin!`);
             } else {
+                alert(`Welcome, ${currentUser.name}!`);
+            }
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value.trim();
+            const emailInput = document.getElementById('signup-email').value.trim();
+            const email = emailInput ? emailInput.toLowerCase() : "";
+            
+            // 1. CHECK BAN LIST FROM API
+            const bans = SimulatedAPI.getBans();
+            if ((email && bans[email]) || bans[name.toLowerCase()]) {
+                closeAuthModal();
+                showBanModal(email && bans[email] ? email : name.toLowerCase());
+                return;
+            }
+
+            // 2. CHECK PROFANITY IN NAME (Immediate Permanent Ban)
+            if (checkProfanity(name)) {
+                banUser(name, 'spam'); // Type 'spam' for usernames
+                if (email) banUser(email, 'spam');
+                return; 
+            }
+            
+            // Prevent signing up as the admin email
+            if (email === 'ppshenoy2022@gamil.com') {
+                alert("This email is reserved. Please log in instead.");
+                return;
+            }
+            
+            const newUser = {
+                name: name,
+                email: email, 
+                role: 'user',
+                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
+                apiKey: ''
+            };
+            
+            users.push(newUser);
+            currentUser = newUser;
+            updateAuthUI();
+            closeAuthModal();
+        }
+
+        function logout() {
+            currentUser = null;
+            updateAuthUI();
+            document.getElementById('user-dropdown').classList.add('hidden');
+        }
+
+        function updateAuthUI() {
+            const desktopAuth = document.getElementById('auth-buttons-desktop');
+            const desktopProfile = document.getElementById('user-profile-desktop');
+            const mobileAuth = document.getElementById('auth-buttons-mobile');
+            const mobileProfile = document.getElementById('user-profile-mobile');
+
+            // Navigation Elements for "Yours" Option
+            const navYours = document.getElementById('nav-yours');
+            const mobileNavYours = document.getElementById('mobile-nav-yours');
+
+            // Update Comment Section UI based on Auth State
+            const commentForm = document.getElementById('comment-form-container');
+            const loginToComment = document.getElementById('login-to-comment');
+
+            if (currentUser) {
+                // Logged In
+                desktopAuth.classList.add('hidden');
+                desktopProfile.classList.remove('hidden');
+                
+                // Add Admin Badge if admin
+                const roleBadge = currentUser.role === 'admin' ? ' (Admin)' : '';
+                
+                document.getElementById('user-name-desktop').textContent = currentUser.name + roleBadge;
+                document.getElementById('user-avatar-desktop').src = currentUser.avatar;
+
+                mobileAuth.classList.add('hidden');
+                mobileProfile.classList.remove('hidden');
+                document.getElementById('user-name-mobile').textContent = currentUser.name + roleBadge;
+                document.getElementById('user-email-mobile').textContent = currentUser.email || "No Email Linked";
+                document.getElementById('user-avatar-mobile').src = currentUser.avatar;
+
+                // Load API Key setting
+                const storedKey = localStorage.getItem('lumina_custom_api_key');
+                document.getElementById('custom-api-key').value = storedKey || '';
+
+                // Show Comment Form
+                if(commentForm) commentForm.classList.remove('hidden');
+                if(loginToComment) loginToComment.classList.add('hidden');
+
+                // --- YOURS OPTION LOGIC ---
+                if (currentUser.email) {
+                    navYours.classList.remove('hidden');
+                    mobileNavYours.classList.remove('hidden');
+                } else {
+                    navYours.classList.add('hidden');
+                    mobileNavYours.classList.add('hidden');
+                    if (currentView === 'yours') switchView('home');
+                }
+
+            } else {
+                // Logged Out
+                desktopAuth.classList.remove('hidden');
+                desktopProfile.classList.add('hidden');
+                
+                mobileAuth.classList.remove('hidden');
+                mobileProfile.classList.add('hidden');
+
+                // Hide Comment Form
+                if(commentForm) commentForm.classList.add('hidden');
+                if(loginToComment) loginToComment.classList.remove('hidden');
+
+                // Hide "Yours"
                 navYours.classList.add('hidden');
                 mobileNavYours.classList.add('hidden');
                 if (currentView === 'yours') switchView('home');
             }
-
-        } else {
-            // Logged Out
-            desktopAuth.classList.remove('hidden');
-            desktopProfile.classList.add('hidden');
-
-            mobileAuth.classList.remove('hidden');
-            mobileProfile.classList.add('hidden');
-
-            // Hide Comment Form
-            if(commentForm) commentForm.classList.add('hidden');
-            if(loginToComment) loginToComment.classList.remove('hidden');
-
-            // Hide "Yours"
-            navYours.classList.add('hidden');
-            mobileNavYours.classList.add('hidden');
-            if (currentView === 'yours') switchView('home');
-        }
-    }
-
-    // --- Comments Logic ---
-    function renderComments(postId) {
-        const commentsList = document.getElementById('comments-list');
-        commentsList.innerHTML = '';
-
-        // FETCH FROM API
-        const comments = SimulatedAPI.getComments(postId);
-
-        if (comments.length === 0) {
-            commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">No comments yet. Be the first!</p>';
-            return;
         }
 
-        comments.forEach(c => {
-            const html = `
+        // --- Comments Logic ---
+        function renderComments(postId) {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = '';
+            
+            // FETCH FROM API
+            const comments = SimulatedAPI.getComments(postId);
+
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">No comments yet. Be the first!</p>';
+                return;
+            }
+
+            comments.forEach(c => {
+                const html = `
                     <div class="flex gap-3">
                         <img src="${c.avatar}" class="w-8 h-8 rounded-full border border-gray-100">
                         <div>
@@ -972,110 +992,107 @@
                         </div>
                     </div>
                 `;
-            commentsList.innerHTML += html;
-        });
-    }
-
-    function handlePostComment() {
-        const input = document.getElementById('comment-input');
-        const text = input.value.trim();
-
-        if (!text || !currentPostId) return;
-
-        // Safety check for auth
-        if (!currentUser) {
-            alert("Please log in to comment.");
-            return;
+                commentsList.innerHTML += html;
+            });
         }
 
-        // Double check ban status just in case
-        const bans = SimulatedAPI.getBans();
-        if ((currentUser.email && bans[currentUser.email.toLowerCase()]) || bans[currentUser.name.toLowerCase()]) {
-            logout();
-            showBanModal(currentUser.email || currentUser.name);
-            return;
+        function handlePostComment() {
+            const input = document.getElementById('comment-input');
+            const text = input.value.trim();
+            
+            if (!text || !currentPostId) return;
+
+            // Safety check for auth
+            if (!currentUser) {
+                alert("Please log in to comment.");
+                return;
+            }
+
+            // CHECK: EMAIL REQUIREMENT FOR CUSTOM POSTS
+            if (!currentUser.email) {
+                alert("Verification Required: You must have an email address linked to your account to post comments. Please create a new account with an email.");
+                return;
+            }
+
+            // STRICT GUIDELINE CHECK
+            if (checkProfanity(text)) {
+                // Store user details before potential logout
+                const userEmail = currentUser.email;
+                const userName = currentUser.name;
+                const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
+
+                // Ban the user immediately (Temporary Ban for Abuse)
+                // Pass the apiKey explicitly so it saves to the correct storage even if logout happens
+                if (userEmail) banUser(userEmail, 'abuse', userApiKey);
+                banUser(userName, 'abuse', userApiKey);
+                
+                input.value = ""; 
+                return;
+            }
+
+            // Save to API
+            const newComment = {
+                author: currentUser.name,
+                avatar: currentUser.avatar,
+                text: text,
+                date: "Just now" // simplified
+            };
+            
+            SimulatedAPI.saveComment(currentPostId, newComment);
+            
+            renderComments(currentPostId); // Refresh list
+            input.value = ""; // Clear input
+            showToast("Comment Saved!");
         }
 
-        // CHECK: EMAIL REQUIREMENT FOR CUSTOM POSTS
-        if (!currentUser.email) {
-            alert("Verification Required: You must have an email address linked to your account to post comments. Please create a new account with an email.");
-            return;
-        }
+        // --- Reviews Logic ---
+        // Initial Mock Reviews (Defaults)
+        const defaultReviews = [
+            {
+                name: "Priya Sharma",
+                role: "User",
+                text: "The strict guidelines here actually make the community so much better. It's rare to find a tech blog with such high-quality discussions and zero toxicity. Love the content!",
+                rating: 5,
+                avatar: "https://ui-avatars.com/api/?name=Priya+Sharma&background=random"
+            },
+            {
+                name: "Rahul Verma",
+                role: "User",
+                text: "I've bookmarked this site. The articles on productivity and debugging are gold. Simple, clean UI and the content is always straight to the point.",
+                rating: 5,
+                avatar: "https://ui-avatars.com/api/?name=Rahul+Verma&background=random"
+            },
+            {
+                name: "Anjali Gupta",
+                role: "User",
+                text: "Finally, a blog platform that respects the reader. No clutter, fast loading, and the 'Custom Post' verification ensures real people are commenting. 10/10.",
+                rating: 4,
+                avatar: "https://ui-avatars.com/api/?name=Anjali+Gupta&background=random"
+            }
+        ];
 
-        // STRICT GUIDELINE CHECK
-        if (checkProfanity(text)) {
-            // Store user details before potential logout
-            const userEmail = currentUser.email;
-            const userName = currentUser.name;
-            const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
+        // Load reviews from LocalStorage if available, otherwise use defaults
+        let reviews = [];
+        try {
+            reviews = JSON.parse(localStorage.getItem('lumina_blog_reviews'));
+        } catch(e) {}
+        if (!Array.isArray(reviews)) reviews = defaultReviews;
 
-            // Ban the user immediately (Temporary Ban for Abuse)
-            // Pass the apiKey explicitly so it saves to the correct storage even if logout happens
-            if (userEmail) banUser(userEmail, 'abuse', userApiKey);
-            banUser(userName, 'abuse', userApiKey);
+        function renderReviews() {
+            const container = document.getElementById('reviews-container');
+            if (!container) return;
+            container.innerHTML = '';
 
-            input.value = "";
-            return;
-        }
+            reviews.forEach(review => {
+                // Generate Star HTML
+                let starsHtml = '';
+                const fullStars = Math.floor(review.rating);
+                const hasHalf = review.rating % 1 !== 0;
 
-        // Save to API
-        const newComment = {
-            author: currentUser.name,
-            avatar: currentUser.avatar,
-            text: text,
-            date: "Just now" // simplified
-        };
-
-        SimulatedAPI.saveComment(currentPostId, newComment);
-
-        renderComments(currentPostId); // Refresh list
-        input.value = ""; // Clear input
-    }
-
-    // --- Reviews Logic ---
-    // Initial Mock Reviews (Defaults)
-    const defaultReviews = [
-        {
-            name: "Priya Sharma",
-            role: "User",
-            text: "The strict guidelines here actually make the community so much better. It's rare to find a tech blog with such high-quality discussions and zero toxicity. Love the content!",
-            rating: 5,
-            avatar: "https://ui-avatars.com/api/?name=Priya+Sharma&background=random"
-        },
-        {
-            name: "Rahul Verma",
-            role: "User",
-            text: "I've bookmarked this site. The articles on productivity and debugging are gold. Simple, clean UI and the content is always straight to the point.",
-            rating: 5,
-            avatar: "https://ui-avatars.com/api/?name=Rahul+Verma&background=random"
-        },
-        {
-            name: "Anjali Gupta",
-            role: "User",
-            text: "Finally, a blog platform that respects the reader. No clutter, fast loading, and the 'Custom Post' verification ensures real people are commenting. 10/10.",
-            rating: 4,
-            avatar: "https://ui-avatars.com/api/?name=Anjali+Gupta&background=random"
-        }
-    ];
-
-    // Load reviews from LocalStorage if available, otherwise use defaults
-    let reviews = JSON.parse(localStorage.getItem('lumina_blog_reviews')) || defaultReviews;
-
-    function renderReviews() {
-        const container = document.getElementById('reviews-container');
-        if (!container) return;
-        container.innerHTML = '';
-
-        reviews.forEach(review => {
-            // Generate Star HTML
-            let starsHtml = '';
-            const fullStars = Math.floor(review.rating);
-            const hasHalf = review.rating % 1 !== 0;
-
-            for(let i=0; i<fullStars; i++) starsHtml += '<i class="ph-fill ph-star"></i>';
-            if(hasHalf) starsHtml += '<i class="ph-fill ph-star-half"></i>';
-
-            const html = `
+                for(let i=0; i<fullStars; i++) starsHtml += '<i class="ph-fill ph-star"></i>';
+                if(hasHalf) starsHtml += '<i class="ph-fill ph-star-half"></i>';
+                
+                const html = `
                     <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
                         <div class="text-brand-500 text-4xl absolute top-6 right-6 opacity-20">
                             <i class="ph-fill ph-quotes"></i>
@@ -1093,218 +1110,230 @@
                         </div>
                     </div>
                 `;
-            container.innerHTML += html;
-        });
-    }
-
-    function openReviewModal() {
-        if (!currentUser) {
-            alert("Please log in to write a review.");
-            openAuthModal('login');
-            return;
+                container.innerHTML += html;
+            });
         }
-        document.getElementById('review-modal').classList.remove('hidden');
-        // Reset form
-        setRating(5);
-        document.getElementById('review-text').value = '';
-    }
 
-    function closeReviewModal() {
-        document.getElementById('review-modal').classList.add('hidden');
-    }
-
-    function setRating(n) {
-        document.getElementById('review-rating').value = n;
-        const stars = document.querySelectorAll('.star-btn');
-        stars.forEach((star, index) => {
-            if (index < n) {
-                star.classList.remove('text-gray-300');
-                star.classList.add('text-yellow-400');
-            } else {
-                star.classList.add('text-gray-300');
-                star.classList.remove('text-yellow-400');
+        function openReviewModal() {
+            if (!currentUser) {
+                alert("Please log in to write a review.");
+                openAuthModal('login');
+                return;
             }
-        });
-    }
-
-    function handleReviewSubmit(e) {
-        e.preventDefault();
-        const text = document.getElementById('review-text').value.trim();
-        const rating = parseFloat(document.getElementById('review-rating').value);
-
-        // Safety check
-        if (!currentUser) {
-            alert("Please log in.");
-            return;
+            document.getElementById('review-modal').classList.remove('hidden');
+            // Reset form
+            setRating(5);
+            document.getElementById('review-text').value = '';
         }
 
-        // Double check ban status
-        const bans = SimulatedAPI.getBans();
-        if ((currentUser.email && bans[currentUser.email.toLowerCase()]) || bans[currentUser.name.toLowerCase()]) {
-            logout();
-            showBanModal(currentUser.email || currentUser.name);
-            return;
+        function closeReviewModal() {
+            document.getElementById('review-modal').classList.add('hidden');
         }
 
-        // Strict Guideline Check
-        if (checkProfanity(text)) {
-            // Store user details before potential logout
-            const userEmail = currentUser.email;
-            const userName = currentUser.name;
-            // FIX: Explicitly capture the API key context
-            const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
+        function setRating(n) {
+            document.getElementById('review-rating').value = n;
+            const stars = document.querySelectorAll('.star-btn');
+            stars.forEach((star, index) => {
+                if (index < n) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.add('text-gray-300');
+                    star.classList.remove('text-yellow-400');
+                }
+            });
+        }
 
-            // Pass the API key to banUser to ensure it saves to the correct permanent storage
-            if (userEmail) banUser(userEmail, 'abuse', userApiKey);
-            banUser(userName, 'abuse', userApiKey);
+        function handleReviewSubmit(e) {
+            e.preventDefault();
+            const text = document.getElementById('review-text').value.trim();
+            const rating = parseFloat(document.getElementById('review-rating').value);
 
+            // Safety check
+            if (!currentUser) {
+                alert("Please log in.");
+                return;
+            }
+
+            // Double check ban status
+            const bans = SimulatedAPI.getBans();
+            if ((currentUser.email && bans[currentUser.email.toLowerCase()]) || bans[currentUser.name.toLowerCase()]) {
+                logout();
+                showBanModal(currentUser.email || currentUser.name);
+                return;
+            }
+
+            // Strict Guideline Check
+            if (checkProfanity(text)) {
+                // Store user details before potential logout
+                const userEmail = currentUser.email;
+                const userName = currentUser.name;
+                // FIX: Explicitly capture the API key context
+                const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
+
+                // Pass the API key to banUser to ensure it saves to the correct permanent storage
+                if (userEmail) banUser(userEmail, 'abuse', userApiKey);
+                banUser(userName, 'abuse', userApiKey);
+                
+                closeReviewModal();
+                return;
+            }
+
+            const newReview = {
+                name: currentUser.name,
+                role: "User",
+                text: text,
+                rating: rating,
+                avatar: currentUser.avatar
+            };
+
+            // Add to bottom (last)
+            reviews.push(newReview);
+            
+            // Save to LocalStorage
+            localStorage.setItem('lumina_blog_reviews', JSON.stringify(reviews));
+            
+            renderReviews();
             closeReviewModal();
-            return;
+            showToast("Review Saved Successfully!");
         }
 
-        const newReview = {
-            name: currentUser.name,
-            role: "User",
-            text: text,
-            rating: rating,
-            avatar: currentUser.avatar
-        };
-
-        // Add to bottom (last)
-        reviews.push(newReview);
-
-        // Save to LocalStorage
-        localStorage.setItem('lumina_blog_reviews', JSON.stringify(reviews));
-
-        renderReviews();
-        closeReviewModal();
-        alert("Thanks for your review! It has been saved.");
-    }
-
-    function toggleUserDropdown() {
-        const dropdown = document.getElementById('user-dropdown');
-        dropdown.classList.toggle('hidden');
-    }
-
-    // --- API Key / Settings Logic ---
-    function openSettingsModal() {
-        document.getElementById('settings-modal').classList.remove('hidden');
-        document.getElementById('user-dropdown').classList.add('hidden'); // Close dropdown
-
-        // Load current global key
-        const storedKey = localStorage.getItem('lumina_custom_api_key');
-        document.getElementById('custom-api-key').value = storedKey || '';
-    }
-
-    function closeSettingsModal() {
-        document.getElementById('settings-modal').classList.add('hidden');
-    }
-
-    function saveSettings(e) {
-        e.preventDefault();
-        const key = document.getElementById('custom-api-key').value.trim();
-        if (key) {
-            localStorage.setItem('lumina_custom_api_key', key);
-            if (currentUser) currentUser.apiKey = key; // Update session
-            alert(`Settings saved! API Key set to: ${key}. Data will now be stored under this namespace.`);
-        } else {
-            localStorage.removeItem('lumina_custom_api_key');
-            alert("API Key cleared. Using default storage.");
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('hidden');
         }
-        closeSettingsModal();
-    }
 
-    // --- Auth Modal UI Logic ---
-    let isLoginMode = true;
-
-    function openAuthModal(mode) {
-        const modal = document.getElementById('auth-modal');
-        const title = document.getElementById('auth-title');
-        const subtitle = document.getElementById('auth-subtitle');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const switchBtn = document.getElementById('auth-switch-btn');
-        const switchText = document.getElementById('auth-switch-text');
-
-        isLoginMode = (mode === 'login');
-        updateModalContent();
-        modal.classList.remove('hidden');
-    }
-
-    function closeAuthModal() {
-        document.getElementById('auth-modal').classList.add('hidden');
-    }
-
-    function toggleAuthMode() {
-        isLoginMode = !isLoginMode;
-        updateModalContent();
-    }
-
-    function updateModalContent() {
-        const title = document.getElementById('auth-title');
-        const subtitle = document.getElementById('auth-subtitle');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const switchBtn = document.getElementById('auth-switch-btn');
-        const switchText = document.getElementById('auth-switch-text');
-
-        if (isLoginMode) {
-            title.textContent = "Welcome Back";
-            subtitle.textContent = "Please enter your details to continue.";
-            loginForm.classList.remove('hidden');
-            signupForm.classList.add('hidden');
-            switchText.textContent = "Don't have an account?";
-            switchBtn.textContent = "Sign Up";
-        } else {
-            title.textContent = "Create Account";
-            subtitle.textContent = "Join our community of creators today.";
-            loginForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
-            switchText.textContent = "Already have an account?";
-            switchBtn.textContent = "Sign In";
+        // --- API Key / Settings Logic ---
+        function openSettingsModal() {
+            document.getElementById('settings-modal').classList.remove('hidden');
+            document.getElementById('user-dropdown').classList.add('hidden'); // Close dropdown
+            
+            // Load current global key
+            const storedKey = localStorage.getItem('lumina_custom_api_key');
+            document.getElementById('custom-api-key').value = storedKey || '';
         }
-    }
 
-    // --- Existing Blog Logic ---
-    // Helper Data for generating 50 Indian-authored posts
-    const indianNames = [
-        "Aarav Patel", "Diya Sharma", "Vihaan Gupta", "Ananya Singh", "Aditya Kumar",
-        "Saanvi Reddy", "Arjun Verma", "Myra Joshi", "Reyansh Malhotra", "Pari Iyer",
-        "Sai Karthik", "Shanaya Kapoor", "Muhammad Khan", "Naira Mehta", "Avyaan Nair",
-        "Ishaan Choudhury", "Kiara Saxena", "Dhruv Bhatia", "Riya Das", "Kabir Joshi",
-        "Rohan Mehra", "Sanya Malhotra", "Vikram Rathore", "Neha Kakkar", "Amitabh Bachan"
-    ];
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').classList.add('hidden');
+        }
 
-    const topicTemplates = [
-        { title: "The Future of AI in Healthcare", category: "Tech", keyword: "tech", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" },
-        { title: "Hidden Gems of Kerala", category: "Travel", keyword: "nature", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" },
-        { title: "Mastering CSS Grid", category: "Tech", keyword: "code", image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&w=800&q=80" },
-        { title: "Healthy Eating on a Budget", category: "Life", keyword: "food", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80" },
-        { title: "Startup Lessons from Bangalore", category: "Tech", keyword: "startup", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" },
-        { title: "Yoga for Mental Peace", category: "Life", keyword: "yoga", image: "https://images.unsplash.com/photo-1544367563-12123d8975bd?auto=format&fit=crop&w=800&q=80" },
-        { title: "The Magic of Indian Spices", category: "Life", keyword: "spices", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80" },
-        { title: "Digital Nomad Life in Goa", category: "Travel", keyword: "beach", image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" },
-        { title: "Understanding Blockchain", category: "Tech", keyword: "crypto", image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=800&q=80" },
-        { title: "Minimalist Living Guide", category: "Life", keyword: "minimal", image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=800&q=80" },
-        { title: "Trekking in the Himalayas", category: "Travel", keyword: "mountain", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" },
-        { title: "Modern Web Design Trends", category: "Tech", keyword: "design", image: "https://images.unsplash.com/photo-1509395062549-328e47402634?auto=format&fit=crop&w=800&q=80" },
-        { title: "Street Food of Mumbai", category: "Life", keyword: "streetfood", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" }
-    ];
+        function saveSettings(e) {
+            e.preventDefault();
+            const key = document.getElementById('custom-api-key').value.trim();
+            if (key) {
+                localStorage.setItem('lumina_custom_api_key', key);
+                if (currentUser) currentUser.apiKey = key; // Update session
+                alert(`Settings saved! API Key set to: ${key}. Data will now be stored under this namespace.`);
+            } else {
+                localStorage.removeItem('lumina_custom_api_key');
+                alert("API Key cleared. Using default storage.");
+            }
+            closeSettingsModal();
+        }
 
-    function generateRandomPosts(count) {
-        const newPosts = [];
-        for (let i = 0; i < count; i++) {
-            const randomName = indianNames[Math.floor(Math.random() * indianNames.length)];
-            const topic = topicTemplates[Math.floor(Math.random() * topicTemplates.length)];
-            // Slight variation in title to make duplicates less obvious
-            const title = i % 2 === 0 ? topic.title : `${topic.title}: A Deep Dive`;
+        // --- Auth Modal UI Logic ---
+        let isLoginMode = true;
 
-            newPosts.push({
-                id: 100 + i,
-                title: title,
-                excerpt: `Join ${randomName} as they explore ${topic.title}. Discover key insights, practical tips, and a fresh perspective on ${topic.category.toLowerCase()}.`,
-                views: Math.floor(Math.random() * 5000) + 150, // Ensure >100 views so they show up in search
-                content: `
+        function openAuthModal(mode) {
+            const modal = document.getElementById('auth-modal');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const switchBtn = document.getElementById('auth-switch-btn');
+            const switchText = document.getElementById('auth-switch-text');
+
+            isLoginMode = (mode === 'login');
+            updateModalContent();
+            modal.classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            updateModalContent();
+        }
+
+        function updateModalContent() {
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const switchBtn = document.getElementById('auth-switch-btn');
+            const switchText = document.getElementById('auth-switch-text');
+
+            if (isLoginMode) {
+                title.textContent = "Welcome Back";
+                subtitle.textContent = "Please enter your details to continue.";
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                switchText.textContent = "Don't have an account?";
+                switchBtn.textContent = "Sign Up";
+            } else {
+                title.textContent = "Create Account";
+                subtitle.textContent = "Join our community of creators today.";
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                switchText.textContent = "Already have an account?";
+                switchBtn.textContent = "Sign In";
+            }
+        }
+
+        // --- Existing Blog Logic ---
+        // Helper Data for generating 50 Indian-authored posts
+        const indianNames = [
+            "Aarav Patel", "Diya Sharma", "Vihaan Gupta", "Ananya Singh", "Aditya Kumar", 
+            "Saanvi Reddy", "Arjun Verma", "Myra Joshi", "Reyansh Malhotra", "Pari Iyer", 
+            "Sai Karthik", "Shanaya Kapoor", "Muhammad Khan", "Naira Mehta", "Avyaan Nair", 
+            "Ishaan Choudhury", "Kiara Saxena", "Dhruv Bhatia", "Riya Das", "Kabir Joshi",
+            "Rohan Mehra", "Sanya Malhotra", "Vikram Rathore", "Neha Kakkar", "Amitabh Bachan"
+        ];
+
+        const topicTemplates = [
+            { title: "The Future of AI in Healthcare", category: "Tech", keyword: "tech", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" },
+            { title: "Hidden Gems of Kerala", category: "Travel", keyword: "nature", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" },
+            { title: "Mastering CSS Grid", category: "Tech", keyword: "code", image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&w=800&q=80" },
+            { title: "Healthy Eating on a Budget", category: "Life", keyword: "food", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80" },
+            { title: "Startup Lessons from Bangalore", category: "Tech", keyword: "startup", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" },
+            { title: "Yoga for Mental Peace", category: "Life", keyword: "yoga", image: "https://images.unsplash.com/photo-1544367563-12123d8975bd?auto=format&fit=crop&w=800&q=80" },
+            { title: "The Magic of Indian Spices", category: "Life", keyword: "spices", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80" },
+            { title: "Digital Nomad Life in Goa", category: "Travel", keyword: "beach", image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" },
+            { title: "Understanding Blockchain", category: "Tech", keyword: "crypto", image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=800&q=80" },
+            { title: "Minimalist Living Guide", category: "Life", keyword: "minimal", image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=800&q=80" },
+            { title: "Trekking in the Himalayas", category: "Travel", keyword: "mountain", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" },
+            { title: "Modern Web Design Trends", category: "Tech", keyword: "design", image: "https://images.unsplash.com/photo-1509395062549-328e47402634?auto=format&fit=crop&w=800&q=80" },
+            { title: "Street Food of Mumbai", category: "Life", keyword: "streetfood", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" }
+        ];
+
+        function generateRandomPosts(count) {
+            // Check if seeded data exists
+            const existingSeed = localStorage.getItem('lumina_posts_seed');
+            let seededPosts = [];
+            
+            if (existingSeed) {
+                try {
+                    const parsed = JSON.parse(existingSeed);
+                    if (parsed.length === count) seededPosts = parsed;
+                } catch(e) {}
+            }
+
+            if (seededPosts.length > 0) return seededPosts;
+
+            const newPosts = [];
+            for (let i = 0; i < count; i++) {
+                const randomName = indianNames[Math.floor(Math.random() * indianNames.length)];
+                const topic = topicTemplates[Math.floor(Math.random() * topicTemplates.length)];
+                const title = i % 2 === 0 ? topic.title : `${topic.title}: A Deep Dive`;
+                
+                newPosts.push({
+                    id: 100 + i,
+                    title: title,
+                    excerpt: `Join ${randomName} as they explore ${topic.title}. Discover key insights, practical tips, and a fresh perspective on ${topic.category.toLowerCase()}.`,
+                    views: Math.floor(Math.random() * 5000) + 150,
+                    content: `
                         <div class="space-y-6 text-gray-700">
                             <p class="leading-relaxed first-letter:text-5xl first-letter:font-bold first-letter:text-brand-600 first-letter:mr-3 first-letter:float-left">
                                 Welcome to this comprehensive guide on <strong>${topic.title}</strong>. In recent years, we have seen a massive shift in how people perceive this subject, especially within the context of ${topic.category}.
@@ -1328,164 +1357,122 @@
                             </p>
                         </div>
                     `,
-                category: topic.category,
-                author: randomName,
-                date: new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                image: topic.image,
-                authorImg: `https://ui-avatars.com/api/?name=${randomName.replace(' ', '+')}&background=random`
-            });
+                    category: topic.category,
+                    author: randomName,
+                    date: new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                    image: topic.image,
+                    authorImg: `https://ui-avatars.com/api/?name=${randomName.replace(' ', '+')}&background=random`
+                });
+            }
+            
+            // Save seed to keep posts consistent across refreshes
+            localStorage.setItem('lumina_posts_seed', JSON.stringify(newPosts));
+            return newPosts;
         }
-        return newPosts;
-    }
 
-    const generatedPosts = generateRandomPosts(50);
+        const generatedPosts = generateRandomPosts(50);
 
-    const posts = [
-        {
-            id: 1,
-            title: "Welcome to My Blog",
-            excerpt: "Hi, welcome to Prathamer's blog! Use your own thinking and convert your dream ideas into reality. The good news is, it's completely free.",
-            views: 1240,
-            content: `
+        const posts = [
+            {
+                id: 1,
+                title: "Welcome to My Blog",
+                excerpt: "Hi, welcome to Prathamer's blog! Use your own thinking and convert your dream ideas into reality. The good news is, it's completely free.",
+                views: 1240, 
+                content: `
                     <div class="space-y-6 text-gray-700">
                         <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-brand-600 first-letter:mr-3 first-letter:float-left leading-relaxed">
                             Hi, and a warm welcome to Prathamer's blog! This platform is more than just a collection of digital pages; it’s a canvas where imagination meets execution. The core philosophy here is simple yet powerful: <strong>use your own thinking to convert your dream ideas into reality</strong>. We often get stuck in the planning phase, paralyzed by the sheer scale of our ambitions or the fear of the unknown. But here, we believe that every great software, every innovative design, and every impactful project started as a fragile little thought in someone's mind. The bridge between that thought and a tangible reality is action, and that's exactly what this blog is about.
                         </p>
                         <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4 font-serif">Democratizing Knowledge</h3>
-                        <p class="leading-relaxed">
-                            The good news is, accessing this knowledge and community is <strong>completely free</strong>. I believe that information should be democratized. Whether you are a student just starting with HTML and CSS, a seasoned developer looking to explore new frameworks like React or Vue, or an entrepreneur trying to understand the tech landscape, there is a place for you here. My goal is to break down complex concepts into digestible, practical guides that you can apply immediately. We won't just talk about theory; we will build things. We will break things. And most importantly, we will learn how to fix them together.
-                        </p>
+                        <p class="leading-relaxed">The good news is, accessing this knowledge and community is <strong>completely free</strong>. I believe that information should be democratized.</p>
                         <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4 font-serif">What to Expect</h3>
-                        <p class="leading-relaxed">
-                            In the coming weeks and months, you can expect a wide variety of content. I'll be diving deep into modern web development, exploring the nuances of JavaScript, the utility of CSS frameworks like Tailwind (which this very site is built on!), and the power of backend logic. But it won't just be code. I also plan to share insights on:
-                        </p>
+                        <p class="leading-relaxed">In the coming weeks and months, you can expect a wide variety of content. I'll be diving deep into modern web development.</p>
                         <ul class="list-disc pl-6 space-y-2 bg-gray-50 p-6 rounded-xl border border-gray-100 my-4">
-                            <li><strong class="text-brand-600">Productivity & Mindset:</strong> How to stay motivated in an industry that changes every single day.</li>
-                            <li><strong class="text-brand-600">Design Principles:</strong> Understanding UI/UX to make applications that feel as good as they work.</li>
-                            <li><strong class="text-brand-600">Career Advice:</strong> Navigating the tech industry, from freelancing to corporate roles.</li>
+                            <li><strong class="text-brand-600">Productivity & Mindset</strong></li>
+                            <li><strong class="text-brand-600">Design Principles</strong></li>
+                            <li><strong class="text-brand-600">Career Advice</strong></li>
                         </ul>
-                        <p class="leading-relaxed">
-                            This blog is also a documentation of my own journey. I don't claim to have all the answers. In fact, I'm learning right alongside you. By sharing my challenges and my victories, I hope to show you that the path to mastery isn't a straight line—it's a winding road filled with bugs, syntax errors, and "aha!" moments. I invite you to join the conversation. Leave comments, ask questions, and challenge my assumptions. Let's create a community where we lift each other up.
-                        </p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4 font-serif">Let's Build the Future</h3>
-                        <p class="leading-relaxed">
-                            Furthermore, we will explore the intersection of design and functionality. A great application isn't just one that works efficiently; it's one that feels good to use. We'll look at accessibility standards and responsive design techniques to ensure that what we build isn't just functional, but also beautiful and inclusive for everyone. Technology is a tool for empowerment, and I want to help you wield it effectively.
-                        </p>
-                        <p class="leading-relaxed font-medium text-gray-900 border-l-4 border-brand-500 pl-4 py-2 bg-brand-50 rounded-r-lg mt-6">
-                            So, buckle up. Whether you have a dream of building the next big social media app, automating your daily tasks, or simply understanding how the web works, you've come to the right place. The tools are in your hands, the resources are free, and the only limit is your imagination. Let's stop dreaming and start building. Welcome to the community, and let's make something amazing together.
-                        </p>
-                    </div>
-                `,
-            category: "Personal",
-            author: "Admin",
-            date: "Oct 24, 2023",
-            image: "https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            authorImg: "https://ui-avatars.com/api/?name=Admin&background=random"
-        },
-        {
-            id: 2,
-            title: "Reflections on Early Coding Days",
-            excerpt: "Looking back at my first few projects, I realize how much the web landscape has changed. Here are some lessons from 2023.",
-            views: 12,
-            content: `
-                    <div class="space-y-6 text-gray-700">
-                        <p class="leading-relaxed">
-                            It's fascinating to look back at code written just a year or two ago. The pace at which web development moves is staggering. What was best practice then might be considered legacy code now.
-                        </p>
-                        <p class="leading-relaxed">
-                            I remember struggling with basic CSS alignment before Flexbox and Grid became second nature. This post serves as a reminder that everyone starts somewhere, and the journey of learning never truly ends.
-                        </p>
-                    </div>
-                `,
-            category: "Personal",
-            author: "Hershit",
-            date: "Jan 01, 2023",
-            image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            authorImg: "https://ui-avatars.com/api/?name=Hershit&background=random"
-        },
-        {
-            id: 3,
-            title: "The Art of Debugging",
-            excerpt: "Debugging is more than just fixing errors; it's a mindset. Here is how I approach complex problems in code.",
-            views: 342,
-            content: `
-                    <div class="space-y-6 text-gray-700">
-                        <p class="leading-relaxed first-letter:text-5xl first-letter:font-bold first-letter:text-brand-600 first-letter:mr-3 first-letter:float-left">
-                            Every developer knows the feeling: you've written what you think is the perfect block of code, you hit run, and... red text everywhere. Debugging is an inevitable part of the programming journey, but it doesn't have to be a painful one. Over the years, I've learned that debugging is less about fixing syntax errors and more about understanding the flow of logic.
-                        </p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4 font-serif">The Rubber Duck Method</h3>
-                        <p class="leading-relaxed">
-                            One of my favorite techniques is the "Rubber Duck Debugging" method. It sounds silly, but explaining your code line-by-line to an inanimate object (or a patient colleague) often forces you to slow down and see what the code is *actually* doing, rather than what you *think* it's doing.
-                        </p>
-                        <ul class="list-disc pl-6 space-y-2 bg-gray-50 p-6 rounded-xl border border-gray-100 my-4">
-                            <li><strong>Isolate the Issue:</strong> Don't change everything at once. Change one variable, test, and observe.</li>
-                            <li><strong>Read the Logs:</strong> Error messages are your friends, not your enemies. Read them carefully.</li>
-                            <li><strong>Take a Break:</strong> Sometimes, the best debugger is a good night's sleep.</li>
-                        </ul>
-                        <p class="leading-relaxed">
-                             Remember, every bug you fix makes you a better programmer. Embrace the challenge!
-                        </p>
-                    </div>
-                `,
-            category: "Tech",
-            author: "Hitesh Kumar",
-            date: "Nov 15, 2023",
-            image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            authorImg: "https://ui-avatars.com/api/?name=Hitesh+Kumar&background=random"
-        },
-        ...generatedPosts
-    ];
+                    </div>`,
+                category: "Personal",
+                author: "Admin",
+                date: "Oct 24, 2023",
+                image: "https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                authorImg: "https://ui-avatars.com/api/?name=Admin&background=random"
+            },
+            {
+                id: 2,
+                title: "Reflections on Early Coding Days",
+                excerpt: "Looking back at my first few projects, I realize how much the web landscape has changed. Here are some lessons from 2023.",
+                views: 12, 
+                content: `<div class="space-y-6 text-gray-700"><p class="leading-relaxed">It's fascinating to look back at code written just a year or two ago.</p></div>`,
+                category: "Personal",
+                author: "Hershit",
+                date: "Jan 01, 2023",
+                image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                authorImg: "https://ui-avatars.com/api/?name=Hershit&background=random"
+            },
+            {
+                id: 3,
+                title: "The Art of Debugging",
+                excerpt: "Debugging is more than just fixing errors; it's a mindset. Here is how I approach complex problems in code.",
+                views: 342,
+                content: `<div class="space-y-6 text-gray-700"><p class="leading-relaxed">Every developer knows the feeling: you've written what you think is the perfect block of code, you hit run, and... red text everywhere.</p></div>`,
+                category: "Tech",
+                author: "Hitesh Kumar",
+                date: "Nov 15, 2023",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                authorImg: "https://ui-avatars.com/api/?name=Hitesh+Kumar&background=random"
+            },
+            ...generatedPosts
+        ];
 
-    const postsContainer = document.getElementById('posts-container');
-    const searchInput = document.getElementById('search-input');
-    const categoryFilter = document.getElementById('category-filter');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+        const postsContainer = document.getElementById('posts-container');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Modal Elements
+        const modal = document.getElementById('article-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalImage = document.getElementById('modal-image');
+        const modalCategory = document.getElementById('modal-category');
+        const modalDate = document.getElementById('modal-date');
+        const modalViews = document.getElementById('modal-views');
 
-    // Modal Elements
-    const modal = document.getElementById('article-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalContent = document.getElementById('modal-content');
-    const modalImage = document.getElementById('modal-image');
-    const modalCategory = document.getElementById('modal-category');
-    const modalDate = document.getElementById('modal-date');
-    const modalViews = document.getElementById('modal-views');
+        let currentPostId = null;
 
-    // Global var to track open article
-    let currentPostId = null;
+        function openModal(postId) {
+            currentPostId = postId;
+            const post = posts.find(p => p.id === postId);
+            if(!post) return;
 
-    // Modal Logic
-    function openModal(postId) {
-        currentPostId = postId;
-        const post = posts.find(p => p.id === postId);
-        if(!post) return;
+            post.views++;
+            
+            modalTitle.textContent = post.title;
+            modalContent.innerHTML = post.content; 
+            modalImage.src = post.image;
+            modalCategory.textContent = post.category;
+            modalDate.textContent = post.date;
+            modalViews.textContent = post.views.toLocaleString() + " views";
+            
+            // LOAD COMMENTS
+            renderComments(postId);
 
-        post.views++;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
 
-        modalTitle.textContent = post.title;
-        modalContent.innerHTML = post.content;
-        modalImage.src = post.image;
-        modalCategory.textContent = post.category;
-        modalDate.textContent = post.date;
-        modalViews.textContent = post.views.toLocaleString() + " views";
+            filterPosts();
+        }
 
-        // LOAD COMMENTS
-        renderComments(postId);
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
 
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-
-        filterPosts();
-    }
-
-    function closeModal() {
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-
-    // Function to create HTML for a single post card
-    function createPostCard(post) {
-        return `
+        function createPostCard(post) {
+            return `
                 <article class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
                     <div class="w-full md:w-2/5 h-48 md:h-auto overflow-hidden relative cursor-pointer" onclick="openModal(${post.id})">
                         <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
@@ -1520,19 +1507,19 @@
                                 </div>
                             </div>
                             <button onclick="openModal(${post.id})" class="text-brand-600 text-sm font-bold hover:text-brand-800 transition flex items-center gap-1 group/btn">
-                                Read
+                                Read 
                                 <i class="ph-bold ph-arrow-right transform group-hover/btn:translate-x-1 transition"></i>
                             </button>
                         </div>
                     </div>
                 </article>
             `;
-    }
+        }
 
-    function renderPosts(postsToRender) {
-        postsContainer.innerHTML = '';
-        if (postsToRender.length === 0) {
-            postsContainer.innerHTML = `
+        function renderPosts(postsToRender) {
+            postsContainer.innerHTML = '';
+            if (postsToRender.length === 0) {
+                postsContainer.innerHTML = `
                     <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
                         <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="ph-bold ph-magnifying-glass text-2xl text-gray-400"></i>
@@ -1541,165 +1528,165 @@
                         <p class="text-gray-500 text-sm">Try adjusting your search or filters.</p>
                     </div>
                 `;
-            return;
-        }
-        postsToRender.forEach(post => {
-            postsContainer.innerHTML += createPostCard(post);
-        });
-    }
-
-    // Balancing Helper Function
-    function isPostVisibleInSearch(post) {
-        if (post.author === 'Admin') return true;
-        const oneDay = 24 * 60 * 60 * 1000;
-        const postDate = new Date(post.date);
-        const now = new Date();
-        if (isNaN(postDate)) return true;
-        const ageInDays = Math.round((now - postDate) / oneDay);
-        if (ageInDays < 64) return true;
-        if (post.views >= 100) return true;
-        return false;
-    }
-
-    function filterPosts() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const selectedCategory = categoryFilter.value;
-
-        // Update the global filtered list
-        currentFilteredPosts = posts.filter(post => {
-            // 0. Check View (Home vs Yours)
-            if (currentView === 'yours') {
-                if (!currentUser || post.author !== currentUser.name) return false;
+                return;
             }
-
-            // 1. Basic Filters (Category & Search Text)
-            const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-            const matchesSearch = post.title.toLowerCase().includes(searchTerm) ||
-                post.excerpt.toLowerCase().includes(searchTerm);
-
-            if (!matchesCategory || !matchesSearch) return false;
-
-            // 2. Balancing Rule Application
-            if (currentView !== 'yours' && searchTerm !== '') {
-                const isVisible = isPostVisibleInSearch(post);
-                if (!isVisible) return false;
-            }
-
-            return true;
-        });
-
-        // If searching or filtering, reset to page 1
-        // Note: We don't reset currentPage here blindly because this runs on init.
-        // Ideally, only input changes trigger reset. For now, we assume filterPosts is called mostly on change.
-        // To be safe, we'll keep currentPage unless it exceeds bounds.
-        const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage) || 1;
-        if (currentPage > totalPages) currentPage = 1;
-
-        updateDisplay();
-    }
-
-    function updateDisplay() {
-        const start = (currentPage - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        const pagePosts = currentFilteredPosts.slice(start, end);
-
-        renderPosts(pagePosts);
-        renderPagination();
-    }
-
-    function renderPagination() {
-        const container = document.getElementById('pagination-container');
-        const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
-
-        if (totalPages <= 1) {
-            container.innerHTML = '';
-            return;
+            postsToRender.forEach(post => {
+                postsContainer.innerHTML += createPostCard(post);
+            });
         }
 
-        let html = '';
+        function isPostVisibleInSearch(post) {
+            if (post.author === 'Admin') return true;
+            const oneDay = 24 * 60 * 60 * 1000; 
+            const postDate = new Date(post.date);
+            const now = new Date();
+            if (isNaN(postDate)) return true; 
+            const ageInDays = Math.round((now - postDate) / oneDay);
+            if (ageInDays < 64) return true;
+            if (post.views >= 100) return true;
+            return false;
+        }
 
-        // Previous Button
-        html += `
+        const itemsPerPage = 5;
+        let currentPage = 1;
+        let currentFilteredPosts = [];
+
+        function filterPosts() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const selectedCategory = categoryFilter.value;
+
+            // Update the global filtered list
+            currentFilteredPosts = posts.filter(post => {
+                // 0. Check View (Home vs Yours)
+                if (currentView === 'yours') {
+                    if (!currentUser || post.author !== currentUser.name) return false;
+                }
+
+                // 1. Basic Filters (Category & Search Text)
+                const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
+                const matchesSearch = post.title.toLowerCase().includes(searchTerm) || 
+                                      post.excerpt.toLowerCase().includes(searchTerm);
+
+                if (!matchesCategory || !matchesSearch) return false;
+
+                // 2. Balancing Rule Application
+                if (currentView !== 'yours' && searchTerm !== '') {
+                    const isVisible = isPostVisibleInSearch(post);
+                    if (!isVisible) return false;
+                }
+                
+                return true;
+            });
+
+            // If searching or filtering, reset to page 1
+            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = 1;
+
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pagePosts = currentFilteredPosts.slice(start, end);
+
+            renderPosts(pagePosts);
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const container = document.getElementById('pagination-container');
+            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
+
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            // Previous Button
+            html += `
                 <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="p-2.5 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                     <i class="ph-bold ph-caret-left"></i>
                 </button>
             `;
 
-        // Page Numbers (Smart Range)
-        for (let i = 1; i <= totalPages; i++) {
-            // Show first, last, and pages around current
-            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                const activeClass = 'bg-brand-600 text-white shadow-sm ring-2 ring-brand-600 ring-offset-2';
-                const inactiveClass = 'border border-gray-300 text-gray-700 hover:bg-gray-50';
-
-                html += `
+            // Page Numbers (Smart Range)
+            for (let i = 1; i <= totalPages; i++) {
+                // Show first, last, and pages around current
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    const activeClass = 'bg-brand-600 text-white shadow-sm ring-2 ring-brand-600 ring-offset-2';
+                    const inactiveClass = 'border border-gray-300 text-gray-700 hover:bg-gray-50';
+                    
+                    html += `
                         <button onclick="goToPage(${i})" class="w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-colors ${i === currentPage ? activeClass : inactiveClass}">
                             ${i}
                         </button>
                     `;
-            } else if (i === currentPage - 2 || i === currentPage + 2) {
-                html += `<span class="text-gray-400 px-1">...</span>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span class="text-gray-400 px-1">...</span>`;
+                }
             }
-        }
 
-        // Next Button
-        html += `
+            // Next Button
+            html += `
                 <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="p-2.5 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                     <i class="ph-bold ph-caret-right"></i>
                 </button>
             `;
 
-        container.innerHTML = html;
-    }
+            container.innerHTML = html;
+        }
 
-    function goToPage(page) {
-        const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
-        if (page < 1 || page > totalPages) return;
+        function goToPage(page) {
+            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            updateDisplay();
+            
+            // Smooth scroll to top of posts
+            document.getElementById('posts-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
-        currentPage = page;
-        updateDisplay();
+        document.addEventListener('DOMContentLoaded', () => {
+            filterPosts(); // Initial render logic takes care of pagination
+            updateAuthUI(); 
+            renderReviews(); 
 
-        // Smooth scroll to top of posts
-        document.getElementById('posts-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+            // Update listeners to reset page on filter interaction
+            searchInput.addEventListener('input', () => { currentPage = 1; filterPosts(); });
+            categoryFilter.addEventListener('change', () => { currentPage = 1; filterPosts(); });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        filterPosts(); // Initial render logic takes care of pagination
-        updateAuthUI();
-        renderReviews();
-
-        // Update listeners to reset page on filter interaction
-        searchInput.addEventListener('input', () => { currentPage = 1; filterPosts(); });
-        categoryFilter.addEventListener('change', () => { currentPage = 1; filterPosts(); });
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuBtn.querySelector('i');
-            if(mobileMenu.classList.contains('hidden')) {
-                icon.classList.remove('ph-x');
-                icon.classList.add('ph-list');
-            } else {
-                icon.classList.remove('ph-list');
-                icon.classList.add('ph-x');
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
                 const icon = mobileMenuBtn.querySelector('i');
-                icon.classList.remove('ph-x');
-                icon.classList.add('ph-list');
-            }
-            // Close Desktop User Dropdown if clicked outside
-            const dropdown = document.getElementById('user-dropdown');
-            const profileBtn = document.getElementById('user-profile-desktop');
-            if (!dropdown.classList.contains('hidden') && !profileBtn.contains(e.target)) {
-                dropdown.classList.add('hidden');
-            }
+                if(mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('ph-x');
+                    icon.classList.add('ph-list');
+                } else {
+                    icon.classList.remove('ph-list');
+                    icon.classList.add('ph-x');
+                }
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
+                     mobileMenu.classList.add('hidden');
+                     const icon = mobileMenuBtn.querySelector('i');
+                     icon.classList.remove('ph-x');
+                     icon.classList.add('ph-list');
+                }
+                // Close Desktop User Dropdown if clicked outside
+                const dropdown = document.getElementById('user-dropdown');
+                const profileBtn = document.getElementById('user-profile-desktop');
+                if (!dropdown.classList.contains('hidden') && !profileBtn.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
         });
-    });
 
-</script>
+    </script>
 </body>
 </html>
