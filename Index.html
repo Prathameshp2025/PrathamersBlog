@@ -611,7 +611,7 @@
         let posts = []; // Initialize empty posts array
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, query as rtdbQuery, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
         // --- Firebase Config ---
         const firebaseConfig = {
@@ -876,7 +876,7 @@
         }
 
         function showBanModal(identifier) {
-            const normalizedId = identifier.toLowerCase().replace('.', '_');
+            const normalizedId = identifier.toLowerCase().replace(/[.#$\[\]]/g, '_');
             const banData = localBans[normalizedId];
             
             // Fallback if data hasn't synced yet but we know we just banned them
@@ -979,7 +979,7 @@
             const inputField = document.getElementById('login-identifier');
             const input = inputField.value.trim();
             const lowerInput = input.toLowerCase();
-            const normalizedKey = lowerInput.replace('.', '_'); // RTDB Safe key
+            const normalizedKey = lowerInput.replace(/[.#$\[\]]/g, '_'); // RTDB Safe key
             
             // 1. CHECK BAN LIST FIRST (from live sync)
             if (localBans[normalizedKey]) {
@@ -1030,8 +1030,8 @@
             const email = emailInput ? emailInput.toLowerCase() : "";
             
             // 1. CHECK BAN LIST
-            const nameKey = name.toLowerCase().replace('.', '_');
-            const emailKey = email ? email.replace('.', '_') : '';
+            const nameKey = name.toLowerCase().replace(/[.#$\[\]]/g, '_');
+            const emailKey = email ? email.replace(/[.#$\[\]]/g, '_') : '';
             
             if ((email && localBans[emailKey]) || localBans[nameKey]) {
                 closeAuthModal();
@@ -1150,242 +1150,65 @@
             }
         }
 
-        // --- Comments Logic ---
-        function renderComments(postId) {
-            const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">Loading comments...</p>';
-            
-            if (commentsUnsubscribe) commentsUnsubscribe();
-
-            commentsUnsubscribe = FirebaseService.listenToComments(postId, (comments) => {
-                if (comments.length === 0) {
-                    commentsList.innerHTML = '<p class="text-gray-400 text-sm text-center">No comments yet. Be the first!</p>';
-                    return;
-                }
-                commentsList.innerHTML = '';
-                comments.forEach(c => {
-                    const html = `
-                        <div class="flex gap-3">
-                            <img src="${c.avatar}" class="w-8 h-8 rounded-full border border-gray-100">
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <span class="font-bold text-sm text-gray-900">${c.author}</span>
-                                    <span class="text-xs text-gray-400">${c.date}</span>
-                                </div>
-                                <p class="text-gray-600 text-sm mt-1">${c.text}</p>
-                            </div>
-                        </div>
-                    `;
-                    commentsList.innerHTML += html;
-                });
-            });
-        }
-
-        window.handlePostComment = function() {
-            const input = document.getElementById('comment-input');
-            const text = input.value.trim();
-            
-            if (!text || !currentPostId) return;
-
-            // Safety check for auth
+        // --- Create Post Logic ---
+        window.openCreatePostModal = function() {
             if (!currentUser) {
-                alert("Please log in to comment.");
-                return;
-            }
-
-            // CHECK: EMAIL REQUIREMENT FOR CUSTOM POSTS
-            if (!currentUser.email) {
-                alert("Verification Required: You must have an email address linked to your account to post comments. Please create a new account with an email.");
-                return;
-            }
-
-            // STRICT GUIDELINE CHECK
-            if (checkProfanity(text)) {
-                // Store user details before potential logout
-                const userEmail = currentUser.email;
-                const userName = currentUser.name;
-                const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
-
-                // Ban the user immediately (Temporary Ban for Abuse)
-                // Pass the apiKey explicitly so it saves to the correct storage even if logout happens
-                if (userEmail) banUser(userEmail, 'abuse', userApiKey);
-                banUser(userName, 'abuse', userApiKey);
-                
-                input.value = ""; 
-                return;
-            }
-
-            // Save to API
-            const newComment = {
-                postId: currentPostId,
-                author: currentUser.name,
-                avatar: currentUser.avatar,
-                text: text,
-                date: "Just now" // simplified
-            };
-            
-            FirebaseService.saveComment(newComment);
-            
-            // renderComments(currentPostId); // Removed duplicate call since listener handles update
-            input.value = ""; // Clear input
-            showToast("Comment Posted!");
-        }
-
-        // --- Reviews Logic ---
-        const defaultReviews = [
-            {
-                name: "Priya Sharma",
-                role: "User",
-                text: "The strict guidelines here actually make the community so much better. It's rare to find a tech blog with such high-quality discussions and zero toxicity. Love the content!",
-                rating: 5,
-                avatar: "https://ui-avatars.com/api/?name=Priya+Sharma&background=random"
-            },
-            {
-                name: "Rahul Verma",
-                role: "User",
-                text: "I've bookmarked this site. The articles on productivity and debugging are gold. Simple, clean UI and the content is always straight to the point.",
-                rating: 5,
-                avatar: "https://ui-avatars.com/api/?name=Rahul+Verma&background=random"
-            },
-            {
-                name: "Anjali Gupta",
-                role: "User",
-                text: "Finally, a blog platform that respects the reader. No clutter, fast loading, and the 'Custom Post' verification ensures real people are commenting. 10/10.",
-                rating: 4,
-                avatar: "https://ui-avatars.com/api/?name=Anjali+Gupta&background=random"
-            }
-        ];
-
-        // Init Review Listener
-        FirebaseService.listenToReviews((fetchedReviews) => {
-            const container = document.getElementById('reviews-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            const displayReviews = fetchedReviews.length > 0 ? fetchedReviews : defaultReviews;
-
-            displayReviews.forEach(review => {
-                let starsHtml = '';
-                const fullStars = Math.floor(review.rating);
-                const hasHalf = review.rating % 1 !== 0;
-
-                for(let i=0; i<fullStars; i++) starsHtml += '<i class="ph-fill ph-star"></i>';
-                if(hasHalf) starsHtml += '<i class="ph-fill ph-star-half"></i>';
-                
-                const html = `
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative hover:shadow-md transition-shadow">
-                        <div class="text-brand-500 text-4xl absolute top-6 right-6 opacity-20">
-                            <i class="ph-fill ph-quotes"></i>
-                        </div>
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="${review.avatar}" class="w-12 h-12 rounded-full border-2 border-white shadow-sm">
-                            <div>
-                                <h4 class="font-bold text-gray-900">${review.name}</h4>
-                                <p class="text-xs text-gray-500 uppercase tracking-wide">${review.role}</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 leading-relaxed italic">"${review.text}"</p>
-                        <div class="flex text-yellow-400 mt-4 text-sm gap-1">
-                            ${starsHtml}
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += html;
-            });
-        });
-
-        window.openReviewModal = function() {
-            if (!currentUser) {
-                alert("Please log in to write a review.");
+                alert("Please log in to write a post.");
                 openAuthModal('login');
                 return;
             }
-            document.getElementById('review-modal').classList.remove('hidden');
-            setRating(5);
-            document.getElementById('review-text').value = '';
+            document.getElementById('create-post-modal').classList.remove('hidden');
         }
 
-        window.closeReviewModal = function() {
-            document.getElementById('review-modal').classList.add('hidden');
+        window.closeCreatePostModal = function() {
+            document.getElementById('create-post-modal').classList.add('hidden');
         }
 
-        window.setRating = function(n) {
-            document.getElementById('review-rating').value = n;
-            const stars = document.querySelectorAll('.star-btn');
-            stars.forEach((star, index) => {
-                if (index < n) {
-                    star.classList.remove('text-gray-300');
-                    star.classList.add('text-yellow-400');
-                } else {
-                    star.classList.add('text-gray-300');
-                    star.classList.remove('text-yellow-400');
-                }
-            });
-        }
-
-        window.handleReviewSubmit = async function(e) {
+        window.handleCreatePostSubmit = async function(e) {
             e.preventDefault();
-            const text = document.getElementById('review-text').value.trim();
-            const rating = parseFloat(document.getElementById('review-rating').value);
+            const title = document.getElementById('post-title').value.trim();
+            const category = document.getElementById('post-category').value;
+            let image = document.getElementById('post-image').value.trim();
+            const content = document.getElementById('post-content').value.trim();
 
-            // Safety check
-            if (!currentUser) {
-                alert("Please log in.");
+            if (!image) {
+                // Default fallback
+                image = "https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"; 
+            }
+
+            if (checkProfanity(title) || checkProfanity(content)) {
+                if (currentUser.email) banUser(currentUser.email, 'abuse');
+                banUser(currentUser.name, 'abuse');
+                closeCreatePostModal();
                 return;
             }
 
-            // Double check ban status
-            const bans = SimulatedAPI.getBans();
-            if ((currentUser.email && bans[currentUser.email.toLowerCase()]) || bans[currentUser.name.toLowerCase()]) {
-                logout();
-                showBanModal(currentUser.email || currentUser.name);
-                return;
-            }
-
-            // Strict Guideline Check
-            if (checkProfanity(text)) {
-                // Store user details before potential logout
-                const userEmail = currentUser.email;
-                const userName = currentUser.name;
-                const userApiKey = currentUser.apiKey || localStorage.getItem('lumina_custom_api_key') || 'default';
-
-                if (userEmail) banUser(userEmail, 'abuse', userApiKey);
-                banUser(userName, 'abuse', userApiKey);
-                
-                closeReviewModal();
-                return;
-            }
-
-            const newReview = {
-                name: currentUser.name,
-                role: "User",
-                text: text,
-                rating: rating,
-                avatar: currentUser.avatar
+            const newPost = {
+                title: title,
+                category: category,
+                image: image,
+                content: `<div class="space-y-6 text-gray-700"><p class="leading-relaxed">${content}</p></div>`,
+                author: currentUser.name,
+                authorImg: currentUser.avatar,
+                views: 0,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
             };
 
-            // Add to bottom (last)
-            reviews.push(newReview);
+            await FirebaseService.savePost(newPost);
+            closeCreatePostModal();
+            showToast("Post Published!");
             
-            // Save to LocalStorage
-            localStorage.setItem('lumina_blog_reviews', JSON.stringify(reviews));
-            
-            renderReviews();
-            closeReviewModal();
-            showToast("Review Saved Successfully!");
+            // Clear inputs
+            document.getElementById('post-title').value = "";
+            document.getElementById('post-image').value = "";
+            document.getElementById('post-content').value = "";
         }
 
-        window.toggleUserDropdown = function() {
-            const dropdown = document.getElementById('user-dropdown');
-            dropdown.classList.toggle('hidden');
-        }
 
         // --- API Key / Settings Logic ---
         window.openSettingsModal = function() {
             document.getElementById('settings-modal').classList.remove('hidden');
-            document.getElementById('user-dropdown').classList.add('hidden'); // Close dropdown
-            
-            // Load current global key
+            document.getElementById('user-dropdown').classList.add('hidden'); 
             const storedKey = localStorage.getItem('lumina_custom_api_key');
             document.getElementById('custom-api-key').value = storedKey || '';
         }
@@ -1396,15 +1219,7 @@
 
         window.saveSettings = function(e) {
             e.preventDefault();
-            const key = document.getElementById('custom-api-key').value.trim();
-            if (key) {
-                localStorage.setItem('lumina_custom_api_key', key);
-                if (currentUser) currentUser.apiKey = key; // Update session
-                alert(`Settings saved! API Key set to: ${key}. Data will now be stored under this namespace.`);
-            } else {
-                localStorage.removeItem('lumina_custom_api_key');
-                alert("API Key cleared. Using default storage.");
-            }
+            alert(`Settings are managed by site configuration.`);
             closeSettingsModal();
         }
 
