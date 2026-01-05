@@ -4,6 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs - Modern Blog Interface</title>
+    
+    <!-- 1. Google Search Console Verification (CONFIRMED) -->
+    <meta name="google-site-verification" content="t4ZUZByGtlSHwWKLBuQLOL4b3yMbVrLNxTzP8Okd850" />
+
+    <!-- 2. Standard SEO Meta Tags -->
+    <meta name="description" content="Welcome to My Blogs - A community for sharing insights on Technology, Personal Growth, Travel, and Lifestyle. Read articles, write your own posts, and join the discussion.">
+    <meta name="keywords" content="blog, technology, lifestyle, travel, coding, web development, personal growth, india, community">
+    <meta name="author" content="Prathamer's Blog">
+    <meta name="robots" content="index, follow">
+
+    <!-- 3. Performance Optimization (Preconnects) -->
+    <!-- Tells the browser to connect to these servers immediately for faster loading -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://ui-avatars.com">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://prathamersblog.netlify.app/"> 
+    <meta property="og:title" content="My Blogs - Modern Blog Interface">
+    <meta property="og:description" content="Join thousands of developers and creators. Read, write, and discuss the latest trends in Tech and Life.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://prathamersblog.netlify.app/">
+    <meta property="twitter:title" content="My Blogs - Modern Blog Interface">
+    <meta property="twitter:description" content="Join thousands of developers and creators. Read, write, and discuss the latest trends in Tech and Life.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- 4. JSON-LD Schema (Critical for Google Ranking) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "My Blogs",
+      "url": "https://prathamersblog.netlify.app/",
+      "description": "A modern community blog for sharing insights on Technology, Life, and Travel.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Prathamer's Blog",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ui-avatars.com/api/?name=My+Blogs&background=0ea5e9&color=fff"
+        }
+      }
+    }
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -72,7 +123,8 @@
                     <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-sm">
                         <i class="ph-bold ph-newspaper text-xl"></i>
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-gray-900">My Blogs</span>
+                    <!-- 5. Semantic H1 for SEO (Google loves this) -->
+                    <h1 class="font-bold text-xl tracking-tight text-gray-900 m-0 p-0 leading-none">My Blogs</h1>
                 </div>
 
                 <!-- Desktop Menu -->
@@ -86,13 +138,13 @@
                     <!-- Search -->
                     <div class="relative group mr-2">
                         <input type="text" id="search-input" placeholder="Search..." class="bg-gray-100 border-none rounded-full py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-brand-500 w-40 transition-all focus:w-64">
-                        <button class="absolute right-3 top-2 text-gray-400 group-hover:text-brand-600 transition-colors">
+                        <button class="absolute right-3 top-2 text-gray-400 group-hover:text-brand-600 transition-colors" aria-label="Search">
                             <i class="ph-bold ph-magnifying-glass"></i>
                         </button>
                     </div>
                     
                     <!-- Write Post Button (Desktop) -->
-                    <button onclick="openCreatePostModal()" id="btn-write-desktop" class="hidden bg-brand-50 text-brand-700 px-4 py-2 rounded-full text-sm font-bold hover:bg-brand-100 transition border border-brand-200 flex items-center gap-2">
+                    <button onclick="openCreatePostModal()" id="btn-write-desktop" class="bg-brand-50 text-brand-700 px-4 py-2 rounded-full text-sm font-bold hover:bg-brand-100 transition border border-brand-200 flex items-center gap-2">
                         <i class="ph-bold ph-pencil-simple"></i> Write
                     </button>
 
@@ -107,7 +159,7 @@
                     <!-- User Profile (Hidden by default) -->
                     <div id="user-profile-desktop" class="hidden relative">
                         <button onclick="toggleUserDropdown()" class="flex items-center gap-2 focus:outline-none">
-                            <img id="user-avatar-desktop" src="" class="w-8 h-8 rounded-full border border-gray-200">
+                            <img id="user-avatar-desktop" src="" class="w-8 h-8 rounded-full border border-gray-200" alt="User Avatar">
                             <span id="user-name-desktop" class="text-sm font-medium text-gray-700"></span>
                             <i class="ph-bold ph-caret-down text-gray-400"></i>
                         </button>
@@ -127,7 +179,7 @@
 
                 <!-- Mobile menu button -->
                 <div class="flex items-center md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-900 p-2 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-900 p-2 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500" aria-label="Open Menu">
                         <i class="ph-bold ph-list text-2xl"></i>
                     </button>
                 </div>
@@ -161,7 +213,7 @@
 
                 <div id="user-profile-mobile" class="hidden">
                     <div class="flex items-center gap-3 mb-4 px-2">
-                        <img id="user-avatar-mobile" src="" class="w-10 h-10 rounded-full border border-gray-200">
+                        <img id="user-avatar-mobile" src="" class="w-10 h-10 rounded-full border border-gray-200" alt="User Avatar">
                         <div>
                             <p id="user-name-mobile" class="font-bold text-gray-900"></p>
                             <p id="user-email-mobile" class="text-xs text-gray-500"></p>
@@ -876,7 +928,7 @@
         }
 
         function showBanModal(identifier) {
-            const normalizedId = identifier.toLowerCase().replace(/[.#$\[\]]/g, '_');
+            const normalizedId = identifier.toLowerCase().replace('.', '_');
             const banData = localBans[normalizedId];
             
             // Fallback if data hasn't synced yet but we know we just banned them
@@ -979,7 +1031,7 @@
             const inputField = document.getElementById('login-identifier');
             const input = inputField.value.trim();
             const lowerInput = input.toLowerCase();
-            const normalizedKey = lowerInput.replace(/[.#$\[\]]/g, '_'); // RTDB Safe key
+            const normalizedKey = lowerInput.replace('.', '_'); // RTDB Safe key
             
             // 1. CHECK BAN LIST FIRST (from live sync)
             if (localBans[normalizedKey]) {
@@ -1030,8 +1082,8 @@
             const email = emailInput ? emailInput.toLowerCase() : "";
             
             // 1. CHECK BAN LIST
-            const nameKey = name.toLowerCase().replace(/[.#$\[\]]/g, '_');
-            const emailKey = email ? email.replace(/[.#$\[\]]/g, '_') : '';
+            const nameKey = name.toLowerCase().replace('.', '_');
+            const emailKey = email ? email.replace('.', '_') : '';
             
             if ((email && localBans[emailKey]) || localBans[nameKey]) {
                 closeAuthModal();
