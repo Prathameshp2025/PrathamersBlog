@@ -92,7 +92,7 @@
                             <span class="hidden sm:inline">•</span>
                             <div class="flex items-center gap-1 text-green-600 font-bold bg-green-50 px-2 py-1 rounded">
                                 <i class="ph-bold ph-eye"></i>
-                                <span id="view-counter">Loading...</span>
+                                <span id="view-counter">...</span>
                             </div>
                         </div>
                     </header>
@@ -347,7 +347,6 @@
         }
 
         // Initialize for the default static post
-        // We add the default post to allPosts manually so it can be re-loaded if navigated away from
         const defaultPost = {
             id: 'save-earth-001',
             title: "Save Earth: There is No Planet B",
@@ -397,20 +396,46 @@
             const trendingList = document.getElementById('trending-list');
             if(!trendingList) return;
             
-            // Rebuild cache (Keep default post)
-            allPosts = [defaultPost]; 
+            allPosts = [defaultPost]; // Reset cache, keep default
+            
+            // Add Harshal Patil's Post
+            allPosts.push({
+                id: 'harshal-patil-001',
+                title: "The Future of Web Development",
+                category: "Technology",
+                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80",
+                author: "Harshal Patil",
+                date: "Jan 15, 2026",
+                views: 850,
+                excerpt: "Exploring the latest trends in web development and what lies ahead for developers in 2026.",
+                content: `
+                    <div class="prose prose-lg prose-stone mx-auto text-gray-700 leading-relaxed">
+                        <p class="text-xl font-medium text-gray-900 mb-6 drop-cap">
+                            The landscape of web development is changing rapidly. As we move further into the digital age, the tools and technologies we use are becoming more powerful and complex.
+                        </p>
+                        <p class="mb-6">
+                            From AI-assisted coding to serverless architectures, the way we build the web is evolving. In this post, I want to share my thoughts on where we are heading.
+                        </p>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Embracing AI</h3>
+                        <p class="mb-6">
+                            Artificial Intelligence is no longer just a buzzword. It's a tool that every developer needs to have in their arsenal. Whether it's for generating boilerplate code or optimizing algorithms, AI is here to stay.
+                        </p>
+                        <p>
+                            Stay curious, keep learning, and let's build the future together.
+                        </p>
+                    </div>`
+            });
             
             if (data) {
                 for (let key in data) {
-                    // Only add if not default post (avoid duplicates)
                     if (key !== 'save-earth-001') {
                         allPosts.push({ id: key, ...data[key] });
                     }
                 }
             }
             
-            // If empty (besides default), show dummies for demo
-            if (allPosts.length === 1) {
+            // If empty (besides default and Harshal), show dummies
+            if (allPosts.length === 2) {
                 const dummyTopics = [
                      {t: "Future of Green Tech", c: "Tech"}, 
                      {t: "Sustainable Living Guide", c: "Lifestyle"},
