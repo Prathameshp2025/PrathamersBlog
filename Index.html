@@ -3,669 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Modern Blog Interface</title>
+    <title>Save Earth - Prathamer's Blog</title>
     
-    <!-- 1. Google Search Console Verification (CONFIRMED) -->
+    <!-- 1. Google Search Console Verification -->
     <meta name="google-site-verification" content="t4ZUZByGtlSHwWKLBuQLOL4b3yMbVrLNxTzP8Okd850" />
 
     <!-- 2. Standard SEO Meta Tags -->
-    <meta name="description" content="Welcome to My Blogs - A community for sharing insights on Technology, Personal Growth, Travel, and Lifestyle. Read articles, write your own posts, and join the discussion.">
-    <meta name="keywords" content="blog, technology, lifestyle, travel, coding, web development, personal growth, india, community">
+    <meta name="description" content="Save Earth: There is No Planet B - Read insights on environment, sustainability, and personal growth on Prathamer's Blog.">
+    <meta name="keywords" content="save earth, environment, climate change, sustainability, blog, prathamer, trending posts">
     <meta name="author" content="Prathamer's Blog">
     <meta name="robots" content="index, follow">
 
-    <!-- 3. Performance Optimization (Preconnects) -->
-    <!-- Tells the browser to connect to these servers immediately for faster loading -->
+    <!-- 3. Performance Optimization -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="preconnect" href="https://ui-avatars.com">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://prathamersblog.netlify.app/"> 
-    <meta property="og:title" content="My Blogs - Modern Blog Interface">
-    <meta property="og:description" content="Join thousands of developers and creators. Read, write, and discuss the latest trends in Tech and Life.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
-
-    <!-- Twitter Card -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://prathamersblog.netlify.app/">
-    <meta property="twitter:title" content="My Blogs - Modern Blog Interface">
-    <meta property="twitter:description" content="Join thousands of developers and creators. Read, write, and discuss the latest trends in Tech and Life.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
-
-    <!-- 4. JSON-LD Schema (Critical for Google Ranking) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "My Blogs",
-      "url": "https://prathamersblog.netlify.app/",
-      "description": "A modern community blog for sharing insights on Technology, Life, and Travel.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Prathamer's Blog",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://ui-avatars.com/api/?name=My+Blogs&background=0ea5e9&color=fff"
-        }
-      }
-    }
-    </script>
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            900: '#0c4a6e',
-                        }
-                    },
-                    screens: {
-                        'xs': '475px',
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* Custom scrollbar for webkit */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        .fade-enter {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        .fade-enter-active {
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 200ms, transform 200ms;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Merriweather', serif; }
+        /* Custom Scrollbar for Trending Section */
+        .trending-scroll::-webkit-scrollbar { width: 4px; }
+        .trending-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+        .trending-scroll::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+        
+        /* Smooth scrolling for the whole page */
+        html { scroll-behavior: smooth; }
+        
+        /* Animation for content switching */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-stone-50 text-stone-800 min-h-screen flex flex-col">
 
-    <!-- Navigation -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-shadow duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer select-none" onclick="window.scrollTo(0,0)">
-                    <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-                        <i class="ph-bold ph-newspaper text-xl"></i>
-                    </div>
-                    <!-- 5. Semantic H1 for SEO (Google loves this) -->
-                    <h1 class="font-bold text-xl tracking-tight text-gray-900 m-0 p-0 leading-none">My Blogs</h1>
-                </div>
-
-                <!-- Desktop Menu -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#" onclick="switchView('home')" id="nav-home" class="text-brand-600 font-medium border-b-2 border-brand-600 px-1 pt-1 h-full flex items-center transition-colors">Home</a>
-                    <a href="#" onclick="switchView('yours')" id="nav-yours" class="hidden text-gray-500 hover:text-gray-900 font-medium border-b-2 border-transparent hover:border-gray-300 px-1 pt-1 h-full flex items-center transition-colors">Yours</a>
-                </nav>
-
-                <!-- Actions (Desktop) -->
-                <div class="hidden md:flex items-center space-x-4" id="desktop-auth-container">
-                    <!-- Search -->
-                    <div class="relative group mr-2">
-                        <input type="text" id="search-input" placeholder="Search..." class="bg-gray-100 border-none rounded-full py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-brand-500 w-40 transition-all focus:w-64">
-                        <button class="absolute right-3 top-2 text-gray-400 group-hover:text-brand-600 transition-colors" aria-label="Search">
-                            <i class="ph-bold ph-magnifying-glass"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Write Post Button (Desktop) -->
-                    <button onclick="openCreatePostModal()" id="btn-write-desktop" class="bg-brand-50 text-brand-700 px-4 py-2 rounded-full text-sm font-bold hover:bg-brand-100 transition border border-brand-200 flex items-center gap-2">
-                        <i class="ph-bold ph-pencil-simple"></i> Write
-                    </button>
-
-                    <!-- Auth Buttons (Injected via JS) -->
-                    <div id="auth-buttons-desktop" class="flex items-center space-x-3">
-                        <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-gray-900 font-medium text-sm">Sign In</button>
-                        <button onclick="openAuthModal('signup')" class="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition shadow-sm hover:shadow-md active:scale-95 transform duration-150">
-                            Get Started
-                        </button>
-                    </div>
-
-                    <!-- User Profile (Hidden by default) -->
-                    <div id="user-profile-desktop" class="hidden relative">
-                        <button onclick="toggleUserDropdown()" class="flex items-center gap-2 focus:outline-none">
-                            <img id="user-avatar-desktop" src="" class="w-8 h-8 rounded-full border border-gray-200" alt="User Avatar">
-                            <span id="user-name-desktop" class="text-sm font-medium text-gray-700"></span>
-                            <i class="ph-bold ph-caret-down text-gray-400"></i>
-                        </button>
-                        
-                        <!-- Dropdown -->
-                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 transform origin-top-right transition-all">
-                            <a href="#" onclick="openSettingsModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                                <i class="ph-bold ph-gear"></i> Settings
-                            </a>
-                            <div class="border-t border-gray-100 my-1"></div>
-                            <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
-                                <i class="ph-bold ph-sign-out"></i> Sign Out
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile menu button -->
-                <div class="flex items-center md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-900 p-2 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500" aria-label="Open Menu">
-                        <i class="ph-bold ph-list text-2xl"></i>
-                    </button>
-                </div>
+    <!-- Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 flex-shrink-0 cursor-pointer" onclick="window.location.reload()">
+                <i class="ph-fill ph-plant text-green-600 text-2xl"></i>
+                <span class="font-bold text-xl tracking-tight hidden sm:block">Prathamer's Blog</span>
             </div>
-        </div>
 
-        <!-- Mobile Menu Panel (Overlay) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50">
-            <div class="px-4 pt-2 pb-4 space-y-2">
-                <a href="#" onclick="switchView('home')" id="mobile-nav-home" class="block px-4 py-3 rounded-xl text-base font-medium text-brand-700 bg-brand-50 border border-brand-100">Home</a>
-                <a href="#" onclick="switchView('yours')" id="mobile-nav-yours" class="hidden block px-4 py-3 rounded-xl text-base font-medium text-gray-600 hover:bg-gray-50 border border-transparent">Yours</a>
+            <!-- Search Bar -->
+            <div class="flex-grow max-w-md relative">
+                <input type="text" id="search-input" placeholder="Search trending topics..." class="w-full pl-10 pr-4 py-2 bg-stone-100 border-none rounded-full text-sm focus:ring-2 focus:ring-green-500 outline-none transition-all placeholder-stone-400">
+                <i class="ph-bold ph-magnifying-glass absolute left-3 top-2.5 text-stone-400"></i>
             </div>
-            <div class="p-4 border-t border-gray-100 bg-gray-50">
-                <div class="relative mb-4">
-                    <input type="text" placeholder="Search articles..." class="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-brand-500 outline-none shadow-sm">
-                    <i class="ph-bold ph-magnifying-glass absolute right-3 top-3 text-gray-400"></i>
-                </div>
-                
-                <button onclick="openCreatePostModal()" id="btn-write-mobile" class="hidden w-full bg-brand-50 text-brand-700 border border-brand-200 px-4 py-3 rounded-lg text-sm font-bold hover:bg-brand-100 transition-colors mb-3 flex items-center justify-center gap-2">
-                    <i class="ph-bold ph-pencil-simple"></i> Write a Post
-                </button>
 
-                <div id="auth-buttons-mobile" class="space-y-3">
-                    <button onclick="openAuthModal('login')" class="w-full bg-white border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-sm font-bold hover:bg-gray-50 transition-colors">
-                        Sign In
-                    </button>
-                    <button onclick="openAuthModal('signup')" class="w-full bg-brand-600 text-white px-4 py-3 rounded-lg text-sm font-bold hover:bg-brand-700 shadow-md active:bg-brand-800 transition-colors">
-                        Get Started
-                    </button>
-                </div>
-
-                <div id="user-profile-mobile" class="hidden">
-                    <div class="flex items-center gap-3 mb-4 px-2">
-                        <img id="user-avatar-mobile" src="" class="w-10 h-10 rounded-full border border-gray-200" alt="User Avatar">
-                        <div>
-                            <p id="user-name-mobile" class="font-bold text-gray-900"></p>
-                            <p id="user-email-mobile" class="text-xs text-gray-500"></p>
-                        </div>
-                    </div>
-                    <button onclick="openSettingsModal()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center gap-2">
-                        <i class="ph-bold ph-gear"></i> Settings (API Key)
-                    </button>
-                    <button onclick="logout()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-2">
-                        <i class="ph-bold ph-sign-out"></i> Sign Out
-                    </button>
-                </div>
-            </div>
+            <!-- Nav Links -->
+            <nav class="flex gap-4 text-sm font-medium text-stone-500">
+                <a href="#" onclick="window.location.reload()" class="hover:text-green-700 transition hidden sm:block">Home</a>
+                <a href="#discussion" class="hover:text-green-700 transition flex items-center gap-1">
+                    <i class="ph-bold ph-chat-circle-text text-green-600"></i> <span class="hidden sm:inline">Discuss</span>
+                </a>
+            </nav>
         </div>
     </header>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[300]">
-        <i class="ph-bold ph-check-circle text-green-400 text-xl"></i>
-        <span id="toast-message" class="font-medium text-sm">Action Successful</span>
-    </div>
-
-    <!-- Main Content Area -->
-    <div class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             
-            <!-- Left Column: Blog Posts -->
-            <main class="lg:col-span-8 space-y-8">
-                
-                <!-- Filters -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4 sm:gap-0">
-                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Latest Articles</h2>
-                    <div class="flex items-center gap-4 w-full sm:w-auto">
-                        <div class="flex w-full sm:w-auto gap-2">
-                            <select id="category-filter" class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-2.5 shadow-sm cursor-pointer hover:border-brand-400 transition-colors">
-                                <option value="all">All Topics</option>
-                                <option value="Tech">Tech</option>
-                                <option value="Personal">Personal</option>
-                                <option value="Travel">Travel</option>
-                                <option value="Life">Life</option>
-                            </select>
+            <!-- LEFT COLUMN: Main Article (8 cols) -->
+            <main class="lg:col-span-8 order-1">
+                <article class="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-stone-100" id="main-article">
+                    <header class="mb-8 text-center">
+                        <span id="article-category" class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-4 inline-block">Environment</span>
+                        <h1 id="article-title" class="text-3xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">Save Earth: There is No Planet B</h1>
+                        
+                        <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-stone-500 mt-6">
+                            <div class="flex items-center gap-2">
+                                <img id="article-author-img" src="https://ui-avatars.com/api/?name=Prathamer&background=16a34a&color=fff" class="w-8 h-8 rounded-full">
+                                <span id="article-author" class="font-medium text-gray-900">Prathamer</span>
+                            </div>
+                            <span class="hidden sm:inline">•</span>
+                            <span id="article-date">Oct 24, 2023</span>
+                            <span class="hidden sm:inline">•</span>
+                            <div class="flex items-center gap-1 text-green-600 font-bold bg-green-50 px-2 py-1 rounded">
+                                <i class="ph-bold ph-eye"></i>
+                                <span id="view-counter">Loading...</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Featured Image -->
+                    <div class="rounded-xl overflow-hidden shadow-md mb-10 aspect-video bg-stone-200">
+                        <img id="article-image" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" alt="Article Image" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                    </div>
+
+                    <!-- Article Body -->
+                    <div id="article-content" class="prose prose-lg prose-stone mx-auto text-gray-700 leading-relaxed">
+                        <!-- Initial Content -->
+                        <p class="text-xl font-medium text-gray-900 mb-6 drop-cap">
+                            We often take our planet for granted. The clean air, the fresh water, and the green forests seem infinite, but the reality is starkly different. Climate change is no longer a distant threat; it is happening right now.
+                        </p>
+                        <p class="mb-6">
+                            Our oceans are filling with plastic, our forests are burning, and our wildlife is disappearing at an alarming rate. But it's not too late to act. Small changes in our daily lives can lead to a massive global impact.
+                        </p>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Why We Need to Act Now</h3>
+                        <p class="mb-6">
+                            The Earth provides us with everything we need to survive. By protecting it, we are protecting our own future. Sustainable living isn't just a trend; it's a necessity. From reducing single-use plastics to conserving water, every action counts.
+                        </p>
+                        <ul class="list-disc pl-6 mb-8 space-y-2 bg-stone-50 p-6 rounded-xl border border-stone-200">
+                            <li><strong>Reduce:</strong> Buy less, waste less.</li>
+                            <li><strong>Reuse:</strong> Find new ways to use old items.</li>
+                            <li><strong>Recycle:</strong> Properly dispose of waste.</li>
+                        </ul>
+                        <p>
+                            Let's pledge today to do our part. Whether it's planting a tree or simply switching off the lights when not in use, let's save our home. Because there is no Planet B.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Comments Section -->
+                <section class="mt-12" id="discussion">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        Discussion 
+                        <span class="text-sm font-normal text-white bg-green-600 px-2 py-0.5 rounded-full" id="comment-count">0</span>
+                    </h3>
+
+                    <!-- Comment Form -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 mb-8">
+                        <h4 class="font-bold text-xs text-stone-500 mb-4 uppercase tracking-wide">Leave a Reply</h4>
+                        <form onsubmit="handlePostComment(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <input type="text" id="comment-name" required class="w-full px-4 py-2 bg-stone-50 border border-stone-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition" placeholder="Your Name">
+                            </div>
+                            <textarea id="comment-text" required rows="3" class="w-full px-4 py-2 bg-stone-50 border border-stone-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition resize-none" placeholder="What are your thoughts?"></textarea>
+                            <button type="submit" class="bg-green-600 text-white px-6 py-2.5 rounded-lg font-bold hover:bg-green-700 transition shadow-md w-full sm:w-auto">
+                                Post Comment
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div id="comments-list" class="space-y-4">
+                        <div class="text-center py-8">
+                            <div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-stone-200 border-t-green-600"></div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Posts Grid Container -->
-                <div id="posts-container" class="grid gap-6 sm:gap-8">
-                    <!-- Posts will be injected here via JS -->
-                </div>
-
-                <!-- Pagination -->
-                <div class="flex justify-center mt-12">
-                    <nav id="pagination-container" class="flex items-center gap-2">
-                        <!-- Pagination buttons will be injected here via JS -->
-                    </nav>
-                </div>
+                </section>
             </main>
 
-            <!-- Right Column: Sidebar -->
-            <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 h-fit">
+            <!-- RIGHT COLUMN: Sidebar (Trending) -->
+            <aside class="lg:col-span-4 space-y-8 order-2" id="trending-section">
                 
-                <!-- About Widget -->
-                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
-                    <h3 class="font-bold text-lg mb-4 text-gray-900">About My Blogs</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
-                        We are a community of thinkers, creators, and developers sharing insights on the latest trends in technology and design.
-                    </p>
-                    <a href="#" class="text-brand-600 text-sm font-semibold hover:text-brand-700 inline-flex items-center group">
-                        Read more 
-                        <i class="ph-bold ph-arrow-right ml-1 transform group-hover:translate-x-1 transition"></i>
-                    </a>
-                </div>
-
-                <!-- Categories Widget -->
-                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
-                    <h3 class="font-bold text-lg mb-4 text-gray-900">Topics</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Personal</a>
-                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Updates</a>
-                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Tech</a>
-                        <a href="#" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full hover:bg-brand-100 hover:text-brand-700 transition">Life</a>
+                <!-- Trending Posts Widget -->
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden sticky top-24">
+                    <div class="bg-stone-900 px-6 py-4 flex items-center justify-between">
+                        <h3 class="font-bold text-white flex items-center gap-2 text-sm uppercase tracking-wider">
+                            <i class="ph-bold ph-trend-up text-green-400"></i> Trending Now
+                        </h3>
                     </div>
-                </div>
-
-                <!-- Newsletter Widget -->
-                <div class="bg-brand-900 p-6 sm:p-8 rounded-2xl text-center text-white shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full bg-white opacity-5"></div>
                     
-                    <i class="ph-bold ph-envelope-simple text-4xl mb-3 text-brand-400 mx-auto relative z-10"></i>
-                    <h3 class="font-bold text-lg mb-2 relative z-10">Weekly Newsletter</h3>
-                    <p class="text-brand-100 text-xs mb-5 relative z-10">Get the latest posts delivered right to your inbox. No spam, ever.</p>
-                    <form onsubmit="event.preventDefault(); alert('Thanks for subscribing!');" class="relative z-10">
-                        <input type="email" placeholder="Your email address" class="w-full px-4 py-2.5 rounded-lg text-gray-900 text-sm mb-3 focus:ring-2 focus:ring-brand-400 border-none outline-none shadow-inner">
-                        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-white font-bold py-2.5 rounded-lg text-sm transition shadow-lg transform active:scale-95">Subscribe</button>
-                    </form>
-                </div>
-
-            </aside>
-        </div>
-
-        <!-- Testimonials Section -->
-        <section class="mt-20 border-t border-gray-200 pt-16">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4 font-serif">What Our Readers Say</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto mb-6">Join thousands of developers and creators who start their day with My Blogs.</p>
-                <button onclick="openReviewModal()" class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-50 hover:border-gray-400 transition shadow-sm group">
-                    <i class="ph-bold ph-pencil-simple text-brand-600 group-hover:scale-110 transition-transform"></i> Write a Review
-                </button>
-            </div>
-            
-            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Reviews will be injected here via JS -->
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 pt-16 pb-8 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
-                <div class="col-span-1 sm:col-span-2 md:col-span-1">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-6 h-6 bg-brand-600 rounded flex items-center justify-center text-white text-xs">
-                            <i class="ph-bold ph-newspaper"></i>
-                        </div>
-                        <span class="font-bold text-lg text-gray-900">My Blogs</span>
-                    </div>
-                    <p class="text-gray-500 text-sm leading-relaxed">Crafting digital experiences that matter and sharing stories from around the web.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-4">Product</h4>
-                    <ul class="space-y-2 text-sm text-gray-500">
-                        <li><a href="#" class="hover:text-brand-600 transition">Features</a></li>
-                        <li><a href="#" class="hover:text-brand-600 transition">Integrations</a></li>
-                        <li><a href="#" class="hover:text-brand-600 transition">Pricing</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-4">Resources</h4>
-                    <ul class="space-y-2 text-sm text-gray-500">
-                        <li><a href="#" class="hover:text-brand-600 transition">Documentation</a></li>
-                        <li><a href="#" class="hover:text-brand-600 transition">API Reference</a></li>
-                        <li><a href="#" class="hover:text-brand-600 transition">Community</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-4">Company</h4>
-                    <ul class="space-y-2 text-sm text-gray-500">
-                        <li><a href="#" class="hover:text-brand-600 transition">About</a></li>
-                        <li><a href="#" class="hover:text-brand-600 transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-brand-600 transition">Careers</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-gray-400 text-sm text-center md:text-left">© 2026 My Blogs UI. All rights reserved.</p>
-                <div class="flex space-x-6 items-center">
-                    <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i class="ph-bold ph-github-logo text-xl"></i></a>
-                    <button onclick="localStorage.clear(); location.reload();" class="ml-4 text-xs text-red-400 hover:text-red-600 underline" title="Clear all local data and reset">Developer Reset</button>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Article Modal -->
-    <div id="article-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal()"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
-                    <button onclick="closeModal()" class="absolute right-4 top-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-500 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        <i class="ph-bold ph-x"></i>
-                    </button>
-                    <div class="h-64 w-full overflow-hidden">
-                        <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6 sm:p-10">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-3">
-                                <span id="modal-category" class="bg-brand-50 text-brand-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"></span>
-                                <span id="modal-date" class="text-gray-500 text-sm"></span>
-                            </div>
-                            <div class="flex items-center gap-1.5 text-gray-400 text-sm" title="Total Views">
-                                <i class="ph-bold ph-eye text-brand-500"></i>
-                                <span id="modal-views" class="font-medium text-gray-600"></span>
-                            </div>
-                        </div>
-                        <h3 id="modal-title" class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 font-serif"></h3>
-                        <div class="prose prose-lg text-gray-600 leading-relaxed" id="modal-content"></div>
-                        
-                        <!-- Comments Section (New) -->
-                        <div class="mt-10 border-t border-gray-100 pt-8">
-                            <h4 class="text-xl font-bold text-gray-900 mb-4 font-serif">Discussion</h4>
-                            
-                            <!-- Comment Form -->
-                            <div id="comment-form-container" class="mb-8">
-                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                                    <textarea id="comment-input" rows="3" placeholder="Share your thoughts..." class="w-full bg-transparent border-none focus:ring-0 text-gray-700 text-sm resize-none outline-none"></textarea>
-                                    <div class="flex justify-between items-center mt-2 border-t border-gray-200 pt-2">
-                                        <p class="text-xs text-gray-400 italic">Please follow Prathamer's Guidelines. Zero tolerance for abuse.</p>
-                                        <button onclick="handlePostComment()" class="bg-brand-600 text-white px-4 py-1.5 rounded-lg text-sm font-bold hover:bg-brand-700 transition">Post Comment</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="login-to-comment" class="hidden mb-8 text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                                <p class="text-gray-500 text-sm">Please <button onclick="closeModal(); openAuthModal('login')" class="text-brand-600 font-bold hover:underline">sign in</button> to leave a comment.</p>
-                            </div>
-
-                            <!-- Comment List (Mock) -->
-                            <div id="comments-list" class="space-y-6">
-                                <!-- Comments injected here -->
-                            </div>
-                        </div>
-
-                        <div class="mt-8 border-t border-gray-100 pt-6">
-                            <button onclick="closeModal()" class="w-full sm:w-auto bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition">Close Article</button>
+                    <div class="p-0 max-h-[70vh] overflow-y-auto trending-scroll" id="trending-list">
+                        <!-- Loading State -->
+                        <div class="p-8 text-center">
+                             <div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-stone-200 border-t-green-600"></div>
+                             <p class="text-stone-400 text-xs mt-2">Loading trends...</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Create Post Modal -->
-    <div id="create-post-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="create-post-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeCreatePostModal()"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
-                    <button onclick="closeCreatePostModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                        <i class="ph-bold ph-x text-lg"></i>
-                    </button>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center font-serif">Create New Post</h3>
-                        
-                        <form onsubmit="handleCreatePostSubmit(event)" class="space-y-5">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                                <input type="text" id="post-title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" placeholder="Enter article title">
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                                    <select id="post-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none bg-white">
-                                        <option value="Tech">Tech</option>
-                                        <option value="Personal">Personal</option>
-                                        <option value="Travel">Travel</option>
-                                        <option value="Life">Life</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Image URL (Optional)</label>
-                                    <input type="url" id="post-image" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" placeholder="https://example.com/image.jpg">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                                <textarea id="post-content" rows="6" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none resize-y" placeholder="Write your article content here... (HTML tags supported)"></textarea>
-                            </div>
-
-                            <button type="submit" class="w-full bg-brand-600 text-white py-3 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg">Publish Post</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="auth-modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeAuthModal()"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
-                    
-                    <button onclick="closeAuthModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                        <i class="ph-bold ph-x text-lg"></i>
-                    </button>
-
-                    <!-- Auth Content -->
-                    <div class="p-8">
-                        <div class="text-center mb-8">
-                            <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 mx-auto mb-4">
-                                <i class="ph-bold ph-user text-2xl"></i>
-                            </div>
-                            <h3 id="auth-title" class="text-2xl font-bold text-gray-900 mb-1">Welcome Back</h3>
-                            <p id="auth-subtitle" class="text-sm text-gray-500">Please enter your details to continue.</p>
-                        </div>
-
-                        <!-- Login Form -->
-                        <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Username or Email</label>
-                                <input type="text" id="login-identifier" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                                <input type="password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                            </div>
-                            <button type="submit" class="w-full bg-brand-600 text-white py-2.5 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg">Sign In</button>
-                        </form>
-
-                        <!-- Signup Form (Hidden by default) -->
-                        <form id="signup-form" class="space-y-4 hidden" onsubmit="handleSignup(event)">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                                <input type="text" id="signup-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
-                                <input type="email" id="signup-email" placeholder="Required for verification/posts" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                                <input type="password" id="signup-password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
-                            </div>
-                            <button type="submit" class="w-full bg-brand-600 text-white py-2.5 rounded-lg font-bold hover:bg-brand-700 transition shadow-lg">Create Account</button>
-                        </form>
-
-                        <!-- Toggle -->
-                        <div class="mt-6 text-center text-sm text-gray-600">
-                            <span id="auth-switch-text">Don't have an account?</span>
-                            <button onclick="toggleAuthMode()" id="auth-switch-btn" class="font-bold text-brand-600 hover:text-brand-800 ml-1">Sign Up</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings/API Key Modal -->
-    <div id="settings-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="settings-modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeSettingsModal()"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
-                    
-                    <button onclick="closeSettingsModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                        <i class="ph-bold ph-x text-lg"></i>
-                    </button>
-
-                    <div class="p-8">
-                        <div class="text-center mb-6">
-                            <h3 class="text-2xl font-bold text-gray-900 mb-1">Account Settings</h3>
-                            <p class="text-sm text-gray-500">Manage your preferences and keys.</p>
-                        </div>
-
-                        <form onsubmit="saveSettings(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Custom API Key</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="ph-bold ph-key text-gray-400"></i>
-                                    </div>
-                                    <input type="text" id="custom-api-key" placeholder="Enter your API Key" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none font-mono text-sm">
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">This key will be stored securely in your session.</p>
-                            </div>
-                            <button type="submit" class="w-full bg-gray-900 text-white py-2.5 rounded-lg font-bold hover:bg-gray-800 transition">Save Changes</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Review Modal -->
-    <div id="review-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="review-modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeReviewModal()"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <button onclick="closeReviewModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-                        <i class="ph-bold ph-x text-lg"></i>
-                    </button>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2 text-center">Write a Review</h3>
-                        <p class="text-center text-gray-500 mb-6 text-sm">Share your experience with the community.</p>
-                        
-                        <form onsubmit="handleReviewSubmit(event)">
-                            <div class="mb-5 text-center">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
-                                <div class="flex gap-2 justify-center" id="star-rating-input">
-                                    <button type="button" onclick="setRating(1)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="1"><i class="ph-fill ph-star"></i></button>
-                                    <button type="button" onclick="setRating(2)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="2"><i class="ph-fill ph-star"></i></button>
-                                    <button type="button" onclick="setRating(3)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="3"><i class="ph-fill ph-star"></i></button>
-                                    <button type="button" onclick="setRating(4)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="4"><i class="ph-fill ph-star"></i></button>
-                                    <button type="button" onclick="setRating(5)" class="text-3xl text-yellow-400 focus:outline-none star-btn transition-transform hover:scale-110" data-value="5"><i class="ph-fill ph-star"></i></button>
-                                </div>
-                                <input type="hidden" id="review-rating" value="5">
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Your Feedback</label>
-                                <textarea id="review-text" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none resize-none text-sm" placeholder="What did you like about the blog?"></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-brand-600 text-white py-3 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg">Submit Review</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ban Modal (Custom Dialog) -->
-    <div id="ban-modal" class="fixed inset-0 z-[200] hidden" aria-labelledby="ban-modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-red-900/90 backdrop-blur-md transition-opacity"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-center shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md border-t-8 border-red-600" id="ban-modal-panel">
-                    <div class="p-8">
-                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" id="ban-icon-bg">
-                            <i class="ph-bold ph-warning-octagon text-3xl text-red-600" id="ban-icon"></i>
-                        </div>
-                        <h3 class="text-2xl font-black text-gray-900 mb-2 uppercase leading-tight" id="ban-title">You are permanently banned</h3>
-                        
-                        <div id="ban-badge" class="inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest">
-                            RANK: SPAM
-                        </div>
-                        
-                        <p class="text-sm text-gray-500 mb-8 leading-relaxed" id="ban-message">
-                            Your account activity violates Prathamer's Strict Guidelines. This action is irreversible.
-                        </p>
-                        
-                        <button onclick="location.reload()" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-black transition shadow-lg uppercase tracking-wide text-sm">
-                            Close
+                    <div class="bg-stone-50 p-3 text-center border-t border-stone-100">
+                        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-xs font-bold text-stone-500 hover:text-green-700 uppercase tracking-wide flex items-center justify-center gap-1">
+                            Back to Top <i class="ph-bold ph-arrow-up"></i>
                         </button>
                     </div>
                 </div>
-            </div>
+
+                <!-- Ad / Promo Placeholder -->
+                <div class="bg-green-50 rounded-2xl p-6 text-center border border-green-100 hidden lg:block">
+                    <i class="ph-duotone ph-tree text-4xl text-green-600 mb-2"></i>
+                    <h4 class="font-bold text-green-900">Plant a Tree</h4>
+                    <p class="text-sm text-green-700 mt-1 mb-4">Join our initiative to plant 1 million trees this year.</p>
+                    <button class="bg-green-600 text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition shadow-sm">Learn More</button>
+                </div>
+
+            </aside>
+
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-12 text-center mt-auto border-t-4 border-green-600">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="mb-4 font-serif italic text-lg text-stone-300">"The Earth does not belong to us: we belong to the Earth."</p>
+            <p class="text-sm">© 2026 Prathamer's Blog. Powered by Cloud Technology.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-stone-800 text-white px-5 py-3 rounded-lg shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 border-l-4 border-green-500">
+        <i class="ph-bold ph-check-circle text-green-400"></i>
+        <span id="toast-msg">Success</span>
+    </div>
+
+    <!-- Firebase Logic -->
     <script type="module">
-        // Declare all state variables at the top to avoid ReferenceErrors
-        let currentUser = null;
-        let currentPostId = null;
-        let currentPage = 1;
-        let currentView = 'home';
-        let currentFilteredPosts = [];
-        let localBans = {};
-        let commentsUnsubscribe = null;
-        let reviews = [];
-        let posts = []; // Initialize empty posts array
-
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, query as rtdbQuery, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue, runTransaction, serverTimestamp, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-        // --- Firebase Config ---
+        // Config
         const firebaseConfig = {
             apiKey: "AIzaSyCZNXuHg15Ns3ydQ8yd6VOjm58sjfH2dUE",
             authDomain: "prathamersblog.firebaseapp.com",
@@ -676,915 +225,258 @@
             appId: "1:632179269904:web:64e4beb224ad1ed79e4595",
             measurementId: "G-HSW8MLPQV8"
         };
-        
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- Data Service (Firebase Realtime Database) ---
-        const FirebaseService = {
-            // --- BANS ---
-            fetchBans: (callback) => {
-                const bansRef = ref(db, 'bans');
-                return onValue(bansRef, (snapshot) => {
-                    const bans = snapshot.val() || {};
-                    callback(bans);
-                }, (error) => {
-                    console.error("Error fetching bans:", error);
-                });
-            },
+        // Constants & State
+        const badWords = ['fuck', 'shit', 'bitch', 'asshole', 'idiot', 'stupid', 'sex', 'porn'];
+        let activePostId = 'save-earth-001'; 
+        let allPosts = []; // Local cache
+        let unsubscribeViews = null;
+        let unsubscribeComments = null;
 
-            saveBan: async (identifier, type) => {
-                const normalizedId = identifier.toLowerCase().replace('.', '_'); // Firebase RTDB keys cannot contain '.'
-                try {
-                    await set(ref(db, 'bans/' + normalizedId), {
-                        timestamp: Date.now(),
-                        type: type
-                    });
-                } catch (e) {
-                    console.error("Error saving ban:", e);
-                }
-            },
-
-            // --- POSTS ---
-            listenToPosts: (callback) => {
-                const postsRef = ref(db, 'posts');
-                return onValue(postsRef, (snapshot) => {
-                    const data = snapshot.val();
-                    const loadedPosts = [];
-                    if (data) {
-                        for (const key in data) {
-                            loadedPosts.push({ id: key, ...data[key] });
-                        }
-                    }
-                    // Sort by timestamp desc (newest first)
-                    loadedPosts.sort((a, b) => b.timestamp - a.timestamp);
-                    callback(loadedPosts);
-                });
-            },
-
-            savePost: async (postData) => {
-                 const postsRef = ref(db, 'posts');
-                 await push(postsRef, {
-                     ...postData,
-                     timestamp: Date.now()
-                 });
-            },
-
-            // --- COMMENTS ---
-            listenToComments: (postId, callback) => {
-                const commentsRef = ref(db, 'comments');
+        // --- 1. Dynamic Post Loading Logic ---
+        
+        // This function switches the content of the page to a new post
+        window.loadPost = function(id) {
+            const safeId = String(id);
+            activePostId = safeId;
+            
+            // Find post in cache
+            const post = allPosts.find(p => String(p.id) === safeId);
+            
+            if (post) {
+                // Update DOM
+                document.getElementById('article-title').textContent = post.title;
+                document.getElementById('article-category').textContent = post.category || 'General';
+                document.getElementById('article-image').src = post.image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600";
                 
-                return onValue(commentsRef, (snapshot) => {
-                    const data = snapshot.val();
-                    const allComments = [];
-                    
-                    if (data) {
-                        for (const key in data) {
-                            allComments.push({ id: key, ...data[key] });
-                        }
-                    }
-                    
-                    // Client-side filtering for specific post
-                    // Handle both string and number IDs
-                    const postComments = allComments
-                        .filter(c => String(c.postId) === String(postId))
-                        .sort((a, b) => b.timestamp - a.timestamp); // Newest first
-                    
-                    callback(postComments);
-                }, (error) => {
-                    console.error("Error fetching comments:", error);
-                });
-            },
-
-            saveComment: async (commentData) => {
-                try {
-                    const commentsRef = ref(db, 'comments');
-                    await push(commentsRef, {
-                        ...commentData,
-                        timestamp: Date.now()
-                    });
-                } catch (e) {
-                    console.error("Error saving comment:", e);
-                }
-            },
-
-            // --- REVIEWS ---
-            listenToReviews: (callback) => {
-                const reviewsRef = ref(db, 'reviews');
-                return onValue(reviewsRef, (snapshot) => {
-                    const data = snapshot.val();
-                    const rList = [];
-                    if (data) {
-                        for (const key in data) {
-                            rList.push(data[key]);
-                        }
-                    }
-                    // Reverse to show newest first if timestamp exists, else use default order
-                    rList.reverse();
-                    callback(rList);
-                }, (error) => {
-                    console.error("Error fetching reviews:", error);
-                });
-            },
-
-            saveReview: async (reviewData) => {
-                try {
-                    const reviewsRef = ref(db, 'reviews');
-                    await push(reviewsRef, {
-                        ...reviewData,
-                        timestamp: Date.now()
-                    });
-                } catch (e) {
-                    console.error("Error saving review:", e);
-                }
-            }
-        };
-
-        // --- Toast Logic ---
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const messageEl = document.getElementById('toast-message');
-            
-            messageEl.textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        // --- View State Logic ---
-        window.switchView = function(view) {
-            currentView = view;
-            currentPage = 1; // Reset page on view switch
-            
-            // Update UI Active States
-            const navHome = document.getElementById('nav-home');
-            const navYours = document.getElementById('nav-yours');
-            const mobileNavHome = document.getElementById('mobile-nav-home');
-            const mobileNavYours = document.getElementById('mobile-nav-yours');
-
-            // Reset classes
-            const activeClasses = ['text-brand-600', 'border-brand-600'];
-            const inactiveClasses = ['text-gray-500', 'border-transparent', 'hover:text-gray-900', 'hover:border-gray-300'];
-            
-            const mobileActiveClasses = ['text-brand-700', 'bg-brand-50', 'border-brand-100'];
-            const mobileInactiveClasses = ['text-gray-600', 'hover:bg-gray-50', 'border-transparent'];
-
-            if (view === 'home') {
-                navHome.classList.add(...activeClasses);
-                navHome.classList.remove(...inactiveClasses);
-                navYours.classList.remove(...activeClasses);
-                navYours.classList.add(...inactiveClasses);
-
-                mobileNavHome.classList.add(...mobileActiveClasses);
-                mobileNavHome.classList.remove(...mobileInactiveClasses);
-                mobileNavYours.classList.remove(...mobileActiveClasses);
-                mobileNavYours.classList.add(...mobileInactiveClasses);
-            } else {
-                navYours.classList.add(...activeClasses);
-                navYours.classList.remove(...inactiveClasses);
-                navHome.classList.remove(...activeClasses);
-                navHome.classList.add(...inactiveClasses);
-
-                mobileNavYours.classList.add(...mobileActiveClasses);
-                mobileNavYours.classList.remove(...mobileInactiveClasses);
-                mobileNavHome.classList.remove(...mobileActiveClasses);
-                mobileNavHome.classList.add(...mobileInactiveClasses);
-            }
-            
-            filterPosts();
-            
-            // Close mobile menu if open
-            document.getElementById('mobile-menu').classList.add('hidden');
-            const icon = document.querySelector('#mobile-menu-btn i');
-            if(icon) {
-                icon.classList.remove('ph-x');
-                icon.classList.add('ph-list');
-            }
-        }
-
-        // --- Strict Guidelines Logic ---
-        const badWords = [
-            'fuck', 'shit', 'bitch', 'asshole', 'ashole', 'cunt', 'dick', 'bastard', 
-            'idiot', 'stupid', 'pennis', 'penis', 'whore', 'slut', 'cock', 'pussy', 
-            'motherfucker', 'faggot', 'nigger', 'douche'
-        ]; 
-
-        // Init Bans Listener - Global Sync
-        FirebaseService.fetchBans((bans) => {
-            localBans = bans;
-            // Check current user against new ban list
-            if (currentUser) {
-                // Firebase Keys cannot contain '.', so replace
-                const lowerEmailKey = currentUser.email ? currentUser.email.toLowerCase().replace('.', '_') : '';
-                const lowerNameKey = currentUser.name.toLowerCase().replace('.', '_');
-                
-                const emailBan = localBans[lowerEmailKey];
-                const nameBan = localBans[lowerNameKey];
-                
-                if (emailBan || nameBan) {
-                    const id = emailBan ? currentUser.email : currentUser.name;
-                    logout();
-                    showBanModal(id);
-                }
-            }
-        });
-
-        // Initialize Posts
-        FirebaseService.listenToPosts((fetchedPosts) => {
-            posts = fetchedPosts;
-            // If no posts exist yet, maybe show empty state or just render empty
-            filterPosts();
-        });
-
-
-        function checkProfanity(text) {
-            const lowerText = text.toLowerCase();
-            return badWords.some(word => lowerText.includes(word));
-        }
-
-        function banUser(identifier, type = 'spam') {
-            if (!identifier) return;
-            
-            // SAVE TO FIREBASE
-            FirebaseService.saveBan(identifier, type);
-
-            // Local logout is handled by the listener update or immediate check
-            if (currentUser) {
-                if ((currentUser.email && currentUser.email.toLowerCase() === identifier.toLowerCase()) || 
-                    currentUser.name.toLowerCase() === identifier.toLowerCase()) {
-                    logout();
-                }
-            }
-            
-            closeAuthModal();
-            closeSettingsModal();
-            closeModal();
-            if(!document.getElementById('review-modal').classList.contains('hidden')) closeReviewModal();
-            if(!document.getElementById('create-post-modal').classList.contains('hidden')) closeCreatePostModal();
-
-            showBanModal(identifier);
-        }
-
-        function showBanModal(identifier) {
-            const normalizedId = identifier.toLowerCase().replace('.', '_');
-            const banData = localBans[normalizedId];
-            
-            // Fallback if data hasn't synced yet but we know we just banned them
-            const type = banData ? banData.type : 'abuse'; 
-            const timestamp = banData ? banData.timestamp : Date.now();
-
-            const modal = document.getElementById('ban-modal');
-            const panel = document.getElementById('ban-modal-panel');
-            const iconBg = document.getElementById('ban-icon-bg');
-            const icon = document.getElementById('ban-icon');
-            const title = document.getElementById('ban-title');
-            const badge = document.getElementById('ban-badge');
-            const message = document.getElementById('ban-message');
-
-            const now = Date.now();
-            // Calculate days passed
-            const daysPassed = (now - timestamp) / (1000 * 60 * 60 * 24);
-            const appealPeriod = 28; // days
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-
-            // Reset Styles
-            panel.classList.remove('border-red-600', 'border-orange-500');
-            iconBg.classList.remove('bg-red-100', 'bg-orange-100');
-            icon.classList.remove('text-red-600', 'text-orange-600');
-            badge.className = ""; // Reset classes
-
-            if (type === 'spam') {
-                // Immediate Permanent Ban (e.g., bad username)
-                panel.classList.add('border-red-600');
-                iconBg.classList.add('bg-red-100');
-                icon.classList.add('text-red-600');
-                
-                title.textContent = "You are permanently banned";
-                badge.textContent = "RANK: SPAM";
-                badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
-                message.textContent = "Your account activity (Username Violation) violates Prathamer's Strict Guidelines. This action is irreversible.";
-            
-            } else if (type === 'abuse') {
-                // Comment Abuse Logic
-                if (daysPassed > appealPeriod) {
-                    // PERMANENT (Time expired)
-                    panel.classList.add('border-red-600');
-                    iconBg.classList.add('bg-red-100');
-                    icon.classList.add('text-red-600');
-
-                    title.textContent = "Permanent Ban Enforced";
-                    badge.textContent = "APPEAL EXPIRED";
-                    badge.className = "inline-block bg-red-100 text-red-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-red-200 tracking-widest";
-                    message.innerHTML = "You failed to contact support within the 28-day window following your temporary suspension. Your account is now <strong>permanently banned</strong>.";
+                // Handle content - fallback to excerpt if full content missing
+                const contentEl = document.getElementById('article-content');
+                if (post.content) {
+                    contentEl.innerHTML = post.content;
                 } else {
-                    // TEMPORARY (Still within 28 days)
-                    panel.classList.add('border-orange-500');
-                    iconBg.classList.add('bg-orange-100');
-                    icon.classList.add('text-orange-600');
-
-                    title.textContent = "Account Suspended";
-                    badge.textContent = "TEMPORARY BAN";
-                    badge.className = "inline-block bg-orange-100 text-orange-800 text-xs font-black px-3 py-1 rounded-full mb-6 border border-orange-200 tracking-widest";
-                    
-                    const daysLeft = Math.ceil(appealPeriod - daysPassed);
-                    
-                    message.innerHTML = `
-                        You have been temporarily banned for using abusive language in a discussion.
-                        <br><br>
-                        To restore your access, you <strong>MUST</strong> contact Prathamer's support at:
-                        <br>
-                        <a href="mailto:ppshenoy2022@gmail.com" class="text-brand-600 font-bold hover:underline">ppshenoy2022@gmail.com</a>
-                        <br><br>
-                        You have <strong>${daysLeft} days</strong> remaining to appeal. If you do not contact support, this will become a <strong>Permanent Ban</strong>.
-                    `;
+                    contentEl.innerHTML = `<p class="text-xl font-medium text-gray-900 mb-6 drop-cap">${post.excerpt || 'No preview available.'}</p>`;
                 }
+                
+                document.getElementById('article-author').textContent = post.author || 'Anonymous';
+                document.getElementById('article-author-img').src = post.authorImg || `https://ui-avatars.com/api/?name=${post.author || 'User'}&background=random`;
+                document.getElementById('article-date').textContent = post.date || new Date().toLocaleDateString();
+                
+                // Visual feedback
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                const article = document.getElementById('main-article');
+                article.classList.remove('fade-in');
+                void article.offsetWidth; // Force reflow
+                article.classList.add('fade-in');
             }
+
+            // Reset Listeners for new post
+            setupListeners(safeId);
         }
 
-        // --- Authentication Logic (Simulated In-Memory) ---
-        // Pre-defined Admin User
-        let users = [
-            {
-                name: 'Admin',
-                email: 'ppshenoy2022@gamil.com',
-                role: 'admin',
-                avatar: 'https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff',
-                apiKey: 'admin-secret-key'
-            },
-            // Added Test User for Ban Verification
-            {
-                name: 'TempUser',
-                email: 'temp@pmail.com',
-                role: 'user',
-                avatar: 'https://ui-avatars.com/api/?name=Temp&background=orange',
-                apiKey: 'temp-key'
-            }
-        ];
+        // Helper to manage Firebase listeners for the active post
+        function setupListeners(postId) {
+            // Unsubscribe previous listeners if they exist to prevent memory leaks/duplicate calls
+            if (typeof unsubscribeViews === 'function') unsubscribeViews();
+            if (typeof unsubscribeComments === 'function') unsubscribeComments();
 
-        window.handleLogin = function(e) {
-            e.preventDefault();
+            // 1. View Counter Logic
+            const viewCountRef = ref(db, `posts/${postId}/views`);
             
-            const inputField = document.getElementById('login-identifier');
-            const input = inputField.value.trim();
-            const lowerInput = input.toLowerCase();
-            const normalizedKey = lowerInput.replace('.', '_'); // RTDB Safe key
+            // Increment view (Transactional)
+            runTransaction(viewCountRef, (currentViews) => (currentViews || 0) + 1);
             
-            // 1. CHECK BAN LIST FIRST (from live sync)
-            if (localBans[normalizedKey]) {
-                closeAuthModal();
-                showBanModal(lowerInput);
-                return;
-            }
+            // Listen for view updates
+            unsubscribeViews = onValue(viewCountRef, (snapshot) => {
+                const views = snapshot.val() || 0;
+                const el = document.getElementById('view-counter');
+                if(el) el.textContent = views.toLocaleString() + " views";
+            });
 
-            // Check if user exists in our list by Email OR Username
-            let user = users.find(u => 
-                (u.email && u.email.toLowerCase() === lowerInput) || 
-                u.name.toLowerCase() === lowerInput
-            );
+            // 2. Comments Logic
+            const commentsRef = ref(db, 'comments');
             
-            if (!user) {
-                // Auto-signup logic
-                if (input.includes('@')) {
-                     user = { 
-                        name: input.split('@')[0], 
-                        email: input, 
-                        role: 'user',
-                        avatar: `https://ui-avatars.com/api/?name=${input.split('@')[0]}&background=random`,
-                        apiKey: '' // Uses default
-                    };
-                    users.push(user);
-                } else {
-                    alert("User not found. Please create an account.");
+            unsubscribeComments = onValue(commentsRef, (snapshot) => {
+                const data = snapshot.val();
+                const list = document.getElementById('comments-list');
+                const countEl = document.getElementById('comment-count');
+                if(!list) return;
+                
+                list.innerHTML = '';
+                if (!data) {
+                    list.innerHTML = '<p class="text-center text-stone-400 italic py-4">No comments yet. Be the first!</p>';
+                    if(countEl) countEl.textContent = '0';
                     return;
                 }
-            }
 
-            currentUser = user;
-            localStorage.setItem('lumina_current_user', JSON.stringify(currentUser));
-            updateAuthUI();
-            closeAuthModal();
-            
-            if (currentUser.role === 'admin') {
-                alert(`Welcome back, Admin!`);
-            } else {
-                alert(`Welcome, ${currentUser.name}!`);
-            }
-        }
+                const commentsArray = [];
+                for (let key in data) commentsArray.push(data[key]);
 
-        window.handleSignup = function(e) {
-            e.preventDefault();
-            const name = document.getElementById('signup-name').value.trim();
-            const emailInput = document.getElementById('signup-email').value.trim();
-            const email = emailInput ? emailInput.toLowerCase() : "";
-            
-            // 1. CHECK BAN LIST
-            const nameKey = name.toLowerCase().replace('.', '_');
-            const emailKey = email ? email.replace('.', '_') : '';
-            
-            if ((email && localBans[emailKey]) || localBans[nameKey]) {
-                closeAuthModal();
-                showBanModal(email && localBans[emailKey] ? email : name);
-                return;
-            }
+                // Filter comments for the CURRENT post ID
+                const relevantComments = commentsArray
+                    .filter(c => String(c.postId) === String(postId))
+                    .sort((a, b) => b.timestamp - a.timestamp);
 
-            // 2. CHECK PROFANITY
-            if (checkProfanity(name)) {
-                banUser(name, 'spam');
-                if (email) banUser(email, 'spam');
-                return; 
-            }
-            
-            if (email === 'ppshenoy2022@gamil.com') {
-                alert("This email is reserved. Please log in instead.");
-                return;
-            }
-            
-            const newUser = {
-                name: name,
-                email: email, 
-                role: 'user',
-                avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
-                apiKey: ''
-            };
-            
-            users.push(newUser);
-            currentUser = newUser;
-            localStorage.setItem('lumina_current_user', JSON.stringify(currentUser));
-            
-            updateAuthUI();
-            closeAuthModal();
-        }
+                if(countEl) countEl.textContent = relevantComments.length;
 
-        window.logout = function() {
-            currentUser = null;
-            localStorage.removeItem('lumina_current_user'); 
-            updateAuthUI();
-            document.getElementById('user-dropdown').classList.add('hidden');
-        }
-
-        function updateAuthUI() {
-            const desktopAuth = document.getElementById('auth-buttons-desktop');
-            const desktopProfile = document.getElementById('user-profile-desktop');
-            const mobileAuth = document.getElementById('auth-buttons-mobile');
-            const mobileProfile = document.getElementById('user-profile-mobile');
-            const navYours = document.getElementById('nav-yours');
-            const mobileNavYours = document.getElementById('mobile-nav-yours');
-            const commentForm = document.getElementById('comment-form-container');
-            const loginToComment = document.getElementById('login-to-comment');
-            
-            // Write Post Buttons
-            const btnWriteDesktop = document.getElementById('btn-write-desktop');
-            const btnWriteMobile = document.getElementById('btn-write-mobile');
-
-            if (currentUser) {
-                // Logged In
-                desktopAuth.classList.add('hidden');
-                desktopProfile.classList.remove('hidden');
-                
-                const roleBadge = currentUser.role === 'admin' ? ' (Admin)' : '';
-                document.getElementById('user-name-desktop').textContent = currentUser.name + roleBadge;
-                document.getElementById('user-avatar-desktop').src = currentUser.avatar;
-
-                mobileAuth.classList.add('hidden');
-                mobileProfile.classList.remove('hidden');
-                document.getElementById('user-name-mobile').textContent = currentUser.name + roleBadge;
-                document.getElementById('user-email-mobile').textContent = currentUser.email || "No Email Linked";
-                document.getElementById('user-avatar-mobile').src = currentUser.avatar;
-
-                // Load API Key setting - Disable input since it's hardcoded
-                const customApiKeyInput = document.getElementById('custom-api-key');
-                if (customApiKeyInput) {
-                    customApiKeyInput.value = "Managed by Firebase Config";
-                    customApiKeyInput.disabled = true;
+                if (relevantComments.length === 0) {
+                    list.innerHTML = '<p class="text-center text-stone-400 italic py-4">No comments yet for this post.</p>';
                 }
 
-                if(commentForm) commentForm.classList.remove('hidden');
-                if(loginToComment) loginToComment.classList.add('hidden');
-                
-                // Show Write Buttons
-                if(btnWriteDesktop) btnWriteDesktop.classList.remove('hidden');
-                if(btnWriteMobile) btnWriteMobile.classList.remove('hidden', 'hidden'); // Just remove hidden, flex handles display
-                if(btnWriteMobile) btnWriteMobile.style.display = "flex"; // Ensure visible
-
-                if (currentUser.email) {
-                    navYours.classList.remove('hidden');
-                    mobileNavYours.classList.remove('hidden');
-                } else {
-                    navYours.classList.add('hidden');
-                    mobileNavYours.classList.add('hidden');
-                    if (currentView === 'yours') switchView('home');
-                }
-
-            } else {
-                // Logged Out
-                desktopAuth.classList.remove('hidden');
-                desktopProfile.classList.add('hidden');
-                mobileAuth.classList.remove('hidden');
-                mobileProfile.classList.add('hidden');
-
-                if(commentForm) commentForm.classList.add('hidden');
-                if(loginToComment) loginToComment.classList.remove('hidden');
-
-                // Hide Write Buttons
-                if(btnWriteDesktop) btnWriteDesktop.classList.add('hidden');
-                if(btnWriteMobile) {
-                    btnWriteMobile.classList.add('hidden');
-                    btnWriteMobile.style.display = "none";
-                }
-
-                navYours.classList.add('hidden');
-                mobileNavYours.classList.add('hidden');
-                if (currentView === 'yours') switchView('home');
-            }
-        }
-
-        // --- Create Post Logic ---
-        window.openCreatePostModal = function() {
-            if (!currentUser) {
-                alert("Please log in to write a post.");
-                openAuthModal('login');
-                return;
-            }
-            document.getElementById('create-post-modal').classList.remove('hidden');
-        }
-
-        window.closeCreatePostModal = function() {
-            document.getElementById('create-post-modal').classList.add('hidden');
-        }
-
-        window.handleCreatePostSubmit = async function(e) {
-            e.preventDefault();
-            const title = document.getElementById('post-title').value.trim();
-            const category = document.getElementById('post-category').value;
-            let image = document.getElementById('post-image').value.trim();
-            const content = document.getElementById('post-content').value.trim();
-
-            if (!image) {
-                // Default fallback
-                image = "https://images.unsplash.com/photo-1499750310159-529800cf2c5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"; 
-            }
-
-            if (checkProfanity(title) || checkProfanity(content)) {
-                if (currentUser.email) banUser(currentUser.email, 'abuse');
-                banUser(currentUser.name, 'abuse');
-                closeCreatePostModal();
-                return;
-            }
-
-            const newPost = {
-                title: title,
-                category: category,
-                image: image,
-                content: `<div class="space-y-6 text-gray-700"><p class="leading-relaxed">${content}</p></div>`,
-                author: currentUser.name,
-                authorImg: currentUser.avatar,
-                views: 0,
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-            };
-
-            await FirebaseService.savePost(newPost);
-            closeCreatePostModal();
-            showToast("Post Published!");
-            
-            // Clear inputs
-            document.getElementById('post-title').value = "";
-            document.getElementById('post-image').value = "";
-            document.getElementById('post-content').value = "";
-        }
-
-
-        // --- API Key / Settings Logic ---
-        window.openSettingsModal = function() {
-            document.getElementById('settings-modal').classList.remove('hidden');
-            document.getElementById('user-dropdown').classList.add('hidden'); 
-            const storedKey = localStorage.getItem('lumina_custom_api_key');
-            document.getElementById('custom-api-key').value = storedKey || '';
-        }
-
-        window.closeSettingsModal = function() {
-            document.getElementById('settings-modal').classList.add('hidden');
-        }
-
-        window.saveSettings = function(e) {
-            e.preventDefault();
-            alert(`Settings are managed by site configuration.`);
-            closeSettingsModal();
-        }
-
-        // --- Auth Modal UI Logic ---
-        let isLoginMode = true;
-
-        window.openAuthModal = function(mode) {
-            const modal = document.getElementById('auth-modal');
-            const title = document.getElementById('auth-title');
-            const subtitle = document.getElementById('auth-subtitle');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const switchBtn = document.getElementById('auth-switch-btn');
-            const switchText = document.getElementById('auth-switch-text');
-
-            isLoginMode = (mode === 'login');
-            updateModalContent();
-            modal.classList.remove('hidden');
-        }
-
-        window.closeAuthModal = function() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-
-        window.toggleAuthMode = function() {
-            isLoginMode = !isLoginMode;
-            updateModalContent();
-        }
-
-        function updateModalContent() {
-            const title = document.getElementById('auth-title');
-            const subtitle = document.getElementById('auth-subtitle');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const switchBtn = document.getElementById('auth-switch-btn');
-            const switchText = document.getElementById('auth-switch-text');
-
-            if (isLoginMode) {
-                title.textContent = "Welcome Back";
-                subtitle.textContent = "Please enter your details to continue.";
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-                switchText.textContent = "Don't have an account?";
-                switchBtn.textContent = "Sign Up";
-            } else {
-                title.textContent = "Create Account";
-                subtitle.textContent = "Join our community of creators today.";
-                loginForm.classList.add('hidden');
-                signupForm.classList.remove('hidden');
-                switchText.textContent = "Already have an account?";
-                switchBtn.textContent = "Sign In";
-            }
-        }
-
-        // --- Pagination & Rendering ---
-        const postsContainer = document.getElementById('posts-container');
-        const searchInput = document.getElementById('search-input');
-        const categoryFilter = document.getElementById('category-filter');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        // Modal Elements
-        const modal = document.getElementById('article-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-        const modalImage = document.getElementById('modal-image');
-        const modalCategory = document.getElementById('modal-category');
-        const modalDate = document.getElementById('modal-date');
-        const modalViews = document.getElementById('modal-views');
-
-        window.openModal = function(postId) {
-            // postId comes as string from Firebase keys now
-            currentPostId = postId;
-            const post = posts.find(p => p.id === postId);
-            if(!post) return;
-
-            // In real app, increment view in DB. Here just local display update if desired.
-            // post.views++;
-            
-            modalTitle.textContent = post.title;
-            modalContent.innerHTML = post.content; 
-            modalImage.src = post.image;
-            modalCategory.textContent = post.category;
-            modalDate.textContent = post.date;
-            modalViews.textContent = (post.views || 0).toLocaleString() + " views";
-            
-            // LOAD COMMENTS
-            renderComments(postId);
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        window.closeModal = function() {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function createPostCard(post) {
-            // Ensure ID is passed as string
-            const safeId = String(post.id);
-            return `
-                <article class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="w-full md:w-2/5 h-48 md:h-auto overflow-hidden relative cursor-pointer" onclick="openModal('${safeId}')">
-                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-600 uppercase tracking-wide shadow-sm">
-                            ${post.category}
+                relevantComments.forEach(c => {
+                    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.author)}&background=random&color=fff&size=64`;
+                    const html = `
+                        <div class="flex gap-4 animate-fade-in group">
+                            <img src="${avatarUrl}" alt="${c.author}" class="w-10 h-10 rounded-full border border-stone-100 shadow-sm flex-shrink-0">
+                            <div class="flex-grow">
+                                <div class="bg-stone-50 p-4 rounded-xl rounded-tl-none border border-stone-100 group-hover:border-stone-200 transition">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-sm text-gray-900">${c.author}</span>
+                                        <span class="text-xs text-stone-400">${c.date}</span>
+                                    </div>
+                                    <p class="text-gray-700 text-sm leading-relaxed">${c.text}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="p-6 md:p-8 md:w-3/5 flex flex-col justify-between">
+                    `;
+                    list.innerHTML += html;
+                });
+            });
+        }
+
+        // Initialize for the default static post
+        // We add the default post to allPosts manually so it can be re-loaded if navigated away from
+        const defaultPost = {
+            id: 'save-earth-001',
+            title: "Save Earth: There is No Planet B",
+            category: "Environment",
+            image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80",
+            author: "Prathamer",
+            date: "Oct 24, 2023",
+            views: 1200, 
+            content: document.getElementById('article-content').innerHTML 
+        };
+        allPosts.push(defaultPost);
+        setupListeners(activePostId);
+
+        // --- 3. Comment Submission ---
+        window.handlePostComment = async function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('comment-name');
+            const textInput = document.getElementById('comment-text');
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!name || !text) return;
+            if (badWords.some(w => (name + " " + text).toLowerCase().includes(w))) {
+                alert("Please be respectful. Profanity is not allowed."); return;
+            }
+
+            try {
+                await push(ref(db, 'comments'), {
+                    postId: activePostId, // Use the dynamic current ID
+                    author: name,
+                    text: text,
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                    timestamp: Date.now()
+                });
+                nameInput.value = ''; textInput.value = '';
+                showToast("Comment Posted!");
+            } catch (err) {
+                console.error(err); alert("Failed to post.");
+            }
+        }
+
+        // --- 4. Trending Posts Logic (Real Data) ---
+        const postsRef = ref(db, 'posts');
+
+        onValue(postsRef, (snapshot) => {
+            const data = snapshot.val();
+            const trendingList = document.getElementById('trending-list');
+            if(!trendingList) return;
+            
+            // Rebuild cache (Keep default post)
+            allPosts = [defaultPost]; 
+            
+            if (data) {
+                for (let key in data) {
+                    // Only add if not default post (avoid duplicates)
+                    if (key !== 'save-earth-001') {
+                        allPosts.push({ id: key, ...data[key] });
+                    }
+                }
+            }
+            
+            // If empty (besides default), show dummies for demo
+            if (allPosts.length === 1) {
+                const dummyTopics = [
+                     {t: "Future of Green Tech", c: "Tech"}, 
+                     {t: "Sustainable Living Guide", c: "Lifestyle"},
+                     {t: "Zero Waste Cooking", c: "Food"},
+                     {t: "Travel on a Budget", c: "Travel"},
+                     {t: "Meditation 101", c: "Health"}
+                ];
+                dummyTopics.forEach((t, i) => {
+                     allPosts.push({
+                        id: `dummy-${i}`,
+                        title: t.t,
+                        category: t.c,
+                        views: Math.floor(Math.random() * 400) + 100,
+                        excerpt: "This is a sample trending post. Read more to find out about this topic...",
+                        image: `https://images.unsplash.com/photo-1518${i}23249-a2f2f0c0f89d?w=800`
+                     });
+                });
+            }
+
+            renderTrending(allPosts);
+        });
+
+        function renderTrending(posts) {
+            const list = document.getElementById('trending-list');
+            list.innerHTML = '';
+            
+            // Sort by views desc
+            const sorted = [...posts].sort((a, b) => (b.views || 0) - (a.views || 0));
+
+            sorted.forEach((p, index) => {
+                const titleText = p.title || 'Untitled';
+                // Escape ID for onclick
+                const safeId = String(p.id);
+                const html = `
+                    <div onclick="loadPost('${safeId}')" class="flex items-start gap-3 mb-2 group cursor-pointer hover:bg-stone-50 p-3 rounded-xl transition border border-transparent hover:border-stone-100">
+                        <span class="text-xl font-black text-stone-200 group-hover:text-green-500 transition leading-none mt-1">#${index + 1}</span>
                         <div>
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-2 text-xs text-gray-500">
-                                    <i class="ph-bold ph-calendar-blank text-brand-500"></i>
-                                    <span>${post.date}</span>
-                                </div>
-                                <div class="flex items-center gap-1.5 text-xs text-gray-400" title="Views">
-                                    <i class="ph-bold ph-eye"></i>
-                                    <span>${(post.views || 0).toLocaleString()}</span>
-                                </div>
+                            <h4 class="font-bold text-gray-800 text-sm leading-snug mb-1 group-hover:text-green-700 transition line-clamp-2">${titleText}</h4>
+                            <div class="flex items-center gap-2 text-[10px] uppercase font-bold text-stone-400">
+                                <span>${(p.views || 0).toLocaleString()} views</span>
+                                <span>•</span>
+                                <span class="text-green-600">${p.category || 'Post'}</span>
                             </div>
-                            <h2 onclick="openModal('${safeId}')" class="text-xl md:text-2xl font-bold text-gray-900 mb-3 hover:text-brand-600 transition cursor-pointer font-serif leading-tight">
-                                ${post.title}
-                            </h2>
-                            <p class="text-gray-600 mb-4 line-clamp-2 text-sm md:text-base leading-relaxed">
-                                ${post.excerpt || (post.content ? post.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : '')}
-                            </p>
                         </div>
-                        <div class="flex items-center justify-between mt-4 border-t border-gray-50 pt-4">
-                            <div class="flex items-center gap-3">
-                                <img src="${post.authorImg}" alt="${post.author}" class="w-8 h-8 rounded-full ring-2 ring-gray-100">
-                                <div class="text-xs">
-                                    <p class="font-semibold text-gray-900">${post.author}</p>
-                                </div>
-                            </div>
-                            <button onclick="openModal('${safeId}')" class="text-brand-600 text-sm font-bold hover:text-brand-800 transition flex items-center gap-1 group/btn">
-                                Read 
-                                <i class="ph-bold ph-arrow-right transform group-hover/btn:translate-x-1 transition"></i>
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderPosts(postsToRender) {
-            postsContainer.innerHTML = '';
-            if (postsToRender.length === 0) {
-                postsContainer.innerHTML = `
-                    <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
-                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="ph-bold ph-magnifying-glass text-2xl text-gray-400"></i>
-                        </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-1">No articles found</h3>
-                        <p class="text-gray-500 text-sm">Be the first to write one!</p>
                     </div>
                 `;
-                return;
-            }
-            postsToRender.forEach(post => {
-                postsContainer.innerHTML += createPostCard(post);
+                list.innerHTML += html;
             });
         }
 
-        // Balancing Helper Function (Optional for user generated content, but kept for logic structure)
-        function isPostVisibleInSearch(post) {
-            // For user generated content, we generally want to show it.
-            // If you want to hide old/low view posts still:
-            if (post.author === 'Admin') return true;
-            // Simplified: All posts visible for now unless filtered
-            return true;
-        }
-
-        const itemsPerPage = 5;
-
-        function filterPosts() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const selectedCategory = categoryFilter.value;
-
-            // Update the global filtered list
-            currentFilteredPosts = posts.filter(post => {
-                // 0. Check View (Home vs Yours)
-                if (currentView === 'yours') {
-                    if (!currentUser || post.author !== currentUser.name) return false;
-                }
-
-                // 1. Basic Filters (Category & Search Text)
-                const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-                const matchesSearch = post.title.toLowerCase().includes(searchTerm) || 
-                                      (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm));
-
-                if (!matchesCategory || !matchesSearch) return false;
-
-                // 2. Balancing Rule Application
-                // ... (simplified to always true for user posts for better UX)
-                
-                return true;
+        // --- 5. Search Logic ---
+        const searchInput = document.getElementById('search-input');
+        if(searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allPosts.filter(p => p.title && p.title.toLowerCase().includes(term));
+                renderTrending(filtered);
             });
-
-            // If searching or filtering, reset to page 1
-            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage) || 1;
-            if (currentPage > totalPages) currentPage = 1;
-
-            updateDisplay();
         }
 
-        function updateDisplay() {
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const pagePosts = currentFilteredPosts.slice(start, end);
-
-            renderPosts(pagePosts);
-            renderPagination();
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            t.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
-
-        function renderPagination() {
-            const container = document.getElementById('pagination-container');
-            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
-
-            if (totalPages <= 1) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-
-            // Previous Button
-            html += `
-                <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="p-2.5 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    <i class="ph-bold ph-caret-left"></i>
-                </button>
-            `;
-
-            // Page Numbers (Smart Range)
-            for (let i = 1; i <= totalPages; i++) {
-                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                    const activeClass = 'bg-brand-600 text-white shadow-sm ring-2 ring-brand-600 ring-offset-2';
-                    const inactiveClass = 'border border-gray-300 text-gray-700 hover:bg-gray-50';
-                    
-                    html += `
-                        <button onclick="goToPage(${i})" class="w-10 h-10 flex items-center justify-center rounded-lg font-medium transition-colors ${i === currentPage ? activeClass : inactiveClass}">
-                            ${i}
-                        </button>
-                    `;
-                } else if (i === currentPage - 2 || i === currentPage + 2) {
-                    html += `<span class="text-gray-400 px-1">...</span>`;
-                }
-            }
-
-            // Next Button
-            html += `
-                <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="p-2.5 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                    <i class="ph-bold ph-caret-right"></i>
-                </button>
-            `;
-
-            container.innerHTML = html;
-        }
-
-        window.goToPage = function(page) {
-            const totalPages = Math.ceil(currentFilteredPosts.length / itemsPerPage);
-            if (page < 1 || page > totalPages) return;
-            
-            currentPage = page;
-            updateDisplay();
-            document.getElementById('posts-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // Init Logic - LOAD SESSION
-        const savedUser = localStorage.getItem('lumina_current_user');
-        if (savedUser) {
-            try {
-                currentUser = JSON.parse(savedUser);
-                updateAuthUI();
-            } catch(e) {
-                console.error("Session load error", e);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initial render might be empty until Firebase loads
-            filterPosts();
-            updateAuthUI(); 
-
-            searchInput.addEventListener('input', () => { currentPage = 1; filterPosts(); });
-            categoryFilter.addEventListener('change', () => { currentPage = 1; filterPosts(); });
-
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const icon = mobileMenuBtn.querySelector('i');
-                if(mobileMenu.classList.contains('hidden')) {
-                    icon.classList.remove('ph-x');
-                    icon.classList.add('ph-list');
-                } else {
-                    icon.classList.remove('ph-list');
-                    icon.classList.add('ph-x');
-                }
-            });
-            
-            document.addEventListener('click', (e) => {
-                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-                     mobileMenu.classList.add('hidden');
-                     const icon = mobileMenuBtn.querySelector('i');
-                     icon.classList.remove('ph-x');
-                     icon.classList.add('ph-list');
-                }
-                const dropdown = document.getElementById('user-dropdown');
-                const profileBtn = document.getElementById('user-profile-desktop');
-                if (!dropdown.classList.contains('hidden') && !profileBtn.contains(e.target)) {
-                    dropdown.classList.add('hidden');
-                }
-            });
-        });
 
     </script>
 </body>
