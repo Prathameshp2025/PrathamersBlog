@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Earth - Prathamer's Blog</title>
+    <title>Prathamer's Blog - Save Earth</title>
     
-    <!-- Google Search Console Verification -->
-    <meta name="google-site-verification" content="t4ZUZByGtlSHwWKLBuQLOL4b3yMbVrLNxTzP8Okd850" />
-
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Save Earth: There is No Planet B - Read insights on environment, sustainability, and personal growth on Prathamer's Blog.">
-    <meta name="keywords" content="save earth, environment, climate change, sustainability, blog, prathamer">
+    <meta name="google-site-verification" content="t4ZUZByGtlSHwWKLBuQLOL4b3yMbVrLNxTzP8Okd850" />
+    <meta name="description" content="Save Earth: There is No Planet B - Insights on environment, sustainability, and personal growth.">
+    <meta name="keywords" content="save earth, environment, climate change, sustainability, blog">
     <meta name="author" content="Prathamer's Blog">
     <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Prathamer's Blog">
+    <meta property="og:description" content="Insights on environment, sustainability, and personal growth.">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 
-    <!-- Performance Optimization -->
+    <!-- Preconnects -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://images.unsplash.com">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,219 +33,136 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
+                            50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac',
+                            400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d',
+                            800: '#166534', 900: '#14532d', 950: '#052e16'
                         },
-                        dark: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                            950: '#020617',
+                        slate: {
+                            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1',
+                            400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155',
+                            800: '#1e293b', 900: '#0f172a', 950: '#020617'
                         }
-                    },
-                    fontFamily: {
-                        'display': ['Playfair Display', 'Georgia', 'serif'],
-                        'body': ['Source Sans 3', 'system-ui', 'sans-serif'],
-                        'mono': ['JetBrains Mono', 'monospace'],
                     }
                 }
             }
         }
     </script>
     
-    <!-- Phosphor Icons -->
+    <!-- Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        body { 
-            font-family: 'Source Sans 3', system-ui, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+        .font-display, h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, serif; }
         
-        h1, h2, h3, h4, .font-display { 
-            font-family: 'Playfair Display', Georgia, serif;
-        }
-        
-        /* Custom Scrollbar */
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 100px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        /* Smooth scrolling */
         html { scroll-behavior: smooth; }
         
         /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+        .animate-spin { animation: spin 1s linear infinite; }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
-        .animate-slide-in { animation: slideIn 0.4s ease-out forwards; }
-        
-        /* Staggered animations */
-        .stagger-1 { animation-delay: 0.1s; }
-        .stagger-2 { animation-delay: 0.2s; }
-        .stagger-3 { animation-delay: 0.3s; }
-        
-        /* Drop cap */
+        /* Drop Cap */
         .drop-cap::first-letter {
             float: left;
             font-family: 'Playfair Display', serif;
             font-size: 4rem;
             line-height: 0.8;
-            padding-right: 0.75rem;
-            padding-top: 0.25rem;
+            padding-right: 12px;
+            padding-top: 4px;
             color: #166534;
             font-weight: 700;
         }
         
-        /* Article prose styling */
-        .article-content p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
+        /* Glass Effect */
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         
-        .article-content h3 {
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-        }
+        /* Line Clamp */
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* Glass morphism */
-        .glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
+        /* Selection */
+        ::selection { background: rgba(22, 163, 74, 0.2); color: #166534; }
         
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #166534 0%, #22c55e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        /* Focus */
+        input:focus, textarea:focus, button:focus { outline: none; }
         
-        /* Card hover effect */
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
-        }
+        /* Progress Bar */
+        #progress-bar { transition: width 0.1s ease-out; }
         
-        /* Image zoom on hover */
-        .img-zoom {
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .img-zoom:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Reading progress bar */
-        #reading-progress {
-            transition: width 0.1s ease-out;
-        }
-        
-        /* Trending item hover */
-        .trending-item {
-            position: relative;
-            overflow: hidden;
-        }
+        /* Trending Item */
+        .trending-item { position: relative; transition: all 0.2s ease; }
         .trending-item::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
+            left: 0; top: 0;
+            height: 100%; width: 3px;
             background: transparent;
-            transition: background 0.3s ease;
+            transition: background 0.2s ease;
+            border-radius: 0 4px 4px 0;
         }
-        .trending-item:hover::before {
-            background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
-        }
-        
-        /* Focus styles */
-        input:focus, textarea:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
-        }
-        
-        /* Selection color */
-        ::selection {
-            background: rgba(22, 163, 74, 0.2);
-            color: #166534;
-        }
+        .trending-item:hover::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
+        .trending-item:hover { background: #f8fafc; }
     </style>
 </head>
-<body class="bg-dark-50 text-dark-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Reading Progress Bar -->
-    <div id="reading-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-600 to-brand-400 z-[100]" style="width: 0%"></div>
+    <!-- Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400 z-[100]" style="width: 0%"></div>
 
-    <!-- Navigation -->
-    <header class="glass border-b border-dark-200/50 sticky top-0 z-50">
+    <!-- Header -->
+    <header class="glass border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="h-16 sm:h-20 flex items-center justify-between gap-4">
+            <div class="h-16 lg:h-20 flex items-center justify-between gap-4">
                 
                 <!-- Logo -->
-                <a href="#" onclick="window.location.reload()" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
+                <a href="#" onclick="location.reload()" class="flex items-center gap-3 group flex-shrink-0">
+                    <div class="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25 group-hover:shadow-brand-500/40 transition-shadow">
                         <i class="ph-fill ph-leaf text-white text-xl"></i>
                     </div>
                     <div class="hidden sm:block">
-                        <span class="font-display font-bold text-xl text-dark-900 tracking-tight">Prathamer</span>
-                        <span class="block text-[10px] uppercase tracking-[0.2em] text-dark-400 font-medium -mt-0.5">Blog</span>
+                        <span class="font-display font-bold text-xl text-slate-900">Prathamer</span>
+                        <span class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 font-semibold -mt-1">Blog</span>
                     </div>
                 </a>
 
-                <!-- Search Bar -->
-                <div class="flex-grow max-w-lg relative group">
+                <!-- Search -->
+                <div class="flex-grow max-w-xl relative group">
                     <input type="text" id="search-input" placeholder="Search articles..." 
-                        class="w-full pl-12 pr-4 py-3 bg-white border border-dark-200 rounded-2xl text-sm focus:border-brand-500 transition-all placeholder-dark-400 shadow-sm">
-                    <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-dark-400 text-lg group-focus-within:text-brand-600 transition-colors"></i>
-                    <kbd class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 px-2 py-1 bg-dark-100 text-dark-400 text-[10px] font-mono rounded-lg border border-dark-200">⌘K</kbd>
+                        class="w-full pl-11 pr-4 py-2.5 lg:py-3 bg-white border border-slate-200 rounded-xl lg:rounded-2xl text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all placeholder-slate-400">
+                    <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-600 transition-colors"></i>
                 </div>
 
-                <!-- Nav Links -->
-                <nav class="flex items-center gap-2">
-                    <a href="#" onclick="window.location.reload()" class="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-dark-600 hover:text-brand-700 hover:bg-brand-50 rounded-xl transition-all">
-                        <i class="ph ph-house text-lg"></i>
-                        <span>Home</span>
+                <!-- Nav -->
+                <nav class="flex items-center gap-2 flex-shrink-0">
+                    <a href="#" onclick="location.reload()" class="hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-xl transition-all">
+                        <i class="ph ph-house-simple text-lg"></i> Home
                     </a>
-                    <a href="#discussion" class="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-dark-600 hover:text-brand-700 hover:bg-brand-50 rounded-xl transition-all">
-                        <i class="ph ph-chat-circle-dots text-lg"></i>
-                        <span>Discussion</span>
+                    <a href="#comments" class="hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-xl transition-all">
+                        <i class="ph ph-chat-dots text-lg"></i> Discuss
                     </a>
-                    <button class="flex items-center gap-2 px-4 py-2.5 bg-dark-900 text-white text-sm font-semibold rounded-xl hover:bg-dark-800 transition-colors shadow-lg shadow-dark-900/10">
-                        <i class="ph ph-bell-ringing text-lg"></i>
+                    <button id="subscribe-btn" class="flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/10">
+                        <i class="ph ph-bell-ringing"></i>
                         <span class="hidden sm:inline">Subscribe</span>
                     </button>
                 </nav>
@@ -248,352 +170,317 @@
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex-grow w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-            
-            <!-- Main Article Column -->
-            <main class="lg:col-span-8 order-1">
-                <article class="bg-white rounded-3xl shadow-xl shadow-dark-900/5 overflow-hidden card-hover" id="main-article">
-                    
-                    <!-- Featured Image -->
-                    <div class="relative aspect-[16/9] overflow-hidden">
-                        <img id="article-image" 
-                            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" 
-                            alt="Article Image" 
-                            class="w-full h-full object-cover img-zoom">
-                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/60 via-transparent to-transparent"></div>
+    <!-- Main -->
+    <main class="flex-grow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+                
+                <!-- Article -->
+                <div class="lg:col-span-8">
+                    <article id="article" class="bg-white rounded-2xl lg:rounded-3xl shadow-xl shadow-slate-900/5 overflow-hidden">
                         
-                        <!-- Category Badge -->
-                        <div class="absolute top-6 left-6">
-                            <span id="article-category" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white/95 backdrop-blur-sm text-brand-700 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
-                                <i class="ph-fill ph-leaf"></i>
-                                Environment
-                            </span>
-                        </div>
-                        
-                        <!-- View Counter -->
-                        <div class="absolute top-6 right-6">
-                            <div class="flex items-center gap-2 px-4 py-2 bg-dark-900/80 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
-                                <i class="ph-fill ph-eye text-brand-400"></i>
-                                <span id="view-counter">...</span>
+                        <!-- Hero Image -->
+                        <div class="relative aspect-[16/9] lg:aspect-[2/1] overflow-hidden bg-slate-200">
+                            <img id="article-image" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=80" alt="Article" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"></div>
+                            
+                            <!-- Category -->
+                            <div class="absolute top-4 left-4 lg:top-6 lg:left-6">
+                                <span id="article-category" class="inline-flex items-center gap-1.5 px-3 py-1.5 lg:px-4 lg:py-2 bg-white/95 backdrop-blur text-brand-700 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+                                    <i class="ph-fill ph-leaf"></i> Environment
+                                </span>
+                            </div>
+                            
+                            <!-- Views -->
+                            <div class="absolute top-4 right-4 lg:top-6 lg:right-6">
+                                <div class="flex items-center gap-2 px-3 py-1.5 lg:px-4 lg:py-2 bg-slate-900/80 backdrop-blur text-white text-sm font-semibold rounded-full">
+                                    <i class="ph-fill ph-eye text-brand-400"></i>
+                                    <span id="view-count">—</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Article Content -->
-                    <div class="p-6 sm:p-10 lg:p-12">
-                        <!-- Header -->
-                        <header class="mb-10 animate-fade-in-up">
-                            <h1 id="article-title" class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-dark-900 leading-tight mb-6">
+                        <!-- Content -->
+                        <div class="p-6 sm:p-8 lg:p-12">
+                            
+                            <!-- Title -->
+                            <h1 id="article-title" class="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight mb-6">
                                 Save Earth: There is No Planet B
                             </h1>
                             
-                            <!-- Author & Meta -->
-                            <div class="flex flex-wrap items-center gap-4 pt-6 border-t border-dark-100">
-                                <a href="#" class="flex items-center gap-3 group">
-                                    <img id="article-author-img" 
-                                        src="https://ui-avatars.com/api/?name=Prathamer&background=166534&color=fff&bold=true" 
-                                        class="w-12 h-12 rounded-full ring-2 ring-white shadow-lg">
+                            <!-- Author -->
+                            <div class="flex flex-wrap items-center gap-4 pb-8 mb-8 border-b border-slate-100">
+                                <div class="flex items-center gap-3">
+                                    <img id="author-avatar" src="https://ui-avatars.com/api/?name=Prathamer&background=166534&color=fff&bold=true&size=96" alt="Author" class="w-11 h-11 lg:w-12 lg:h-12 rounded-full ring-2 ring-white shadow-lg">
                                     <div>
-                                        <span id="article-author" class="block font-semibold text-dark-900 group-hover:text-brand-700 transition-colors">Prathamer</span>
-                                        <span class="text-sm text-dark-400">Author & Founder</span>
+                                        <span id="author-name" class="block font-semibold text-slate-900">Prathamer</span>
+                                        <span class="text-sm text-slate-400">Author</span>
                                     </div>
-                                </a>
+                                </div>
                                 
-                                <div class="hidden sm:block w-px h-10 bg-dark-200"></div>
+                                <div class="hidden sm:block w-px h-10 bg-slate-200"></div>
                                 
-                                <div class="flex items-center gap-6 text-sm text-dark-500">
-                                    <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-4 lg:gap-6 text-sm text-slate-500">
+                                    <span class="flex items-center gap-1.5">
                                         <i class="ph ph-calendar-blank text-brand-600"></i>
                                         <span id="article-date">Oct 24, 2023</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
                                         <i class="ph ph-clock text-brand-600"></i>
                                         <span>5 min read</span>
+                                    </span>
+                                </div>
+                                
+                                <!-- Share -->
+                                <div class="flex items-center gap-2 sm:ml-auto">
+                                    <button onclick="shareTwitter()" class="w-9 h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-brand-100 hover:text-brand-700 transition-all" title="Share on X">
+                                        <i class="ph ph-x-logo"></i>
+                                    </button>
+                                    <button onclick="shareLinkedIn()" class="w-9 h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-brand-100 hover:text-brand-700 transition-all" title="Share on LinkedIn">
+                                        <i class="ph ph-linkedin-logo"></i>
+                                    </button>
+                                    <button onclick="copyLink()" class="w-9 h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-brand-100 hover:text-brand-700 transition-all" title="Copy Link">
+                                        <i class="ph ph-link"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Body -->
+                            <div id="article-body" class="prose prose-lg prose-slate max-w-none">
+                                <p class="drop-cap text-xl text-slate-700 leading-relaxed">
+                                    We often take our planet for granted. The clean air, the fresh water, and the green forests seem infinite, but the reality is starkly different. Climate change is no longer a distant threat; it is happening right now.
+                                </p>
+                                
+                                <p class="text-slate-600 leading-relaxed">
+                                    Our oceans are filling with plastic, our forests are burning, and our wildlife is disappearing at an alarming rate. But it's not too late to act. Small changes in our daily lives can lead to a massive global impact.
+                                </p>
+                                
+                                <h3 class="font-display text-2xl font-bold text-slate-900 mt-10 mb-4">Why We Need to Act Now</h3>
+                                
+                                <p class="text-slate-600 leading-relaxed">
+                                    The Earth provides us with everything we need to survive. By protecting it, we are protecting our own future. Sustainable living isn't just a trend; it's a necessity.
+                                </p>
+                                
+                                <!-- Callout -->
+                                <div class="my-10 p-6 lg:p-8 bg-gradient-to-br from-brand-50 to-brand-100/50 rounded-2xl border border-brand-200/50">
+                                    <h4 class="font-display text-xl font-bold text-brand-900 mb-4 flex items-center gap-2">
+                                        <i class="ph-fill ph-lightbulb text-brand-500"></i>
+                                        The 3 R's of Sustainability
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="flex-shrink-0 w-7 h-7 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm">1</span>
+                                            <p class="text-slate-700"><strong class="text-slate-900">Reduce</strong> — Buy less, waste less.</p>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="flex-shrink-0 w-7 h-7 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm">2</span>
+                                            <p class="text-slate-700"><strong class="text-slate-900">Reuse</strong> — Find new ways to use old items.</p>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <span class="flex-shrink-0 w-7 h-7 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm">3</span>
+                                            <p class="text-slate-700"><strong class="text-slate-900">Recycle</strong> — Properly dispose of waste.</p>
+                                        </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Share Buttons -->
-                                <div class="flex items-center gap-2 ml-auto">
-                                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-dark-100 text-dark-500 hover:bg-brand-100 hover:text-brand-700 transition-all" title="Share on Twitter">
-                                        <i class="ph ph-x-logo text-lg"></i>
-                                    </button>
-                                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-dark-100 text-dark-500 hover:bg-brand-100 hover:text-brand-700 transition-all" title="Share on LinkedIn">
-                                        <i class="ph ph-linkedin-logo text-lg"></i>
-                                    </button>
-                                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-dark-100 text-dark-500 hover:bg-brand-100 hover:text-brand-700 transition-all" title="Copy Link">
-                                        <i class="ph ph-link text-lg"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </header>
-
-                        <!-- Article Body -->
-                        <div id="article-content" class="article-content text-dark-700 text-lg leading-relaxed animate-fade-in-up stagger-1">
-                            <p class="drop-cap text-xl text-dark-800 font-medium">
-                                We often take our planet for granted. The clean air, the fresh water, and the green forests seem infinite, but the reality is starkly different. Climate change is no longer a distant threat; it is happening right now.
-                            </p>
-                            
-                            <p>
-                                Our oceans are filling with plastic, our forests are burning, and our wildlife is disappearing at an alarming rate. But it's not too late to act. Small changes in our daily lives can lead to a massive global impact.
-                            </p>
-                            
-                            <h3 class="font-display text-2xl font-bold text-dark-900">Why We Need to Act Now</h3>
-                            
-                            <p>
-                                The Earth provides us with everything we need to survive. By protecting it, we are protecting our own future. Sustainable living isn't just a trend; it's a necessity. From reducing single-use plastics to conserving water, every action counts.
-                            </p>
-                            
-                            <!-- Callout Box -->
-                            <div class="my-10 p-8 bg-gradient-to-br from-brand-50 to-brand-100/50 rounded-2xl border border-brand-200/50">
-                                <h4 class="font-display text-xl font-bold text-brand-900 mb-4 flex items-center gap-2">
-                                    <i class="ph-fill ph-lightbulb text-brand-500"></i>
-                                    The 3 R's of Sustainability
-                                </h4>
-                                <div class="space-y-3">
-                                    <div class="flex items-start gap-3">
-                                        <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm">1</span>
-                                        <div>
-                                            <strong class="text-dark-900">Reduce</strong>
-                                            <span class="text-dark-600"> — Buy less, waste less. Be mindful of consumption.</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-3">
-                                        <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm">2</span>
-                                        <div>
-                                            <strong class="text-dark-900">Reuse</strong>
-                                            <span class="text-dark-600"> — Find creative new ways to use old items.</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-3">
-                                        <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm">3</span>
-                                        <div>
-                                            <strong class="text-dark-900">Recycle</strong>
-                                            <span class="text-dark-600"> — Properly dispose of waste materials.</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Let's pledge today to do our part. Whether it's planting a tree or simply switching off the lights, let's save our home. Because there is no Planet B.
+                                </p>
+                                
+                                <!-- Quote -->
+                                <blockquote class="my-10 pl-6 border-l-4 border-brand-500 italic text-xl text-slate-600">
+                                    "The Earth does not belong to us: we belong to the Earth."
+                                    <cite class="block mt-2 text-sm not-italic font-semibold text-slate-400">— Chief Seattle</cite>
+                                </blockquote>
                             </div>
                             
-                            <p>
-                                Let's pledge today to do our part. Whether it's planting a tree or simply switching off the lights when not in use, let's save our home. Because there is no Planet B.
-                            </p>
-                            
-                            <!-- Quote Block -->
-                            <blockquote class="my-10 pl-6 border-l-4 border-brand-500 italic text-xl text-dark-600">
-                                "The Earth does not belong to us: we belong to the Earth."
-                                <cite class="block mt-2 text-sm not-italic font-semibold text-dark-400">— Chief Seattle</cite>
-                            </blockquote>
+                            <!-- Tags -->
+                            <div class="mt-10 pt-8 border-t border-slate-100 flex flex-wrap items-center gap-2">
+                                <span class="text-sm font-semibold text-slate-400 mr-2">Tags:</span>
+                                <a href="#" class="px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#environment</a>
+                                <a href="#" class="px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#sustainability</a>
+                                <a href="#" class="px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#climate</a>
+                            </div>
                         </div>
-                        
-                        <!-- Tags -->
-                        <div class="mt-10 pt-8 border-t border-dark-100 flex flex-wrap gap-2">
-                            <span class="text-sm font-semibold text-dark-400 mr-2">Tags:</span>
-                            <a href="#" class="px-3 py-1 bg-dark-100 text-dark-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#environment</a>
-                            <a href="#" class="px-3 py-1 bg-dark-100 text-dark-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#sustainability</a>
-                            <a href="#" class="px-3 py-1 bg-dark-100 text-dark-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#climate</a>
-                            <a href="#" class="px-3 py-1 bg-dark-100 text-dark-600 text-sm rounded-lg hover:bg-brand-100 hover:text-brand-700 transition-colors">#earth</a>
-                        </div>
-                    </div>
-                </article>
+                    </article>
 
-                <!-- Comments Section -->
-                <section class="mt-12" id="discussion">
-                    <div class="flex items-center justify-between mb-8">
-                        <h3 class="font-display text-2xl font-bold text-dark-900 flex items-center gap-3">
-                            <i class="ph-fill ph-chat-circle-dots text-brand-500"></i>
-                            Discussion
-                            <span class="px-3 py-1 bg-brand-500 text-white text-sm font-semibold rounded-full" id="comment-count">0</span>
-                        </h3>
-                    </div>
-
-                    <!-- Comment Form -->
-                    <div class="bg-white rounded-2xl shadow-lg shadow-dark-900/5 p-6 sm:p-8 mb-8">
+                    <!-- Comments -->
+                    <section id="comments" class="mt-10 lg:mt-12">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
-                                <i class="ph ph-user text-white text-xl"></i>
+                            <i class="ph-fill ph-chat-circle-dots text-2xl text-brand-500"></i>
+                            <h2 class="font-display text-2xl font-bold text-slate-900">Discussion</h2>
+                            <span id="comment-count" class="px-2.5 py-0.5 bg-brand-500 text-white text-sm font-bold rounded-full">0</span>
+                        </div>
+
+                        <!-- Comment Form -->
+                        <div class="bg-white rounded-2xl shadow-lg shadow-slate-900/5 p-6 lg:p-8 mb-6">
+                            <div class="flex items-center gap-3 mb-5">
+                                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center shadow-lg">
+                                    <i class="ph ph-user text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-900">Join the conversation</h4>
+                                    <p class="text-sm text-slate-400">Share your thoughts</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-semibold text-dark-900">Join the conversation</h4>
-                                <p class="text-sm text-dark-400">Share your thoughts with the community</p>
+                            
+                            <form id="comment-form" class="space-y-4">
+                                <input type="text" id="comment-name" required placeholder="Your name" 
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all">
+                                <textarea id="comment-text" required rows="3" placeholder="What are your thoughts?" 
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all resize-none"></textarea>
+                                <div class="flex items-center justify-between">
+                                    <p class="text-xs text-slate-400 hidden sm:block">Be respectful and constructive</p>
+                                    <button type="submit" class="flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 transition-colors shadow-lg shadow-brand-600/20 w-full sm:w-auto justify-center">
+                                        <i class="ph ph-paper-plane-tilt"></i> Post Comment
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Comments List -->
+                        <div id="comments-list" class="space-y-4">
+                            <div class="flex items-center justify-center py-10">
+                                <div class="w-8 h-8 rounded-full border-4 border-slate-200 border-t-brand-500 animate-spin"></div>
                             </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="lg:col-span-4 space-y-6">
+                    
+                    <!-- Trending -->
+                    <div class="bg-white rounded-2xl shadow-xl shadow-slate-900/5 overflow-hidden lg:sticky lg:top-28">
+                        <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-5 py-4">
+                            <h3 class="font-semibold text-white flex items-center gap-2">
+                                <i class="ph-fill ph-trend-up text-brand-400"></i> Trending Now
+                            </h3>
                         </div>
                         
-                        <form onsubmit="handlePostComment(event)" class="space-y-4">
-                            <input type="text" id="comment-name" required 
-                                class="w-full px-5 py-3.5 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 placeholder-dark-400 focus:border-brand-500 transition-all" 
-                                placeholder="Your name">
-                            <textarea id="comment-text" required rows="4" 
-                                class="w-full px-5 py-3.5 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 placeholder-dark-400 focus:border-brand-500 transition-all resize-none" 
-                                placeholder="What are your thoughts?"></textarea>
-                            <div class="flex items-center justify-between">
-                                <p class="text-xs text-dark-400">Be respectful and constructive.</p>
-                                <button type="submit" class="flex items-center gap-2 px-6 py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 transition-colors shadow-lg shadow-brand-600/20">
-                                    <i class="ph ph-paper-plane-tilt"></i>
-                                    Post Comment
-                                </button>
+                        <div id="trending-list" class="divide-y divide-slate-100 max-h-[50vh] lg:max-h-[55vh] overflow-y-auto">
+                            <div class="flex items-center justify-center py-10">
+                                <div class="w-6 h-6 rounded-full border-4 border-slate-200 border-t-brand-500 animate-spin"></div>
                             </div>
+                        </div>
+
+                        <div class="bg-slate-50 px-5 py-3 border-t border-slate-100">
+                            <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="w-full flex items-center justify-center gap-2 text-sm font-medium text-slate-500 hover:text-brand-700 transition-colors">
+                                <i class="ph ph-arrow-up"></i> Back to Top
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="bg-gradient-to-br from-brand-600 to-brand-800 rounded-2xl p-6 lg:p-8 text-white shadow-xl shadow-brand-600/20 hidden lg:block">
+                        <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                            <i class="ph-fill ph-envelope-simple text-2xl"></i>
+                        </div>
+                        <h4 class="font-display text-xl font-bold mb-2">Stay Updated</h4>
+                        <p class="text-brand-100 text-sm mb-5">Get the latest posts delivered to your inbox.</p>
+                        <form id="newsletter-form" class="space-y-3">
+                            <input type="email" placeholder="your@email.com" required 
+                                class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:bg-white/20 focus:border-white/40 transition-all">
+                            <button type="submit" class="w-full py-3 bg-white text-brand-700 font-bold rounded-xl hover:bg-brand-50 transition-colors">
+                                Subscribe Free
+                            </button>
                         </form>
+                        <p class="text-[11px] text-brand-200 mt-4 text-center">No spam, unsubscribe anytime</p>
                     </div>
 
-                    <!-- Comments List -->
-                    <div id="comments-list" class="space-y-4">
-                        <div class="flex items-center justify-center py-12">
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="w-10 h-10 rounded-full border-4 border-dark-200 border-t-brand-500 animate-spin"></div>
-                                <span class="text-sm text-dark-400">Loading comments...</span>
-                            </div>
+                    <!-- CTA -->
+                    <div class="bg-white rounded-2xl p-6 text-center border border-slate-100 shadow-lg shadow-slate-900/5 hidden lg:block">
+                        <div class="w-14 h-14 rounded-full bg-brand-100 flex items-center justify-center mx-auto mb-4">
+                            <i class="ph-duotone ph-tree text-2xl text-brand-600"></i>
                         </div>
-                    </div>
-                </section>
-            </main>
-
-            <!-- Sidebar -->
-            <aside class="lg:col-span-4 space-y-8 order-2" id="trending-section">
-                
-                <!-- Trending Widget -->
-                <div class="bg-white rounded-2xl shadow-xl shadow-dark-900/5 overflow-hidden sticky top-28">
-                    <div class="bg-gradient-to-r from-dark-900 to-dark-800 px-6 py-5">
-                        <h3 class="font-display text-lg font-bold text-white flex items-center gap-2">
-                            <i class="ph-fill ph-trend-up text-brand-400"></i>
-                            Trending Now
-                        </h3>
-                        <p class="text-dark-400 text-sm mt-1">Most popular this week</p>
-                    </div>
-                    
-                    <div class="divide-y divide-dark-100 max-h-[60vh] overflow-y-auto" id="trending-list">
-                        <div class="flex items-center justify-center py-12">
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="w-8 h-8 rounded-full border-4 border-dark-200 border-t-brand-500 animate-spin"></div>
-                                <span class="text-xs text-dark-400">Loading trends...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-dark-50 px-6 py-4 border-t border-dark-100">
-                        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full flex items-center justify-center gap-2 text-sm font-semibold text-dark-500 hover:text-brand-700 transition-colors">
-                            <i class="ph ph-arrow-up"></i>
-                            Back to Top
+                        <h4 class="font-display font-bold text-slate-900 text-lg">Plant a Tree</h4>
+                        <p class="text-sm text-slate-500 mt-2 mb-4">Join our initiative to plant 1 million trees.</p>
+                        <button class="w-full py-2.5 bg-brand-50 text-brand-700 font-semibold rounded-xl hover:bg-brand-100 transition-colors border border-brand-200">
+                            Learn More →
                         </button>
                     </div>
-                </div>
-
-                <!-- Newsletter Widget -->
-                <div class="bg-gradient-to-br from-brand-600 to-brand-800 rounded-2xl p-8 text-white shadow-xl shadow-brand-600/20">
-                    <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
-                        <i class="ph-fill ph-envelope-simple text-3xl"></i>
-                    </div>
-                    <h4 class="font-display text-xl font-bold mb-2">Stay Updated</h4>
-                    <p class="text-brand-100 text-sm mb-6">Get the latest posts delivered straight to your inbox.</p>
-                    <form class="space-y-3">
-                        <input type="email" placeholder="Enter your email" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:bg-white/20 focus:border-white/40 transition-all">
-                        <button type="submit" class="w-full py-3 bg-white text-brand-700 font-bold rounded-xl hover:bg-brand-50 transition-colors">
-                            Subscribe Free
-                        </button>
-                    </form>
-                    <p class="text-[11px] text-brand-200 mt-4 text-center">No spam, unsubscribe anytime.</p>
-                </div>
-
-                <!-- Plant a Tree CTA -->
-                <div class="bg-white rounded-2xl p-6 text-center border border-dark-100 shadow-lg shadow-dark-900/5">
-                    <div class="w-16 h-16 rounded-full bg-brand-100 flex items-center justify-center mx-auto mb-4">
-                        <i class="ph-duotone ph-tree text-3xl text-brand-600"></i>
-                    </div>
-                    <h4 class="font-display font-bold text-dark-900 text-lg">Plant a Tree</h4>
-                    <p class="text-sm text-dark-500 mt-2 mb-5">Join our initiative to plant 1 million trees this year.</p>
-                    <button class="w-full py-3 bg-brand-50 text-brand-700 font-bold rounded-xl hover:bg-brand-100 transition-colors border border-brand-200">
-                        Learn More →
-                    </button>
-                </div>
-            </aside>
-
+                </aside>
+            </div>
         </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-dark-900 text-dark-300 mt-auto">
+    <footer class="bg-slate-900 text-slate-300 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Main Footer -->
-            <div class="py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="py-12 lg:py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+                
                 <!-- Brand -->
                 <div class="md:col-span-2">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
-                            <i class="ph-fill ph-leaf text-white text-2xl"></i>
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
+                            <i class="ph-fill ph-leaf text-white text-xl"></i>
                         </div>
                         <div>
-                            <span class="font-display font-bold text-2xl text-white">Prathamer</span>
-                            <span class="block text-xs uppercase tracking-[0.2em] text-dark-500">Blog</span>
+                            <span class="font-display font-bold text-xl text-white">Prathamer</span>
+                            <span class="block text-xs uppercase tracking-[0.2em] text-slate-500">Blog</span>
                         </div>
                     </div>
-                    <p class="text-dark-400 leading-relaxed max-w-md">
-                        Sharing insights on environment, sustainability, and personal growth. Join us in making the world a better place, one article at a time.
+                    <p class="text-slate-400 leading-relaxed max-w-md mb-6">
+                        Sharing insights on environment, sustainability, and personal growth. Join us in making the world a better place.
                     </p>
-                    <div class="flex gap-3 mt-6">
-                        <a href="#" class="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center text-dark-400 hover:bg-brand-600 hover:text-white transition-all">
-                            <i class="ph ph-x-logo text-lg"></i>
+                    <div class="flex gap-2">
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-brand-600 hover:text-white transition-all">
+                            <i class="ph ph-x-logo"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center text-dark-400 hover:bg-brand-600 hover:text-white transition-all">
-                            <i class="ph ph-instagram-logo text-lg"></i>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-brand-600 hover:text-white transition-all">
+                            <i class="ph ph-instagram-logo"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center text-dark-400 hover:bg-brand-600 hover:text-white transition-all">
-                            <i class="ph ph-linkedin-logo text-lg"></i>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-brand-600 hover:text-white transition-all">
+                            <i class="ph ph-linkedin-logo"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center text-dark-400 hover:bg-brand-600 hover:text-white transition-all">
-                            <i class="ph ph-github-logo text-lg"></i>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-brand-600 hover:text-white transition-all">
+                            <i class="ph ph-github-logo"></i>
                         </a>
                     </div>
                 </div>
                 
-                <!-- Quick Links -->
+                <!-- Links -->
                 <div>
                     <h5 class="font-semibold text-white mb-4 uppercase tracking-wider text-sm">Quick Links</h5>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Home</a></li>
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">About</a></li>
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Categories</a></li>
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Contact</a></li>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Home</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">About</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Categories</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Contact</a></li>
                     </ul>
                 </div>
                 
                 <!-- Categories -->
                 <div>
                     <h5 class="font-semibold text-white mb-4 uppercase tracking-wider text-sm">Categories</h5>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Environment</a></li>
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Technology</a></li>
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Lifestyle</a></li>
-                        <li><a href="#" class="text-dark-400 hover:text-brand-400 transition-colors">Health</a></li>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Environment</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Technology</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Lifestyle</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">Health</a></li>
                     </ul>
                 </div>
             </div>
             
-            <!-- Bottom Footer -->
-            <div class="py-6 border-t border-dark-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-dark-500">© 2026 Prathamer's Blog. All rights reserved.</p>
-                <p class="text-sm text-dark-500">Powered by <span class="text-brand-400">Cloud Technology</span></p>
+            <!-- Bottom -->
+            <div class="py-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+                <p>© 2026 Prathamer's Blog. All rights reserved.</p>
+                <p>Made with <i class="ph-fill ph-heart text-brand-500"></i> for Earth</p>
             </div>
         </div>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 flex items-center gap-3 px-5 py-4 bg-dark-900 text-white rounded-2xl shadow-2xl transform translate-y-24 opacity-0 transition-all duration-300 z-50 border-l-4 border-brand-500">
-        <div class="w-8 h-8 rounded-full bg-brand-500/20 flex items-center justify-center">
-            <i class="ph-fill ph-check-circle text-brand-400 text-lg"></i>
-        </div>
-        <div>
-            <p class="font-semibold" id="toast-msg">Success!</p>
-            <p class="text-sm text-dark-400">Your action was completed.</p>
-        </div>
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 flex items-center gap-3 px-5 py-4 bg-slate-900 text-white rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 border-l-4 border-brand-500 max-w-sm">
+        <i id="toast-icon" class="ph-fill ph-check-circle text-brand-400 text-xl"></i>
+        <span id="toast-msg">Success!</span>
     </div>
 
-    <!-- Firebase & App Logic -->
+    <!-- Firebase -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getDatabase, ref, push, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCZNXuHg15Ns3ydQ8yd6VOjm58sjfH2dUE",
             authDomain: "prathamersblog.firebaseapp.com",
@@ -601,8 +488,7 @@
             projectId: "prathamersblog",
             storageBucket: "prathamersblog.firebasestorage.app",
             messagingSenderId: "632179269904",
-            appId: "1:632179269904:web:64e4beb224ad1ed79e4595",
-            measurementId: "G-HSW8MLPQV8"
+            appId: "1:632179269904:web:64e4beb224ad1ed79e4595"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -612,211 +498,150 @@
         const badWords = ['fuck', 'shit', 'bitch', 'asshole', 'idiot', 'stupid', 'sex', 'porn'];
         let activePostId = 'save-earth-001';
         let allPosts = [];
-        let unsubscribeViews = null;
-        let unsubscribeComments = null;
-
-        // Reading Progress Bar
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('reading-progress').style.width = scrolled + '%';
-        });
-
-        // Load Post
-        window.loadPost = function(id) {
-            const safeId = String(id);
-            activePostId = safeId;
-            const post = allPosts.find(p => String(p.id) === safeId);
-            
-            if (post) {
-                document.getElementById('article-title').textContent = post.title;
-                document.getElementById('article-category').innerHTML = `<i class="ph-fill ph-tag"></i> ${post.category || 'General'}`;
-                document.getElementById('article-image').src = post.image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600";
-                
-                const contentEl = document.getElementById('article-content');
-                contentEl.innerHTML = post.content || `<p class="drop-cap text-xl text-dark-800 font-medium">${post.excerpt || 'No preview available.'}</p>`;
-                
-                document.getElementById('article-author').textContent = post.author || 'Anonymous';
-                document.getElementById('article-author-img').src = post.authorImg || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author || 'User')}&background=166534&color=fff&bold=true`;
-                document.getElementById('article-date').textContent = post.date || new Date().toLocaleDateString();
-                
-                window.scrollTo({top: 0, behavior: 'smooth'});
-                document.getElementById('main-article').classList.add('animate-fade-in-up');
-            }
-            setupListeners(safeId);
-        }
-
-        // Firebase Listeners
-        function setupListeners(postId) {
-            if (typeof unsubscribeViews === 'function') unsubscribeViews();
-            if (typeof unsubscribeComments === 'function') unsubscribeComments();
-
-            const viewCountRef = ref(db, `posts/${postId}/views`);
-            runTransaction(viewCountRef, (currentViews) => (currentViews || 0) + 1);
-            
-            unsubscribeViews = onValue(viewCountRef, (snapshot) => {
-                const views = snapshot.val() || 0;
-                const el = document.getElementById('view-counter');
-                if(el) el.textContent = views.toLocaleString() + " views";
-            });
-
-            const commentsRef = ref(db, 'comments');
-            unsubscribeComments = onValue(commentsRef, (snapshot) => {
-                const data = snapshot.val();
-                const list = document.getElementById('comments-list');
-                const countEl = document.getElementById('comment-count');
-                if(!list) return;
-                
-                list.innerHTML = '';
-                if (!data) {
-                    list.innerHTML = `
-                        <div class="text-center py-12">
-                            <div class="w-16 h-16 rounded-full bg-dark-100 flex items-center justify-center mx-auto mb-4">
-                                <i class="ph ph-chat-circle-dots text-3xl text-dark-300"></i>
-                            </div>
-                            <p class="text-dark-500 font-medium">No comments yet</p>
-                            <p class="text-sm text-dark-400 mt-1">Be the first to share your thoughts!</p>
-                        </div>`;
-                    if(countEl) countEl.textContent = '0';
-                    return;
-                }
-
-                const commentsArray = Object.values(data)
-                    .filter(c => String(c.postId) === String(postId))
-                    .sort((a, b) => b.timestamp - a.timestamp);
-
-                if(countEl) countEl.textContent = commentsArray.length;
-
-                if (commentsArray.length === 0) {
-                    list.innerHTML = `
-                        <div class="text-center py-12">
-                            <div class="w-16 h-16 rounded-full bg-dark-100 flex items-center justify-center mx-auto mb-4">
-                                <i class="ph ph-chat-circle-dots text-3xl text-dark-300"></i>
-                            </div>
-                            <p class="text-dark-500 font-medium">No comments yet</p>
-                            <p class="text-sm text-dark-400 mt-1">Be the first to share your thoughts!</p>
-                        </div>`;
-                    return;
-                }
-
-                commentsArray.forEach((c, index) => {
-                    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.author)}&background=random&color=fff&bold=true`;
-                    const html = `
-                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-dark-100 hover:border-dark-200 transition-all animate-fade-in-up" style="animation-delay: ${index * 0.1}s">
-                            <div class="flex gap-4">
-                                <img src="${avatarUrl}" alt="${c.author}" class="w-12 h-12 rounded-full shadow-md flex-shrink-0">
-                                <div class="flex-grow">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="font-bold text-dark-900">${c.author}</span>
-                                        <span class="text-xs text-dark-400 flex items-center gap-1">
-                                            <i class="ph ph-clock"></i>
-                                            ${c.date}
-                                        </span>
-                                    </div>
-                                    <p class="text-dark-700 leading-relaxed">${c.text}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    list.innerHTML += html;
-                });
-            });
-        }
 
         // Default Post
         const defaultPost = {
             id: 'save-earth-001',
             title: "Save Earth: There is No Planet B",
             category: "Environment",
-            image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80",
+            image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=80",
             author: "Prathamer",
             date: "Oct 24, 2023",
-            views: 1200,
-            content: document.getElementById('article-content').innerHTML
+            views: 1200
         };
         allPosts.push(defaultPost);
-        setupListeners(activePostId);
 
-        // Comment Submission
-        window.handlePostComment = async function(e) {
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        // Views
+        const viewsRef = ref(db, `posts/${activePostId}/views`);
+        runTransaction(viewsRef, (current) => (current || 0) + 1);
+        onValue(viewsRef, (snap) => {
+            document.getElementById('view-count').textContent = (snap.val() || 0).toLocaleString() + ' views';
+        });
+
+        // Comments
+        const commentsRef = ref(db, 'comments');
+        onValue(commentsRef, (snap) => {
+            const data = snap.val();
+            const list = document.getElementById('comments-list');
+            const countEl = document.getElementById('comment-count');
+            
+            if (!data) {
+                list.innerHTML = `
+                    <div class="text-center py-10">
+                        <div class="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3">
+                            <i class="ph ph-chat-circle-dots text-2xl text-slate-300"></i>
+                        </div>
+                        <p class="text-slate-500 font-medium">No comments yet</p>
+                        <p class="text-sm text-slate-400">Be the first to share your thoughts!</p>
+                    </div>`;
+                countEl.textContent = '0';
+                return;
+            }
+
+            const comments = Object.values(data)
+                .filter(c => c.postId === activePostId)
+                .sort((a, b) => b.timestamp - a.timestamp);
+
+            countEl.textContent = comments.length;
+
+            if (comments.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-10">
+                        <div class="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3">
+                            <i class="ph ph-chat-circle-dots text-2xl text-slate-300"></i>
+                        </div>
+                        <p class="text-slate-500 font-medium">No comments yet</p>
+                        <p class="text-sm text-slate-400">Be the first to share your thoughts!</p>
+                    </div>`;
+                return;
+            }
+
+            list.innerHTML = comments.map((c, i) => `
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-100 animate-fade-in" style="animation-delay: ${i * 0.05}s">
+                    <div class="flex gap-3">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(c.author)}&background=random&color=fff&bold=true" 
+                            alt="${c.author}" class="w-10 h-10 rounded-full shadow">
+                        <div class="flex-grow">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-semibold text-slate-900">${c.author}</span>
+                                <span class="text-xs text-slate-400">${c.date}</span>
+                            </div>
+                            <p class="text-slate-600 leading-relaxed">${c.text}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        // Comment Form
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nameInput = document.getElementById('comment-name');
-            const textInput = document.getElementById('comment-text');
-            const name = nameInput.value.trim();
-            const text = textInput.value.trim();
+            const nameEl = document.getElementById('comment-name');
+            const textEl = document.getElementById('comment-text');
+            const name = nameEl.value.trim();
+            const text = textEl.value.trim();
 
             if (!name || !text) return;
-            if (badWords.some(w => (name + " " + text).toLowerCase().includes(w))) {
-                showToast("Please be respectful. Profanity is not allowed.", "error");
+            if (badWords.some(w => (name + ' ' + text).toLowerCase().includes(w))) {
+                showToast('Please be respectful.', 'error');
                 return;
             }
 
             try {
-                await push(ref(db, 'comments'), {
+                await push(commentsRef, {
                     postId: activePostId,
                     author: name,
                     text: text,
                     date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                     timestamp: Date.now()
                 });
-                nameInput.value = '';
-                textInput.value = '';
-                showToast("Comment posted successfully!");
+                nameEl.value = '';
+                textEl.value = '';
+                showToast('Comment posted!');
             } catch (err) {
-                console.error(err);
-                showToast("Failed to post comment.", "error");
+                showToast('Failed to post.', 'error');
             }
-        }
+        });
 
-        // Trending Posts
+        // Trending
         const postsRef = ref(db, 'posts');
-        onValue(postsRef, (snapshot) => {
-            const data = snapshot.val();
-            const trendingList = document.getElementById('trending-list');
-            if(!trendingList) return;
-            
+        onValue(postsRef, (snap) => {
+            const data = snap.val();
             allPosts = [defaultPost];
-            
-            // Additional posts
+
             allPosts.push({
-                id: 'harshal-patil-001',
+                id: 'tech-001',
                 title: "The Future of Web Development",
                 category: "Technology",
-                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80",
+                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
                 author: "Harshal Patil",
-                date: "Jan 15, 2026",
-                views: 850,
-                excerpt: "Exploring the latest trends in web development and what lies ahead for developers in 2026.",
-                content: `<p class="drop-cap text-xl text-dark-800 font-medium">The landscape of web development is changing rapidly. As we move further into the digital age, the tools and technologies we use are becoming more powerful and complex.</p><p>From AI-assisted coding to serverless architectures, the way we build the web is evolving.</p><h3 class="font-display text-2xl font-bold text-dark-900">Embracing AI</h3><p>Artificial Intelligence is no longer just a buzzword. It's a tool that every developer needs to have in their arsenal.</p>`
+                views: 850
             });
-            
+
             if (data) {
-                for (let key in data) {
-                    if (key !== 'save-earth-001') {
-                        allPosts.push({ id: key, ...data[key] });
-                    }
-                }
+                Object.entries(data).forEach(([key, val]) => {
+                    if (key !== 'save-earth-001') allPosts.push({ id: key, ...val });
+                });
             }
-            
-            // Dummy posts if needed
-            if (allPosts.length <= 2) {
-                const dummyTopics = [
-                    {t: "Future of Green Tech", c: "Tech", img: "photo-1518640467707-6811f4a6ab73"},
-                    {t: "Sustainable Living Guide", c: "Lifestyle", img: "photo-1542601906990-b4d3fb778b09"},
-                    {t: "Zero Waste Cooking", c: "Food", img: "photo-1556909114-f6e7ad7d3136"},
-                    {t: "Travel on a Budget", c: "Travel", img: "photo-1488646953014-85cb44e25828"},
-                    {t: "Meditation 101", c: "Health", img: "photo-1506126613408-eca07ce68773"}
+
+            // Add dummies if needed
+            if (allPosts.length < 5) {
+                const dummies = [
+                    { t: "Green Tech Innovations", c: "Tech", v: 450 },
+                    { t: "Sustainable Living Guide", c: "Lifestyle", v: 380 },
+                    { t: "Zero Waste Cooking", c: "Food", v: 290 },
+                    { t: "Meditation for Beginners", c: "Health", v: 220 }
                 ];
-                dummyTopics.forEach((t, i) => {
-                    allPosts.push({
-                        id: `dummy-${i}`,
-                        title: t.t,
-                        category: t.c,
-                        views: Math.floor(Math.random() * 400) + 100,
-                        excerpt: "This is a sample trending post. Read more to find out about this topic...",
-                        image: `https://images.unsplash.com/${t.img}?w=800`
-                    });
+                dummies.forEach((d, i) => {
+                    allPosts.push({ id: `dummy-${i}`, title: d.t, category: d.c, views: d.v });
                 });
             }
 
@@ -825,59 +650,820 @@
 
         function renderTrending(posts) {
             const list = document.getElementById('trending-list');
-            list.innerHTML = '';
-            
             const sorted = [...posts].sort((a, b) => (b.views || 0) - (a.views || 0));
 
-            sorted.forEach((p, index) => {
-                const html = `
-                    <div onclick="loadPost('${String(p.id)}')" class="trending-item flex items-start gap-4 p-4 cursor-pointer hover:bg-dark-50 transition-all group">
-                        <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-dark-100 flex items-center justify-center font-bold text-sm text-dark-400 group-hover:bg-brand-500 group-hover:text-white transition-all">
-                            ${index + 1}
-                        </span>
-                        <div class="flex-grow min-w-0">
-                            <h4 class="font-semibold text-dark-800 text-sm leading-snug mb-1.5 group-hover:text-brand-700 transition-colors line-clamp-2">
-                                ${p.title || 'Untitled'}
-                            </h4>
-                            <div class="flex items-center gap-3 text-xs text-dark-400">
-                                <span class="flex items-center gap-1">
-                                    <i class="ph ph-eye"></i>
-                                    ${(p.views || 0).toLocaleString()}
-                                </span>
-                                <span class="px-2 py-0.5 bg-brand-100 text-brand-700 rounded-full font-medium">
-                                    ${p.category || 'Post'}
-                                </span>
-                            </div>
+            list.innerHTML = sorted.map((p, i) => `
+                <div onclick="loadPost('${p.id}')" class="trending-item flex items-start gap-3 p-4 cursor-pointer group">
+                    <span class="flex-shrink-0 w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-sm text-slate-400 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        ${i + 1}
+                    </span>
+                    <div class="flex-grow min-w-0">
+                        <h4 class="font-medium text-slate-800 text-sm leading-snug mb-1 group-hover:text-brand-700 transition-colors line-clamp-2">
+                            ${p.title || 'Untitled'}
+                        </h4>
+                        <div class="flex items-center gap-2 text-xs text-slate-400">
+                            <span>${(p.views || 0).toLocaleString()} views</span>
+                            <span class="px-1.5 py-0.5 bg-brand-100 text-brand-700 rounded font-medium">${p.category || 'Post'}</span>
                         </div>
                     </div>
-                `;
-                list.innerHTML += html;
-            });
+                </div>
+            `).join('');
         }
+
+        // Load Post
+        window.loadPost = function(id) {
+            const post = allPosts.find(p => p.id === id);
+            if (!post) return;
+
+            activePostId = id;
+            document.getElementById('article-title').textContent = post.title || 'Untitled';
+            document.getElementById('article-category').innerHTML = `<i class="ph-fill ph-tag"></i> ${post.category || 'General'}`;
+            if (post.image) document.getElementById('article-image').src = post.image;
+            if (post.author) {
+                document.getElementById('author-name').textContent = post.author;
+                document.getElementById('author-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=166534&color=fff&bold=true`;
+            }
+            if (post.date) document.getElementById('article-date').textContent = post.date;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast('Article loaded!');
+        };
 
         // Search
-        const searchInput = document.getElementById('search-input');
-        if(searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                const filtered = allPosts.filter(p => p.title && p.title.toLowerCase().includes(term));
-                renderTrending(filtered);
-            });
-        }
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allPosts.filter(p => p.title?.toLowerCase().includes(term));
+            renderTrending(filtered);
+        });
+
+        // Share
+        window.shareTwitter = () => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent(document.getElementById('article-title').textContent)}`, '_blank');
+        window.shareLinkedIn = () => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(location.href)}`, '_blank');
+        window.copyLink = () => { navigator.clipboard.writeText(location.href); showToast('Link copied!'); };
 
         // Toast
-        function showToast(msg, type = "success") {
-            const t = document.getElementById('toast');
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
             document.getElementById('toast-msg').textContent = msg;
-            t.classList.remove('translate-y-24', 'opacity-0');
-            if (type === "error") {
-                t.classList.add('border-red-500');
-            } else {
-                t.classList.remove('border-red-500');
-            }
-            setTimeout(() => t.classList.add('translate-y-24', 'opacity-0'), 3500);
+            icon.className = type === 'error' ? 'ph-fill ph-x-circle text-red-400 text-xl' : 'ph-fill ph-check-circle text-brand-400 text-xl';
+            toast.style.borderColor = type === 'error' ? '#ef4444' : '#22c55e';
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
         window.showToast = showToast;
     </script>
 </body>
 </html>
+
+2. App.jsx (React Version)
+Create a React project with these files:
+src/App.jsx
+jsxDownloadCopy codeimport React, { useState, useEffect, useCallback } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, push, onValue, runTransaction } from 'firebase/database';
+
+// Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyCZNXuHg15Ns3ydQ8yd6VOjm58sjfH2dUE",
+  authDomain: "prathamersblog.firebaseapp.com",
+  databaseURL: "https://my-blog-server-ed755-default-rtdb.firebaseio.com/",
+  projectId: "prathamersblog",
+  storageBucket: "prathamersblog.firebasestorage.app",
+  messagingSenderId: "632179269904",
+  appId: "1:632179269904:web:64e4beb224ad1ed79e4595"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Bad words filter
+const badWords = ['fuck', 'shit', 'bitch', 'asshole', 'idiot', 'stupid', 'sex', 'porn'];
+
+// Default posts data
+const defaultPosts = [
+  {
+    id: 'save-earth-001',
+    title: "Save Earth: There is No Planet B",
+    category: "Environment",
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=80",
+    author: "Prathamer",
+    date: "Oct 24, 2023",
+    views: 1200,
+    content: `
+      <p class="drop-cap">We often take our planet for granted. The clean air, the fresh water, and the green forests seem infinite, but the reality is starkly different. Climate change is no longer a distant threat; it is happening right now.</p>
+      <p>Our oceans are filling with plastic, our forests are burning, and our wildlife is disappearing at an alarming rate. But it's not too late to act.</p>
+      <h3>Why We Need to Act Now</h3>
+      <p>The Earth provides us with everything we need to survive. By protecting it, we are protecting our own future.</p>
+    `
+  },
+  {
+    id: 'tech-001',
+    title: "The Future of Web Development",
+    category: "Technology",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+    author: "Harshal Patil",
+    date: "Jan 15, 2026",
+    views: 850,
+    content: `<p class="drop-cap">The landscape of web development is changing rapidly. As we move further into the digital age, the tools and technologies we use are becoming more powerful.</p>`
+  },
+  {
+    id: 'dummy-1',
+    title: "Green Tech Innovations",
+    category: "Tech",
+    views: 450
+  },
+  {
+    id: 'dummy-2',
+    title: "Sustainable Living Guide",
+    category: "Lifestyle",
+    views: 380
+  },
+  {
+    id: 'dummy-3',
+    title: "Zero Waste Cooking",
+    category: "Food",
+    views: 290
+  }
+];
+
+// Toast Component
+const Toast = ({ message, type, show }) => (
+  <div className={`fixed bottom-5 right-5 flex items-center gap-3 px-5 py-4 bg-slate-900 text-white rounded-xl shadow-2xl transition-all duration-300 z-50 border-l-4 max-w-sm ${show ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'} ${type === 'error' ? 'border-red-500' : 'border-green-500'}`}>
+    <span className={`text-xl ${type === 'error' ? 'text-red-400' : 'text-green-400'}`}>
+      {type === 'error' ? '✕' : '✓'}
+    </span>
+    <span>{message}</span>
+  </div>
+);
+
+// Header Component
+const Header = ({ searchTerm, setSearchTerm }) => (
+  <header className="bg-white/85 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="h-16 lg:h-20 flex items-center justify-between gap-4">
+        
+        {/* Logo */}
+        <a href="/" className="flex items-center gap-3 group flex-shrink-0">
+          <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center shadow-lg shadow-green-500/25 group-hover:shadow-green-500/40 transition-shadow">
+            <span className="text-white text-xl">🌿</span>
+          </div>
+          <div className="hidden sm:block">
+            <span className="font-serif font-bold text-xl text-slate-900">Prathamer</span>
+            <span className="block text-[10px] uppercase tracking-[0.2em] text-slate-400 font-semibold -mt-1">Blog</span>
+          </div>
+        </a>
+
+        {/* Search */}
+        <div className="flex-grow max-w-xl relative">
+          <input 
+            type="text" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search articles..." 
+            className="w-full pl-11 pr-4 py-2.5 lg:py-3 bg-white border border-slate-200 rounded-xl lg:rounded-2xl text-sm focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all placeholder-slate-400 outline-none"
+          />
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex items-center gap-2 flex-shrink-0">
+          <a href="#comments" className="hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-green-700 hover:bg-green-50 rounded-xl transition-all">
+            💬 Discuss
+          </a>
+          <button className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/10">
+            🔔 <span className="hidden sm:inline">Subscribe</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+);
+
+// Article Component
+const Article = ({ post, viewCount }) => (
+  <article className="bg-white rounded-2xl lg:rounded-3xl shadow-xl shadow-slate-900/5 overflow-hidden">
+    
+    {/* Hero Image */}
+    <div className="relative aspect-[16/9] lg:aspect-[2/1] overflow-hidden bg-slate-200">
+      <img 
+        src={post.image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600"} 
+        alt={post.title}
+        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent" />
+      
+      {/* Category Badge */}
+      <div className="absolute top-4 left-4 lg:top-6 lg:left-6">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 lg:px-4 lg:py-2 bg-white/95 backdrop-blur text-green-700 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+          🏷️ {post.category || 'General'}
+        </span>
+      </div>
+      
+      {/* Views */}
+      <div className="absolute top-4 right-4 lg:top-6 lg:right-6">
+        <div className="flex items-center gap-2 px-3 py-1.5 lg:px-4 lg:py-2 bg-slate-900/80 backdrop-blur text-white text-sm font-semibold rounded-full">
+          👁️ {viewCount.toLocaleString()} views
+        </div>
+      </div>
+    </div>
+
+    {/* Content */}
+    <div className="p-6 sm:p-8 lg:p-12">
+      
+      {/* Title */}
+      <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight mb-6">
+        {post.title}
+      </h1>
+      
+      {/* Author Meta */}
+      <div className="flex flex-wrap items-center gap-4 pb-8 mb-8 border-b border-slate-100">
+        <div className="flex items-center gap-3">
+          <img 
+            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author || 'User')}&background=166534&color=fff&bold=true&size=96`}
+            alt={post.author}
+            className="w-11 h-11 lg:w-12 lg:h-12 rounded-full ring-2 ring-white shadow-lg"
+          />
+          <div>
+            <span className="block font-semibold text-slate-900">{post.author || 'Anonymous'}</span>
+            <span className="text-sm text-slate-400">Author</span>
+          </div>
+        </div>
+        
+        <div className="hidden sm:block w-px h-10 bg-slate-200" />
+        
+        <div className="flex items-center gap-4 lg:gap-6 text-sm text-slate-500">
+          <span className="flex items-center gap-1.5">
+            📅 {post.date || 'Recent'}
+          </span>
+          <span className="flex items-center gap-1.5">
+            ⏱️ 5 min read
+          </span>
+        </div>
+        
+        {/* Share Buttons */}
+        <div className="flex items-center gap-2 sm:ml-auto">
+          <button 
+            onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`, '_blank')}
+            className="w-9 h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-green-100 hover:text-green-700 transition-all"
+            title="Share on X"
+          >
+            𝕏
+          </button>
+          <button 
+            onClick={() => navigator.clipboard.writeText(window.location.href)}
+            className="w-9 h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-green-100 hover:text-green-700 transition-all"
+            title="Copy Link"
+          >
+            🔗
+          </button>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div 
+        className="prose prose-lg prose-slate max-w-none"
+        dangerouslySetInnerHTML={{ __html: post.content || `<p class="drop-cap">${post.title}. Click on trending articles to read more content.</p>` }}
+      />
+      
+      {/* Tags */}
+      <div className="mt-10 pt-8 border-t border-slate-100 flex flex-wrap items-center gap-2">
+        <span className="text-sm font-semibold text-slate-400 mr-2">Tags:</span>
+        <span className="px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-green-100 hover:text-green-700 transition-colors cursor-pointer">#environment</span>
+        <span className="px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-green-100 hover:text-green-700 transition-colors cursor-pointer">#sustainability</span>
+      </div>
+    </div>
+  </article>
+);
+
+// Comment Form Component
+const CommentForm = ({ onSubmit, isSubmitting }) => {
+  const [name, setName] = useState('');
+  const [text, setText] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (name.trim() && text.trim()) {
+      onSubmit(name.trim(), text.trim());
+      setName('');
+      setText('');
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-2xl shadow-lg shadow-slate-900/5 p-6 lg:p-8 mb-6">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg">
+          <span className="text-white text-lg">👤</span>
+        </div>
+        <div>
+          <h4 className="font-semibold text-slate-900">Join the conversation</h4>
+          <p className="text-sm text-slate-400">Share your thoughts</p>
+        </div>
+      </div>
+      
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input 
+          type="text" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required 
+          placeholder="Your name" 
+          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all outline-none"
+        />
+        <textarea 
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          required 
+          rows="3" 
+          placeholder="What are your thoughts?" 
+          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all resize-none outline-none"
+        />
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-slate-400 hidden sm:block">Be respectful and constructive</p>
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20 w-full sm:w-auto justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? '⏳ Posting...' : '✈️ Post Comment'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+// Comment Item Component
+const CommentItem = ({ comment, index }) => (
+  <div 
+    className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 animate-fade-in"
+    style={{ animationDelay: `${index * 0.05}s` }}
+  >
+    <div className="flex gap-3">
+      <img 
+        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(comment.author)}&background=random&color=fff&bold=true`}
+        alt={comment.author}
+        className="w-10 h-10 rounded-full shadow"
+      />
+      <div className="flex-grow">
+        <div className="flex items-center justify-between mb-1">
+          <span className="font-semibold text-slate-900">{comment.author}</span>
+          <span className="text-xs text-slate-400">{comment.date}</span>
+        </div>
+        <p className="text-slate-600 leading-relaxed">{comment.text}</p>
+      </div>
+    </div>
+  </div>
+);
+
+// Trending Item Component
+const TrendingItem = ({ post, index, onClick, isActive }) => (
+  <div 
+    onClick={onClick}
+    className={`flex items-start gap-3 p-4 cursor-pointer group transition-all border-l-4 ${isActive ? 'bg-green-50 border-green-500' : 'border-transparent hover:bg-slate-50 hover:border-green-500'}`}
+  >
+    <span className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center font-bold text-sm transition-all ${isActive ? 'bg-green-500 text-white' : 'bg-slate-100 text-slate-400 group-hover:bg-green-500 group-hover:text-white'}`}>
+      {index + 1}
+    </span>
+    <div className="flex-grow min-w-0">
+      <h4 className={`font-medium text-sm leading-snug mb-1 transition-colors line-clamp-2 ${isActive ? 'text-green-700' : 'text-slate-800 group-hover:text-green-700'}`}>
+        {post.title || 'Untitled'}
+      </h4>
+      <div className="flex items-center gap-2 text-xs text-slate-400">
+        <span>{(post.views || 0).toLocaleString()} views</span>
+        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded font-medium">
+          {post.category || 'Post'}
+        </span>
+      </div>
+    </div>
+  </div>
+);
+
+// Sidebar Component
+const Sidebar = ({ posts, activePostId, onPostSelect, searchTerm }) => {
+  const filteredPosts = posts
+    .filter(p => p.title?.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => (b.views || 0) - (a.views || 0));
+
+  return (
+    <aside className="lg:col-span-4 space-y-6">
+      
+      {/* Trending */}
+      <div className="bg-white rounded-2xl shadow-xl shadow-slate-900/5 overflow-hidden lg:sticky lg:top-28">
+        <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-5 py-4">
+          <h3 className="font-semibold text-white flex items-center gap-2">
+            📈 Trending Now
+          </h3>
+        </div>
+        
+        <div className="divide-y divide-slate-100 max-h-[50vh] lg:max-h-[55vh] overflow-y-auto">
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post, index) => (
+              <TrendingItem 
+                key={post.id}
+                post={post}
+                index={index}
+                isActive={post.id === activePostId}
+                onClick={() => onPostSelect(post)}
+              />
+            ))
+          ) : (
+            <div className="p-8 text-center text-slate-400">
+              No articles found
+            </div>
+          )}
+        </div>
+
+        <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="w-full flex items-center justify-center gap-2 text-sm font-medium text-slate-500 hover:text-green-700 transition-colors"
+          >
+            ⬆️ Back to Top
+          </button>
+        </div>
+      </div>
+
+      {/* Newsletter */}
+      <div className="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl p-6 lg:p-8 text-white shadow-xl shadow-green-600/20 hidden lg:block">
+        <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+          <span className="text-2xl">✉️</span>
+        </div>
+        <h4 className="font-serif text-xl font-bold mb-2">Stay Updated</h4>
+        <p className="text-green-100 text-sm mb-5">Get the latest posts delivered to your inbox.</p>
+        <form className="space-y-3">
+          <input 
+            type="email" 
+            placeholder="your@email.com" 
+            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:bg-white/20 focus:border-white/40 transition-all outline-none"
+          />
+          <button type="submit" className="w-full py-3 bg-white text-green-700 font-bold rounded-xl hover:bg-green-50 transition-colors">
+            Subscribe Free
+          </button>
+        </form>
+      </div>
+    </aside>
+  );
+};
+
+// Footer Component
+const Footer = () => (
+  <footer className="bg-slate-900 text-slate-300 mt-auto">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-12 lg:py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+        
+        {/* Brand */}
+        <div className="md:col-span-2">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center">
+              <span className="text-white text-xl">🌿</span>
+            </div>
+            <div>
+              <span className="font-serif font-bold text-xl text-white">Prathamer</span>
+              <span className="block text-xs uppercase tracking-[0.2em] text-slate-500">Blog</span>
+            </div>
+          </div>
+          <p className="text-slate-400 leading-relaxed max-w-md mb-6">
+            Sharing insights on environment, sustainability, and personal growth. Join us in making the world a better place.
+          </p>
+          <div className="flex gap-2">
+            {['𝕏', '📷', '💼', '🐙'].map((icon, i) => (
+              <a key={i} href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-green-600 hover:text-white transition-all">
+                {icon}
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        {/* Links */}
+        <div>
+          <h5 className="font-semibold text-white mb-4 uppercase tracking-wider text-sm">Quick Links</h5>
+          <ul className="space-y-2.5 text-sm">
+            {['Home', 'About', 'Categories', 'Contact'].map(link => (
+              <li key={link}>
+                <a href="#" className="text-slate-400 hover:text-green-400 transition-colors">{link}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        {/* Categories */}
+        <div>
+          <h5 className="font-semibold text-white mb-4 uppercase tracking-wider text-sm">Categories</h5>
+          <ul className="space-y-2.5 text-sm">
+            {['Environment', 'Technology', 'Lifestyle', 'Health'].map(cat => (
+              <li key={cat}>
+                <a href="#" className="text-slate-400 hover:text-green-400 transition-colors">{cat}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      
+      {/* Bottom */}
+      <div className="py-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+        <p>© 2026 Prathamer's Blog. All rights reserved.</p>
+        <p>Made with 💚 for Earth</p>
+      </div>
+    </div>
+  </footer>
+);
+
+// Main App Component
+export default function App() {
+  const [activePost, setActivePost] = useState(defaultPosts[0]);
+  const [posts, setPosts] = useState(defaultPosts);
+  const [comments, setComments] = useState([]);
+  const [viewCount, setViewCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Show toast
+  const showToast = useCallback((message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
+  }, []);
+
+  // Scroll progress
+  useEffect(() => {
+    const handleScroll = () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      setScrollProgress(height > 0 ? (winScroll / height) * 100 : 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Firebase: Views
+  useEffect(() => {
+    const viewsRef = ref(db, `posts/${activePost.id}/views`);
+    runTransaction(viewsRef, (current) => (current || 0) + 1);
+    
+    const unsubscribe = onValue(viewsRef, (snap) => {
+      setViewCount(snap.val() || 0);
+    });
+    
+    return () => unsubscribe();
+  }, [activePost.id]);
+
+  // Firebase: Comments
+  useEffect(() => {
+    const commentsRef = ref(db, 'comments');
+    const unsubscribe = onValue(commentsRef, (snap) => {
+      const data = snap.val();
+      if (data) {
+        const filtered = Object.values(data)
+          .filter(c => c.postId === activePost.id)
+          .sort((a, b) => b.timestamp - a.timestamp);
+        setComments(filtered);
+      } else {
+        setComments([]);
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [activePost.id]);
+
+  // Firebase: Posts
+  useEffect(() => {
+    const postsRef = ref(db, 'posts');
+    const unsubscribe = onValue(postsRef, (snap) => {
+      const data = snap.val();
+      let allPosts = [...defaultPosts];
+      
+      if (data) {
+        Object.entries(data).forEach(([key, val]) => {
+          if (!defaultPosts.find(p => p.id === key)) {
+            allPosts.push({ id: key, ...val });
+          }
+        });
+      }
+      
+      setPosts(allPosts);
+    });
+    
+    return () => unsubscribe();
+  }, []);
+
+  // Handle comment submit
+  const handleCommentSubmit = async (name, text) => {
+    if (badWords.some(w => (name + ' ' + text).toLowerCase().includes(w))) {
+      showToast('Please be respectful.', 'error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await push(ref(db, 'comments'), {
+        postId: activePost.id,
+        author: name,
+        text: text,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        timestamp: Date.now()
+      });
+      showToast('Comment posted!');
+    } catch (err) {
+      showToast('Failed to post.', 'error');
+    }
+    setIsSubmitting(false);
+  };
+
+  // Handle post select
+  const handlePostSelect = (post) => {
+    setActivePost(post);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast('Article loaded!');
+  };
+
+  return (
+    <div className="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+      
+      {/* Progress Bar */}
+      <div 
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-green-600 via-green-500 to-green-400 z-[100] transition-all duration-100"
+        style={{ width: `${scrollProgress}%` }}
+      />
+
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
+      <main className="flex-grow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+            
+            {/* Article Column */}
+            <div className="lg:col-span-8">
+              <Article post={activePost} viewCount={viewCount} />
+
+              {/* Comments Section */}
+              <section id="comments" className="mt-10 lg:mt-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-2xl">💬</span>
+                  <h2 className="font-serif text-2xl font-bold text-slate-900">Discussion</h2>
+                  <span className="px-2.5 py-0.5 bg-green-500 text-white text-sm font-bold rounded-full">
+                    {comments.length}
+                  </span>
+                </div>
+
+                <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} />
+
+                <div className="space-y-4">
+                  {comments.length > 0 ? (
+                    comments.map((comment, index) => (
+                      <CommentItem key={comment.timestamp} comment={comment} index={index} />
+                    ))
+                  ) : (
+                    <div className="text-center py-10">
+                      <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3">
+                        <span className="text-2xl opacity-50">💬</span>
+                      </div>
+                      <p className="text-slate-500 font-medium">No comments yet</p>
+                      <p className="text-sm text-slate-400">Be the first to share your thoughts!</p>
+                    </div>
+                  )}
+                </div>
+              </section>
+            </div>
+
+            {/* Sidebar */}
+            <Sidebar 
+              posts={posts}
+              activePostId={activePost.id}
+              onPostSelect={handlePostSelect}
+              searchTerm={searchTerm}
+            />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+
+      <Toast message={toast.message} type={toast.type} show={toast.show} />
+
+      {/* Global Styles */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+        
+        .drop-cap::first-letter {
+          float: left;
+          font-family: 'Playfair Display', serif;
+          font-size: 4rem;
+          line-height: 0.8;
+          padding-right: 12px;
+          padding-top: 4px;
+          color: #166534;
+          font-weight: 700;
+        }
+        
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        .animate-fade-in {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .prose h3 {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #0f172a;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+        }
+        
+        .prose p {
+          margin-bottom: 1.25rem;
+          line-height: 1.8;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+src/index.css (Tailwind Setup)
+cssDownloadCopy code@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Selection */
+::selection {
+  background: rgba(22, 163, 74, 0.2);
+  color: #166534;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+tailwind.config.js
+jsDownloadCopy code/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
+        },
+      },
+      fontFamily: {
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
