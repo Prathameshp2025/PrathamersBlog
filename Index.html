@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-adsense-account" content="ca-pub-8810438642315344">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Prathamer's Blog - Save Earth</title>
     <meta name="description" content="Save Earth: There is No Planet B - Insights on environment, sustainability, coding, and personal growth.">
+    
+    <meta name="google-adsense-account" content="ca-pub-8810438642315344">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8810438642315344" crossorigin="anonymous"></script>
 
     <style>
         :root{--a:#f0fdf4;--b:#dcfce7;--c:#bbf7d0;--d:#86efac;--e:#4ade80;--f:#22c55e;--g:#16a34a;--h:#15803d;--i:#166534;--j:#14532d;--k:#f8fafc;--l:#f1f5f9;--m:#e2e8f0;--n:#cbd5e1;--o:#94a3b8;--p:#64748b;--q:#475569;--r:#334155;--s:#1e293b;--t:#0f172a;--u:#fef2f2;--v:#fee2e2;--w:#f87171;--x:#ef4444;--y:#dc2626;--z:#fbbf24;--aa:#f59e0b;--ab:#eff6ff;--ac:#dbeafe;--ad:#3b82f6;--ae:#2563eb;--af:#1d4ed8;--ag:#fff;--ah:#000;--ai:'Inter',system-ui,sans-serif;--aj:'Playfair Display',Georgia,serif;--ak:'Fira Code',monospace}
@@ -396,7 +398,7 @@
                                 <span class="ad-lbl">Sponsored</span>
                                 <ins class="adsbygoogle"
                                      style="display:block; text-align:center;"
-                                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                                     data-ad-client="ca-pub-8810438642315344"
                                      data-ad-slot="1234567890"
                                      data-ad-layout="in-article"
                                      data-ad-format="fluid"></ins>
@@ -470,7 +472,7 @@
                         <span class="ad-lbl">Advertisement</span>
                         <ins class="adsbygoogle"
                              style="display:block; width:100%;"
-                             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                             data-ad-client="ca-pub-8810438642315344"
                              data-ad-slot="1234567890"
                              data-ad-format="rectangle"
                              data-full-width-responsive="true"></ins>
@@ -639,25 +641,35 @@
         </div>
     </div>
 
-    <script type="module">
-        import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,sendPasswordResetEmail,updateProfile,GoogleAuthProvider,signInWithPopup}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-        import{getDatabase,ref,push,set,remove,onValue,runTransaction}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    <script>
+        // MOCK AUTH & DATABASE (Replaces Firebase)
+        const db = {
+            users: JSON.parse(localStorage.getItem('blog_users') || '[]'),
+            comments: JSON.parse(localStorage.getItem('blog_comments') || '{}'),
+            favorites: JSON.parse(localStorage.getItem('blog_favorites') || '{}'),
+            posts: {
+                'save-earth-001': { views: 1200 },
+                'js-fundamentals-001': { views: 2450 },
+                'react-hooks-001': { views: 1890 },
+                'python-ml-001': { views: 1650 },
+                'css-grid-001': { views: 1420 },
+                'git-basics-001': { views: 980 },
+                'meditation-001': { views: 620 }
+            },
+            
+            save() {
+                localStorage.setItem('blog_users', JSON.stringify(this.users));
+                localStorage.setItem('blog_comments', JSON.stringify(this.comments));
+                localStorage.setItem('blog_favorites', JSON.stringify(this.favorites));
+            }
+        };
 
-        const firebaseConfig={apiKey:"AIzaSyCZNXuHg15Ns3ydQ8yd6VOjm58sjfH2dUE",authDomain:"prathamersblog.firebaseapp.com",databaseURL:"https://my-blog-server-ed755-default-rtdb.firebaseio.com/",projectId:"prathamersblog",storageBucket:"prathamersblog.firebasestorage.app",messagingSenderId:"632179269904",appId:"1:632179269904:web:64e4beb224ad1ed79e4595"};
-        
-        const app=initializeApp(firebaseConfig);
-        const auth=getAuth(app);
-        const db=getDatabase(app);
-        const googleProvider=new GoogleAuthProvider();
+        const badWords = ['fuck', 'shit', 'bitch', 'asshole', 'idiot', 'stupid', 'sex', 'porn'];
+        let currentUser = JSON.parse(localStorage.getItem('blog_current_user'));
+        let activePostId = 'save-earth-001';
+        let allPosts = [];
 
-        const badWords=['fuck','shit','bitch','asshole','idiot','stupid','sex','porn'];
-        let currentUser=null;
-        let activePostId='save-earth-001';
-        let allPosts=[];
-        let userFavorites=[];
-
-        const defaultPosts=[
+        const defaultPosts = [
             {id:'save-earth-001',title:"Save Earth: There is No Planet B",category:"Environment",isCoding:false,image:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=80",author:"Prathamer",date:"Oct 24, 2023",views:1200,tags:['environment','sustainability'],content:'<p class="ld dc">We often take our planet for granted. Climate change is no longer a distant threat; it is happening right now.</p><p>Our oceans are filling with plastic, and our wildlife is disappearing. But it\'s not too late to act.</p><h3>Why We Need to Act Now</h3><p>The Earth provides us with everything we need. By protecting it, we are protecting our future.</p><div class="co"><h4 class="cot">💡 The 3 R\'s</h4><div class="col"><div class="coi"><span class="con">1</span><p class="cotx"><strong>Reduce</strong> — Buy less</p></div><div class="coi"><span class="con">2</span><p class="cotx"><strong>Reuse</strong> — Find new uses</p></div><div class="coi"><span class="con">3</span><p class="cotx"><strong>Recycle</strong> — Dispose properly</p></div></div></div><blockquote class="bq">"The Earth does not belong to us: we belong to the Earth."<cite>— Chief Seattle</cite></blockquote>'},
             {id:'js-fundamentals-001',title:"JavaScript Fundamentals: A Complete Guide",category:"Coding",isCoding:true,image:"https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=1600&q=80",author:"Prathamer",date:"Jan 10, 2026",views:2450,tags:['javascript','coding','web'],content:'<p class="ld dc">JavaScript is the backbone of modern web development. Let\'s cover the core concepts.</p><h3>Variables and Data Types</h3><div class="cb"><div class="cbh"><div class="cbd"><span class="cbdt cbdr"></span><span class="cbdt cbdy"></span><span class="cbdt cbdg"></span></div><span class="cbl">JavaScript</span></div><div class="cbb"><pre><span class="kw">let</span> name = <span class="st">"Prathamer"</span>;\n<span class="kw">const</span> PI = <span class="nm">3.14159</span>;\n<span class="kw">let</span> isActive = <span class="kw">true</span>;</pre></div></div><div class="co cobl"><h4 class="cot">💡 Pro Tip</h4><div class="col"><div class="coi"><span class="con">1</span><p class="cotx">Use <strong>const</strong> by default</p></div><div class="coi"><span class="con">2</span><p class="cotx">Use <strong>let</strong> only when reassigning</p></div></div></div>'},
             {id:'react-hooks-001',title:"Mastering React Hooks: useState & useEffect",category:"Coding",isCoding:true,image:"https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1600&q=80",author:"Prathamer",date:"Jan 8, 2026",views:1890,tags:['react','hooks','frontend'],content:'<p class="ld dc">React Hooks revolutionized how we write components.</p><h3>useState Hook</h3><div class="cb"><div class="cbh"><div class="cbd"><span class="cbdt cbdr"></span><span class="cbdt cbdy"></span><span class="cbdt cbdg"></span></div><span class="cbl">React</span></div><div class="cbb"><pre><span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="nm">0</span>);</pre></div></div>'},
@@ -667,11 +679,11 @@
             {id:'meditation-001',title:"Meditation for Beginners: Finding Inner Peace",category:"Lifestyle",isCoding:false,image:"https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&q=80",author:"Prathamer",date:"Dec 10, 2025",views:620,tags:['meditation','mindfulness'],content:'<p class="ld dc">In our fast-paced world, meditation offers a sanctuary of calm.</p>'}
         ];
 
-        allPosts=[...defaultPosts];
+        allPosts = [...defaultPosts];
 
         // DOM Elements
-        const $=id=>document.getElementById(id);
-        const el={
+        const $ = id => document.getElementById(id);
+        const el = {
             pb:$('pb'),si:$('si'),ai:$('ai'),act:$('act'),att:$('att'),abd:$('abd'),atg:$('atg'),
             aav:$('aav'),aan:$('aan'),adt:$('adt'),vc:$('vc'),fvb:$('fvb'),cc:$('cc'),
             cfrm:$('cfrm'),ctx:$('ctx'),csb:$('csb'),clt:$('clt'),cfa:$('cfa'),cfn:$('cfn'),
@@ -681,441 +693,376 @@
         };
 
         // Utility Functions
-        function showToast(msg,type){
-            type=type||'success';
-            el.tsm.textContent=msg;
-            el.tsi.textContent=type==='error'?'✕':type==='warning'?'⚠️':'✓';
-            el.ts.className='ts sh'+(type!=='success'?' '+(type==='error'?'er':'wr'):'');
-            setTimeout(function(){el.ts.classList.remove('sh')},3500);
+        function showToast(msg, type) {
+            type = type || 'success';
+            el.tsm.textContent = msg;
+            el.tsi.textContent = type === 'error' ? '✕' : type === 'warning' ? '⚠️' : '✓';
+            el.ts.className = 'ts sh' + (type !== 'success' ? ' ' + (type === 'error' ? 'er' : 'wr') : '');
+            setTimeout(() => el.ts.classList.remove('sh'), 3500);
         }
 
-        function formatDate(ts){
-            return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        function formatDate(ts) {
+            return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         }
 
-        function escapeHtml(t){
-            var d=document.createElement('div');
-            d.textContent=t;
-            d.innerHTML;
+        function escapeHtml(t) {
+            const d = document.createElement('div');
+            d.textContent = t;
             return d.innerHTML;
         }
 
-        function hasBadWords(t){
-            var l=t.toLowerCase();
-            for(var i=0;i<badWords.length;i++){
-                if(l.indexOf(badWords[i])!==-1)return true;
-            }
-            return false;
+        function hasBadWords(t) {
+            const l = t.toLowerCase();
+            return badWords.some(w => l.includes(w));
         }
 
-        // Progress Bar
-        window.addEventListener('scroll',function(){
-            var s=document.body.scrollTop||document.documentElement.scrollTop;
-            var h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-            el.pb.style.width=(h>0?(s/h)*100:0)+'%';
-        });
+        // --- AUTH LOGIC (MOCKED) ---
 
-        // Modal Functions
-        window.openModal=function(type){
-            document.body.classList.add('modal-open');
-            var modal=$(type+'-modal');
-            if(modal)modal.classList.add('sh');
-        };
-
-        window.closeModal=function(type){
-            document.body.classList.remove('modal-open');
-            var modal=$(type+'-modal');
-            if(modal)modal.classList.remove('sh');
-            if(type==='forgot'){
-                $('forgot-form-container').style.display='block';
-                $('forgot-success').style.display='none';
+        function updateUserUI(user) {
+            if (user) {
+                el.ab.style.display = 'none';
+                el.um.style.display = 'block';
+                el.cfrm.style.display = 'block';
+                el.lr.style.display = 'none';
+                el.un.textContent = user.displayName;
+                el.ua.innerHTML = user.displayName[0].toUpperCase();
+                el.cfn.textContent = user.displayName;
+                el.cfa.innerHTML = user.displayName[0].toUpperCase();
+                loadFavorites(user.email);
+            } else {
+                el.ab.style.display = 'flex';
+                el.um.style.display = 'none';
+                el.cfrm.style.display = 'none';
+                el.lr.style.display = 'block';
+                userFavorites = [];
+                updateFavUI();
+                updateFavBtn();
             }
-        };
-
-        // Close modal when clicking overlay
-        document.querySelectorAll('.mo').forEach(function(overlay){
-            overlay.addEventListener('click',function(e){
-                if(e.target===overlay){
-                    var id=overlay.id.replace('-modal','');
-                    closeModal(id);
-                }
-            });
-        });
-
-        // Prevent modal content clicks from closing
-        document.querySelectorAll('.md').forEach(function(modal){
-            modal.addEventListener('click',function(e){
-                e.stopPropagation();
-            });
-        });
-
-        document.addEventListener('keydown',function(e){
-            if(e.key==='Escape'){
-                closeModal('signin');
-                closeModal('signup');
-                closeModal('forgot');
-            }
-        });
-
-        // User Menu
-        window.toggleUserMenu=function(){
-            el.ud.classList.toggle('sh');
-        };
-
-        document.addEventListener('click',function(e){
-            if(!e.target.closest('.um'))el.ud.classList.remove('sh');
-        });
-
-        // Auth Error Messages
-        function getAuthError(code){
-            var msgs={
-                'auth/email-already-in-use':'Email already registered',
-                'auth/invalid-email':'Invalid email',
-                'auth/weak-password':'Password too weak',
-                'auth/user-not-found':'No account found',
-                'auth/wrong-password':'Incorrect password',
-                'auth/invalid-credential':'Invalid credentials',
-                'auth/too-many-requests':'Too many attempts'
-            };
-            return msgs[code]||'An error occurred';
         }
 
-        // Sign In
-        $('signin-form').addEventListener('submit',function(e){
-            e.preventDefault();
-            var email=$('signin-email').value;
-            var pass=$('signin-password').value;
-            var btn=$('signin-btn');
-            btn.disabled=true;
-            btn.textContent='Signing in...';
-            signInWithEmailAndPassword(auth,email,pass).then(function(){
-                closeModal('signin');
-                showToast('Welcome back! 👋');
-            }).catch(function(err){
-                showToast(getAuthError(err.code),'error');
-            }).finally(function(){
-                btn.disabled=false;
-                btn.textContent='Sign In';
-            });
-        });
+        // Initialize UI
+        updateUserUI(currentUser);
 
         // Sign Up
-        $('signup-form').addEventListener('submit',function(e){
+        $('signup-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            var name=$('signup-name').value;
-            var email=$('signup-email').value;
-            var pass=$('signup-password').value;
-            var btn=$('signup-btn');
-            btn.disabled=true;
-            btn.textContent='Creating...';
-            createUserWithEmailAndPassword(auth,email,pass).then(function(cred){
-                return updateProfile(cred.user,{displayName:name});
-            }).then(function(){
-                closeModal('signup');
-                showToast('Account created! 🎉');
-            }).catch(function(err){
-                showToast(getAuthError(err.code),'error');
-            }).finally(function(){
-                btn.disabled=false;
-                btn.textContent='Create Account';
-            });
+            const name = $('signup-name').value;
+            const email = $('signup-email').value;
+            const pass = $('signup-password').value;
+            
+            if (db.users.find(u => u.email === email)) {
+                showToast('Email already in use', 'error');
+                return;
+            }
+
+            const newUser = { email, password: pass, displayName: name };
+            db.users.push(newUser);
+            db.save();
+            
+            currentUser = newUser;
+            localStorage.setItem('blog_current_user', JSON.stringify(currentUser));
+            
+            closeModal('signup');
+            showToast('Account created! 🎉');
+            updateUserUI(currentUser);
         });
 
-        // Forgot Password
-        $('forgot-form').addEventListener('submit',function(e){
+        // Sign In
+        $('signin-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            var email=$('forgot-email').value;
-            var btn=$('forgot-btn');
-            btn.disabled=true;
-            btn.textContent='Sending...';
-            sendPasswordResetEmail(auth,email).then(function(){
-                $('forgot-form-container').style.display='none';
-                $('forgot-success').style.display='block';
-            }).catch(function(err){
-                showToast(getAuthError(err.code),'error');
-            }).finally(function(){
-                btn.disabled=false;
-                btn.textContent='Send Reset Link';
-            });
-        });
+            const email = $('signin-email').value;
+            const pass = $('signin-password').value;
 
-        // Google Sign In
-        window.signInWithGoogle=function(){
-            signInWithPopup(auth,googleProvider).then(function(){
+            const user = db.users.find(u => u.email === email && u.password === pass);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('blog_current_user', JSON.stringify(currentUser));
                 closeModal('signin');
-                closeModal('signup');
-                showToast('Welcome! 🎉');
-            }).catch(function(err){
-                if(err.code!=='auth/popup-closed-by-user'){
-                    showToast(getAuthError(err.code),'error');
-                }
-            });
-        };
-
-        // Sign Out
-        window.signOutUser=function(){
-            signOut(auth).then(function(){
-                el.ud.classList.remove('sh');
-                showToast('Signed out');
-            });
-        };
-
-        // Auth State
-        onAuthStateChanged(auth,function(user){
-            currentUser=user;
-            if(user){
-                el.ab.style.display='none';
-                el.um.style.display='block';
-                el.cfrm.style.display='block';
-                el.lr.style.display='none';
-                el.un.textContent=user.displayName||user.email.split('@')[0];
-                if(user.photoURL){
-                    el.ua.innerHTML='<img src="'+user.photoURL+'" alt="Avatar">';
-                }else{
-                    el.ua.innerHTML=(user.displayName||user.email)[0].toUpperCase();
-                }
-                el.cfn.textContent=user.displayName||'You';
-                if(user.photoURL){
-                    el.cfa.innerHTML='<img src="'+user.photoURL+'" alt="Avatar">';
-                }else{
-                    el.cfa.innerHTML=(user.displayName||user.email)[0].toUpperCase();
-                }
-                loadFavorites(user.uid);
-            }else{
-                el.ab.style.display='flex';
-                el.um.style.display='none';
-                el.cfrm.style.display='none';
-                el.lr.style.display='block';
-                userFavorites=[];
-                updateFavUI();
-                updateFavBtn();
+                showToast('Welcome back! 👋');
+                updateUserUI(currentUser);
+            } else {
+                showToast('Invalid email or password', 'error');
             }
         });
 
-        // Favorites
-        function loadFavorites(uid){
-            var favRef=ref(db,'users/'+uid+'/favorites');
-            onValue(favRef,function(snap){
-                var data=snap.val();
-                userFavorites=data?Object.keys(data):[];
-                updateFavUI();
-                updateFavBtn();
-            });
+        // Sign Out
+        window.signOutUser = function() {
+            currentUser = null;
+            localStorage.removeItem('blog_current_user');
+            el.ud.classList.remove('sh');
+            updateUserUI(null);
+            showToast('Signed out');
+        };
+
+        // Google Sign In (Mocked)
+        window.signInWithGoogle = function() {
+            const mockUser = { email: 'google_user@test.com', displayName: 'Google User', password: '' };
+            currentUser = mockUser;
+            localStorage.setItem('blog_current_user', JSON.stringify(currentUser));
+            closeModal('signin');
+            closeModal('signup');
+            showToast('Welcome! 🎉');
+            updateUserUI(currentUser);
+        };
+
+        // Forgot Password (Mocked)
+        $('forgot-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = $('forgot-btn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            setTimeout(() => {
+                $('forgot-form-container').style.display = 'none';
+                $('forgot-success').style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Send Reset Link';
+            }, 1000);
+        });
+
+        // --- DATA LOGIC ---
+
+        function loadFavorites(email) {
+            const userFavs = db.favorites[email] || [];
+            userFavorites = userFavs;
+            updateFavUI();
+            updateFavBtn();
         }
 
-        function updateFavUI(){
-            el.fc.textContent=userFavorites.length;
+        function updateFavUI() {
+            el.fc.textContent = userFavorites.length;
             renderFavorites();
         }
 
-        function updateFavBtn(){
-            var isFav=userFavorites.indexOf(activePostId)!==-1;
-            el.fvb.innerHTML=isFav?'❤️':'🤍';
-            el.fvb.classList.toggle('ac',isFav);
+        function updateFavBtn() {
+            const isFav = userFavorites.includes(activePostId);
+            el.fvb.innerHTML = isFav ? '❤️' : '🤍';
+            el.fvb.classList.toggle('ac', isFav);
         }
 
-        window.toggleFavorite=function(){
-            if(!currentUser){
-                showToast('Please sign in','warning');
+        window.toggleFavorite = function() {
+            if (!currentUser) {
+                showToast('Please sign in', 'warning');
                 openModal('signin');
                 return;
             }
-            var favRef=ref(db,'users/'+currentUser.uid+'/favorites/'+activePostId);
-            var isFav=userFavorites.indexOf(activePostId)!==-1;
-            if(isFav){
-                remove(favRef).then(function(){showToast('Removed from favorites')});
-            }else{
-                set(favRef,{postId:activePostId,addedAt:Date.now()}).then(function(){
-                    el.fvb.classList.add('ah');
-                    setTimeout(function(){el.fvb.classList.remove('ah')},1000);
-                    showToast('Added to favorites! ❤️');
-                });
+            
+            const email = currentUser.email;
+            if (!db.favorites[email]) db.favorites[email] = [];
+            
+            const idx = db.favorites[email].indexOf(activePostId);
+            if (idx !== -1) {
+                db.favorites[email].splice(idx, 1);
+                showToast('Removed from favorites');
+            } else {
+                db.favorites[email].push(activePostId);
+                el.fvb.classList.add('ah');
+                setTimeout(() => el.fvb.classList.remove('ah'), 1000);
+                showToast('Added to favorites! ❤️');
             }
+            db.save();
+            loadFavorites(email);
         };
 
-        function renderFavorites(){
-            if(userFavorites.length===0){
-                el.fl.innerHTML='<div class="fe"><div class="fei">💔</div><p class="fet">No favorites yet</p><p class="fetx">'+(currentUser?'Click the heart to save':'Sign in to save')+'</p></div>';
+        function renderFavorites() {
+            if (userFavorites.length === 0) {
+                el.fl.innerHTML = '<div class="fe"><div class="fei">💔</div><p class="fet">No favorites yet</p><p class="fetx">' + (currentUser ? 'Click the heart to save' : 'Sign in to save') + '</p></div>';
                 return;
             }
-            var favPosts=allPosts.filter(function(p){return userFavorites.indexOf(p.id)!==-1});
-            el.fl.innerHTML=favPosts.map(function(p){
-                return'<div class="pwi '+(p.id===activePostId?'ac':'')+'" onclick="loadPost(\''+p.id+'\')"><span class="pwr" style="background:var(--v);color:var(--x)">❤️</span><div class="pwc"><h4 class="pwit">'+escapeHtml(p.title)+'</h4><div class="pwim"><span>'+(p.views||0).toLocaleString()+' views</span><span class="pwimc '+(p.isCoding?'cd':'')+'">'+p.category+'</span></div></div></div>';
+            const favPosts = allPosts.filter(p => userFavorites.includes(p.id));
+            el.fl.innerHTML = favPosts.map(p => {
+                return '<div class="pwi ' + (p.id === activePostId ? 'ac' : '') + '" onclick="loadPost(\'' + p.id + '\')"><span class="pwr" style="background:var(--v);color:var(--x)">❤️</span><div class="pwc"><h4 class="pwit">' + escapeHtml(p.title) + '</h4><div class="pwim"><span>' + (db.posts[p.id]?.views || p.views || 0).toLocaleString() + ' views</span><span class="pwimc ' + (p.isCoding ? 'cd' : '') + '">' + p.category + '</span></div></div></div>';
             }).join('');
         }
 
-        window.showFavorites=function(){
+        window.showFavorites = function() {
             el.ud.classList.remove('sh');
             switchTab('favorites');
         };
 
         // Tabs
-        window.switchTab=function(tab){
-            el.tt.classList.toggle('ac',tab==='trending');
-            el.tf.classList.toggle('ac',tab==='favorites');
-            el.tc.style.display=tab==='trending'?'block':'none';
-            el.fvc.style.display=tab==='favorites'?'block':'none';
-            if(tab==='favorites'&&!currentUser){
-                el.fl.innerHTML='<div class="fe"><div class="fei">🔐</div><p class="fet">Sign in required</p><p class="fetx">Please sign in to view favorites</p><button class="lrb" style="margin-top:1rem" onclick="openModal(\'signin\')">Sign In</button></div>';
+        window.switchTab = function(tab) {
+            el.tt.classList.toggle('ac', tab === 'trending');
+            el.tf.classList.toggle('ac', tab === 'favorites');
+            el.tc.style.display = tab === 'trending' ? 'block' : 'none';
+            el.fvc.style.display = tab === 'favorites' ? 'block' : 'none';
+            if (tab === 'favorites' && !currentUser) {
+                el.fl.innerHTML = '<div class="fe"><div class="fei">🔐</div><p class="fet">Sign in required</p><p class="fetx">Please sign in to view favorites</p><button class="lrb" style="margin-top:1rem" onclick="openModal(\'signin\')">Sign In</button></div>';
             }
         };
 
-        // Load Post
-        window.loadPost=function(id){
-            var post=allPosts.find(function(p){return p.id===id});
-            if(!post)return;
-            activePostId=id;
-            el.att.textContent=post.title||'Untitled';
-            if(post.isCoding){
-                el.act.innerHTML='💻 '+post.category;
+        // Comments
+        function setupComments(id) {
+            const comments = db.comments[id] || [];
+            comments.sort((a, b) => b.timestamp - a.timestamp);
+            
+            el.cc.textContent = comments.length;
+            if (comments.length === 0) {
+                el.clt.innerHTML = '<div class="cme"><div class="cmei">💬</div><p class="cmet">No comments yet</p><p class="cmetx">Be the first!</p></div>';
+            } else {
+                el.clt.innerHTML = comments.map((c, i) => {
+                    const avatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author) + '&background=random&color=fff&bold=true';
+                    return '<div class="cmit" style="animation-delay:' + (i * 0.05) + 's"><div class="cmin"><img src="' + avatar + '" alt="' + escapeHtml(c.author) + '" class="cmia"><div class="cmic"><div class="cmich"><span class="cmian">' + escapeHtml(c.author) + '</span><span class="cmid">' + c.date + '</span></div><p class="cmitx">' + escapeHtml(c.text) + '</p></div></div></div>';
+                }).join('');
+            }
+        }
+
+        el.cfrm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!currentUser) {
+                showToast('Please sign in', 'warning');
+                openModal('signin');
+                return;
+            }
+            const text = el.ctx.value.trim();
+            if (!text) return;
+            if (hasBadWords(text)) {
+                showToast('Please be respectful', 'error');
+                return;
+            }
+
+            el.csb.disabled = true;
+            el.csb.textContent = '⏳ Posting...';
+
+            setTimeout(() => {
+                if (!db.comments[activePostId]) db.comments[activePostId] = [];
+                db.comments[activePostId].push({
+                    author: currentUser.displayName,
+                    text: text,
+                    date: formatDate(Date.now()),
+                    timestamp: Date.now()
+                });
+                db.save();
+                
+                el.ctx.value = '';
+                showToast('Comment posted! 💬');
+                el.csb.disabled = false;
+                el.csb.textContent = '✈️ Post';
+                setupComments(activePostId);
+            }, 600);
+        });
+
+        // Views & Load Post
+        function setupViews(id) {
+            if (!db.posts[id]) db.posts[id] = { views: 0 };
+            db.posts[id].views++;
+            // Don't save views to localStorage to mimic "live" feeling per session
+            el.vc.textContent = db.posts[id].views.toLocaleString() + ' views';
+            
+            // Update trending list
+            const postIdx = allPosts.findIndex(p => p.id === id);
+            if (postIdx >= 0) allPosts[postIdx].views = db.posts[id].views;
+            renderTrending(allPosts);
+        }
+
+        window.loadPost = function(id) {
+            const post = allPosts.find(p => p.id === id);
+            if (!post) return;
+            activePostId = id;
+            el.att.textContent = post.title || 'Untitled';
+            
+            if (post.isCoding) {
+                el.act.innerHTML = '💻 ' + post.category;
                 el.act.classList.add('cd');
-            }else{
-                el.act.innerHTML='🏷️ '+(post.category||'General');
+            } else {
+                el.act.innerHTML = '🏷️ ' + (post.category || 'General');
                 el.act.classList.remove('cd');
             }
-            el.ai.src=post.image||'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80';
-            el.aan.textContent=post.author||'Anonymous';
-            el.aav.src='https://ui-avatars.com/api/?name='+encodeURIComponent(post.author||'User')+'&background=166534&color=fff&bold=true&size=96';
-            el.adt.textContent=post.date||'Recent';
-            el.abd.innerHTML=post.content||'<p class="ld dc">'+post.title+'</p>';
-            if(post.tags&&post.tags.length>0){
-                el.atg.innerHTML='<span class="artgl">Tags:</span>'+post.tags.map(function(t){return'<a href="#" class="tg">#'+t+'</a>'}).join('');
-            }else{
-                el.atg.innerHTML='';
+            
+            el.ai.src = post.image;
+            el.aan.textContent = post.author;
+            el.aav.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(post.author) + '&background=166534&color=fff&bold=true&size=96';
+            el.adt.textContent = post.date;
+            el.abd.innerHTML = post.content || '<p class="ld dc">' + post.title + '</p>';
+            
+            if (post.tags && post.tags.length > 0) {
+                el.atg.innerHTML = '<span class="artgl">Tags:</span>' + post.tags.map(t => '<a href="#" class="tg">#' + t + '</a>').join('');
+            } else {
+                el.atg.innerHTML = '';
             }
-            document.querySelectorAll('.pwi').forEach(function(i){i.classList.toggle('ac',i.dataset&&i.dataset.postId===id)});
+
+            document.querySelectorAll('.pwi').forEach(i => i.classList.toggle('ac', i.dataset && i.dataset.postId === id));
             updateFavBtn();
-            window.scrollTo({top:0,behavior:'smooth'});
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             setupViews(id);
             setupComments(id);
             showToast('Article loaded!');
         };
 
-        // Views
-        var viewsUnsub=null;
-        function setupViews(id){
-            var viewsRef=ref(db,'posts/'+id+'/views');
-            runTransaction(viewsRef,function(c){return(c||0)+1});
-            if(viewsUnsub)viewsUnsub();
-            viewsUnsub=onValue(viewsRef,function(snap){
-                var v=snap.val()||0;
-                el.vc.textContent=v.toLocaleString()+' views';
-                var p=allPosts.find(function(x){return x.id===id});
-                if(p)p.views=v;
+        // Render Trending
+        function renderTrending(posts) {
+            // Sort by dynamic views from DB
+            const sorted = posts.slice().sort((a, b) => {
+                const viewsA = db.posts[a.id]?.views || a.views || 0;
+                const viewsB = db.posts[b.id]?.views || b.views || 0;
+                return viewsB - viewsA;
             });
-        }
-
-        // Comments
-        var commentsUnsub=null;
-        function setupComments(id){
-            if(commentsUnsub)commentsUnsub();
-            var commentsRef=ref(db,'comments');
-            commentsUnsub=onValue(commentsRef,function(snap){
-                var data=snap.val();
-                if(!data){
-                    el.clt.innerHTML='<div class="cme"><div class="cmei">💬</div><p class="cmet">No comments yet</p><p class="cmetx">Be the first!</p></div>';
-                    el.cc.textContent='0';
-                    return;
-                }
-                var comments=Object.values(data).filter(function(c){return c.postId===id}).sort(function(a,b){return b.timestamp-a.timestamp});
-                el.cc.textContent=comments.length;
-                if(comments.length===0){
-                    el.clt.innerHTML='<div class="cme"><div class="cmei">💬</div><p class="cmet">No comments yet</p><p class="cmetx">Be the first!</p></div>';
-                }else{
-                    el.clt.innerHTML=comments.map(function(c,i){
-                        var avatar=c.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(c.author)+'&background=random&color=fff&bold=true';
-                        return'<div class="cmit" style="animation-delay:'+(i*0.05)+'s"><div class="cmin"><img src="'+avatar+'" alt="'+escapeHtml(c.author)+'" class="cmia"><div class="cmic"><div class="cmich"><span class="cmian">'+escapeHtml(c.author)+'</span><span class="cmid">'+c.date+'</span></div><p class="cmitx">'+escapeHtml(c.text)+'</p></div></div></div>';
-                    }).join('');
-                }
-            });
-        }
-
-        // Comment Form
-        el.cfrm.addEventListener('submit',function(e){
-            e.preventDefault();
-            if(!currentUser){
-                showToast('Please sign in','warning');
-                openModal('signin');
-                return;
-            }
-            var text=el.ctx.value.trim();
-            if(!text)return;
-            if(hasBadWords(text)){
-                showToast('Please be respectful','error');
-                return;
-            }
-            el.csb.disabled=true;
-            el.csb.textContent='⏳ Posting...';
-            var commentsRef=ref(db,'comments');
-            push(commentsRef,{
-                postId:activePostId,
-                author:currentUser.displayName||currentUser.email.split('@')[0],
-                photoURL:currentUser.photoURL||null,
-                userId:currentUser.uid,
-                text:text,
-                date:formatDate(Date.now()),
-                timestamp:Date.now()
-            }).then(function(){
-                el.ctx.value='';
-                showToast('Comment posted! 💬');
-            }).catch(function(){
-                showToast('Failed to post','error');
-            }).finally(function(){
-                el.csb.disabled=false;
-                el.csb.textContent='✈️ Post';
-            });
-        });
-
-        // Trending
-        var postsRef=ref(db,'posts');
-        onValue(postsRef,function(snap){
-            var data=snap.val();
-            allPosts=[...defaultPosts];
-            if(data){
-                Object.entries(data).forEach(function(entry){
-                    var key=entry[0],val=entry[1];
-                    var idx=allPosts.findIndex(function(p){return p.id===key});
-                    if(idx>=0){
-                        if(val.views)allPosts[idx].views=val.views;
-                    }else{
-                        allPosts.push(Object.assign({id:key},val));
-                    }
-                });
-            }
-            renderTrending(allPosts);
-            renderFavorites();
-        });
-
-        function renderTrending(posts){
-            var sorted=posts.slice().sort(function(a,b){return(b.views||0)-(a.views||0)});
-            el.tl.innerHTML=sorted.map(function(p,i){
-                var isFav=userFavorites.indexOf(p.id)!==-1;
-                return'<div class="pwi '+(p.id===activePostId?'ac':'')+'" onclick="loadPost(\''+p.id+'\')"><span class="pwr">'+(i+1)+'</span><div class="pwc"><h4 class="pwit">'+escapeHtml(p.title||'Untitled')+'</h4><div class="pwim"><span>'+(p.views||0).toLocaleString()+' views</span><span class="pwimc '+(p.isCoding?'cd':'')+'">'+p.category+'</span>'+(isFav?'<span style="color:var(--x)">❤️</span>':'')+'</div></div></div>';
+            
+            el.tl.innerHTML = sorted.map((p, i) => {
+                const isFav = userFavorites.includes(p.id);
+                const currentViews = db.posts[p.id]?.views || p.views || 0;
+                return '<div class="pwi ' + (p.id === activePostId ? 'ac' : '') + '" onclick="loadPost(\'' + p.id + '\')"><span class="pwr">' + (i + 1) + '</span><div class="pwc"><h4 class="pwit">' + escapeHtml(p.title || 'Untitled') + '</h4><div class="pwim"><span>' + currentViews.toLocaleString() + ' views</span><span class="pwimc ' + (p.isCoding ? 'cd' : '') + '">' + p.category + '</span>' + (isFav ? '<span style="color:var(--x)">❤️</span>' : '') + '</div></div></div>';
             }).join('');
         }
 
         // Search
-        el.si.addEventListener('input',function(e){
-            var term=e.target.value.toLowerCase().trim();
-            if(!term){renderTrending(allPosts);return}
-            var filtered=allPosts.filter(function(p){
-                return(p.title&&p.title.toLowerCase().indexOf(term)!==-1)||(p.category&&p.category.toLowerCase().indexOf(term)!==-1);
-            });
+        el.si.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            if (!term) { renderTrending(allPosts); return; }
+            const filtered = allPosts.filter(p => 
+                (p.title && p.title.toLowerCase().includes(term)) || 
+                (p.category && p.category.toLowerCase().includes(term))
+            );
             renderTrending(filtered);
         });
 
-        // Share
-        window.shareTwitter=function(){
-            var t=el.att.textContent,u=window.location.href;
-            window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(t),'_blank');
+        // Other UI
+        window.addEventListener('scroll', function() {
+            const s = document.body.scrollTop || document.documentElement.scrollTop;
+            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            el.pb.style.width = (h > 0 ? (s / h) * 100 : 0) + '%';
+        });
+
+        window.openModal = function(type) {
+            document.body.classList.add('modal-open');
+            const modal = $(type + '-modal');
+            if (modal) modal.classList.add('sh');
         };
 
-        window.copyLink=function(){
-            navigator.clipboard.writeText(window.location.href).then(function(){showToast('Link copied! 📋')});
+        window.closeModal = function(type) {
+            document.body.classList.remove('modal-open');
+            const modal = $(type + '-modal');
+            if (modal) modal.classList.remove('sh');
+            if (type === 'forgot') {
+                $('forgot-form-container').style.display = 'block';
+                $('forgot-success').style.display = 'none';
+            }
         };
 
-        // Newsletter
-        el.nlf.addEventListener('submit',function(e){
+        // Modal Overlay Close
+        document.querySelectorAll('.mo').forEach(overlay => {
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) closeModal(overlay.id.replace('-modal', ''));
+            });
+        });
+        document.querySelectorAll('.md').forEach(m => m.addEventListener('click', e => e.stopPropagation()));
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeModal('signin'); closeModal('signup'); closeModal('forgot'); }
+        });
+
+        window.toggleUserMenu = () => el.ud.classList.toggle('sh');
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.um')) el.ud.classList.remove('sh');
+        });
+
+        window.shareTwitter = function() {
+            window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(el.att.textContent), '_blank');
+        };
+        window.copyLink = function() {
+            navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copied! 📋'));
+        };
+        el.nlf.addEventListener('submit', e => {
             e.preventDefault();
             showToast('Thanks for subscribing! 🎉');
             e.target.reset();
@@ -1126,4 +1073,3 @@
     </script>
 </body>
 </html>
-
