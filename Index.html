@@ -721,7 +721,7 @@
         function updateUserUI(user) {
             if (user) {
                 // Stabilized: Handle missing or null display names
-                const name = user.displayName || 'User';
+                const name = user.displayName || user.email?.split('@')[0] || 'User';
                 el.ab.style.display = 'none';
                 el.um.style.display = 'block';
                 el.cfrm.style.display = 'block';
@@ -918,6 +918,7 @@
             }
             const text = el.ctx.value.trim();
             if (!text) return;
+            
             if (hasBadWords(text)) {
                 showToast('Please be respectful', 'error');
                 return;
@@ -926,32 +927,32 @@
             el.csb.disabled = true;
             el.csb.textContent = '⏳ Posting...';
 
-            setTimeout(() => {
-                if (!db.comments[activePostId]) db.comments[activePostId] = [];
-                db.comments[activePostId].push({
-                    author: currentUser.displayName,
-                    text: text,
-                    date: formatDate(Date.now()),
-                    timestamp: Date.now()
-                });
-                db.save();
-                
-                el.ctx.value = '';
-                showToast('Comment posted! 💬');
-                el.csb.disabled = false;
-                el.csb.textContent = '✈️ Post';
-                setupComments(activePostId);
-            }, 600);
+            // Fixed: Save author fallback and remove artificial delay for stability
+            const authorName = currentUser.displayName || currentUser.email?.split('@')[0] || 'User';
+            
+            if (!db.comments[activePostId]) db.comments[activePostId] = [];
+            db.comments[activePostId].push({
+                author: authorName,
+                text: text,
+                date: formatDate(Date.now()),
+                timestamp: Date.now()
+            });
+            
+            db.save(); // Crucial: Save to localStorage immediately
+            
+            el.ctx.value = '';
+            showToast('Comment posted! 💬');
+            el.csb.disabled = false;
+            el.csb.textContent = '✈️ Post';
+            setupComments(activePostId);
         });
 
         // Views & Load Post
         function setupViews(id) {
             if (!db.posts[id]) db.posts[id] = { views: 0 };
             db.posts[id].views++;
-            // Don't save views to localStorage to mimic "live" feeling per session
             el.vc.textContent = db.posts[id].views.toLocaleString() + ' views';
             
-            // Update trending list
             const postIdx = allPosts.findIndex(p => p.id === id);
             if (postIdx >= 0) allPosts[postIdx].views = db.posts[id].views;
             renderTrending(allPosts);
@@ -991,9 +992,7 @@
             setupComments(id);
         };
 
-        // Render Trending
         function renderTrending(posts) {
-            // Sort by dynamic views from DB
             const sorted = posts.slice().sort((a, b) => {
                 const viewsA = db.posts[a.id]?.views || a.views || 0;
                 const viewsB = db.posts[b.id]?.views || b.views || 0;
@@ -1007,7 +1006,6 @@
             }).join('');
         }
 
-        // Search
         el.si.addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase().trim();
             if (!term) { renderTrending(allPosts); return; }
@@ -1018,7 +1016,6 @@
             renderTrending(filtered);
         });
 
-        // Other UI
         window.addEventListener('scroll', function() {
             const s = document.body.scrollTop || document.documentElement.scrollTop;
             const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1041,7 +1038,6 @@
             }
         };
 
-        // Modal Overlay Close
         document.querySelectorAll('.mo').forEach(overlay => {
             overlay.addEventListener('click', e => {
                 if (e.target === overlay) closeModal(overlay.id.replace('-modal', ''));
