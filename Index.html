@@ -7,7 +7,9 @@
     <meta name="description" content="Save Earth: There is No Planet B - Insights on environment, sustainability, coding, and personal growth.">
     <meta name="google-adsense-account" content="ca-pub-1795991481002222">
     <meta name="google-site-verification" content="O6BjZMloB9yzq4cFBGf3KBJ_kCNF8aOK6PEue0HPxyI" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+    
+    <!-- Enhanced Stylized Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%2316a34a'/><path d='M30 70 Q30 30 70 30 M70 30 Q70 70 30 70' fill='white' opacity='0.9'/><path d='M30 70 L70 30' stroke='white' stroke-width='6' stroke-linecap='round'/></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,7 +104,7 @@
         .arcn{padding:1.5rem}
         @media(min-width:640px){.arcn{padding:2rem}}
         @media(min-width:1024px){.arcn{padding:2.5rem}}
-        .art{font-size:1.5rem;color:var(--t);margin-bottom:1.5rem;line-height:1.3}
+        .art{font-size:1.5rem;color:var(--t);margin-bottom:1.5rem;line-height:1.3;font-weight:800}
         @media(min-width:640px){.art{font-size:2rem}}
         @media(min-width:1024px){.art{font-size:2.25rem}}
         .arm{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;padding-bottom:1.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--l)}
@@ -228,7 +230,6 @@
         .nlb{width:100%;padding:.75rem;background:var(--ag);color:var(--h);font-weight:700;border-radius:1rem;transition:all .2s ease}
         .nlb:hover{background:var(--a)}
         
-        /* FIXED MODAL STYLES */
         .mo{position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1rem;z-index:9999;opacity:0;transition:opacity .3s ease}
         .mo.sh{display:flex;opacity:1}
         .md{position:relative;width:100%;max-width:420px;background:var(--ag);border-radius:1.25rem;box-shadow:0 25px 50px -12px rgb(0 0 0/.25);transform:scale(.9);transition:transform .3s ease;max-height:90vh;overflow-y:auto;z-index:10000}
@@ -293,7 +294,6 @@
         .tsi{font-size:1.25rem}
         .tsm{font-size:.9375rem;font-weight:500}
         
-        /* AD UNIT STYLES */
         .ad-box {
             margin: 2rem 0;
             padding: 1rem;
@@ -302,7 +302,7 @@
             border-radius: 1.25rem;
             text-align: center;
             overflow: hidden;
-            min-height: 280px; /* Reduces Cumulative Layout Shift */
+            min-height: 280px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -716,18 +716,20 @@
             return badWords.some(w => l.includes(w));
         }
 
-        // --- AUTH LOGIC (MOCKED) ---
+        // --- AUTH LOGIC (MOCKED & STABILIZED) ---
 
         function updateUserUI(user) {
             if (user) {
+                // Stabilized: Handle missing or null display names
+                const name = user.displayName || 'User';
                 el.ab.style.display = 'none';
                 el.um.style.display = 'block';
                 el.cfrm.style.display = 'block';
                 el.lr.style.display = 'none';
-                el.un.textContent = user.displayName;
-                el.ua.innerHTML = user.displayName[0].toUpperCase();
-                el.cfn.textContent = user.displayName;
-                el.cfa.innerHTML = user.displayName[0].toUpperCase();
+                el.un.textContent = name;
+                el.ua.innerHTML = name[0].toUpperCase();
+                el.cfn.textContent = name;
+                el.cfa.innerHTML = name[0].toUpperCase();
                 loadFavorites(user.email);
             } else {
                 el.ab.style.display = 'flex';
@@ -987,7 +989,6 @@
             
             setupViews(id);
             setupComments(id);
-            showToast('Article loaded!');
         };
 
         // Render Trending
@@ -1073,5 +1074,3 @@
     </script>
 </body>
 </html>
-
-
